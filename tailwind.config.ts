@@ -9,7 +9,22 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+  		fontFamily: {
+  			bangers: ['var(--font-bangers)', 'Impact', 'cursive'],
+  			comic:   ['var(--font-comic)', 'Comic Sans MS', 'cursive'],
+  		},
   		colors: {
+  			comic: {
+  				yellow:  '#FFE135',
+  				red:     '#FF3B3F',
+  				blue:    '#0066FF',
+  				green:   '#00C853',
+  				purple:  '#9C27B0',
+  				cream:   '#FFF9E6',
+  				paper:   '#FFFBF0',
+  				ink:     '#111111',
+  				shadow:  '#E8D5A0',
+  			},
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

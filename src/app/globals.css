@@ -83,3 +83,96 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ── Comic Design System ─────────────────────────────────── */
+
+:root {
+  --comic-yellow:  #FFE135;
+  --comic-red:     #FF3B3F;
+  --comic-blue:    #0066FF;
+  --comic-green:   #00C853;
+  --comic-purple:  #9C27B0;
+  --comic-cream:   #FFF9E6;
+  --comic-paper:   #FFFBF0;
+  --comic-ink:     #111111;
+  --comic-shadow:  #E8D5A0;
+  --comic-border:  3px solid #111111;
+  --comic-border-thick: 4px solid #111111;
+}
+
+.font-bangers  { font-family: var(--font-bangers), 'Impact', cursive; }
+.font-comic    { font-family: var(--font-comic), 'Comic Sans MS', cursive; }
+
+/* Halftone dot pattern */
+.comic-dots {
+  background-image: radial-gradient(circle, #00000015 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+.comic-dots-lg {
+  background-image: radial-gradient(circle, #00000020 1.5px, transparent 1.5px);
+  background-size: 12px 12px;
+}
+
+/* Comic panel border */
+.comic-panel {
+  border: var(--comic-border-thick);
+  box-shadow: 5px 5px 0 #111111;
+}
+.comic-panel-sm {
+  border: var(--comic-border);
+  box-shadow: 3px 3px 0 #111111;
+}
+
+/* Comic button */
+.comic-btn {
+  border: var(--comic-border);
+  box-shadow: 3px 3px 0 #111111;
+  font-family: var(--font-bangers), cursive;
+  letter-spacing: 0.05em;
+  transition: all 0.1s ease;
+}
+.comic-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #111111;
+}
+
+/* Speed lines */
+.comic-speed-lines {
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    transparent 5deg,
+    rgba(255,225,53,0.06) 5deg,
+    rgba(255,225,53,0.06) 6deg
+  );
+}
+
+/* Ink outline for SVG elements */
+.comic-ink-shadow {
+  filter: drop-shadow(2px 2px 0 #111111);
+}
+
+/* Speech bubble tail (up) */
+.bubble-tail::after {
+  content: '';
+  position: absolute;
+  bottom: -16px;
+  left: 24px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 16px solid #111111;
+}
+.bubble-tail::before {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 26px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 14px solid white;
+  z-index: 1;
+}
