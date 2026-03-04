@@ -50,7 +50,12 @@ export const introDialogues2: DialogLine[] = [
   },
   {
     speaker: 'Inspector Node',
-    text: 'Diesmal haben wir 5 neue Verdächtige — und einen fertigen Entscheidungsbaum. Deine Aufgabe: Klassifiziere jeden Verdächtigen!',
+    text: 'Diesmal: 5 neue Verdächtige und ein fertiger Entscheidungsbaum.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Deine Aufgabe: Klassifiziere jeden Verdächtigen mit dem Baum!',
     portrait: 'node',
   },
   {
@@ -60,8 +65,8 @@ export const introDialogues2: DialogLine[] = [
   },
   {
     speaker: 'Viktor',
-    text: 'Ich schwöre! Ich bin unverdächtig! Bitte klassifiziere mich fair, {NAME}!',
-    portrait: 'player',
+    text: 'Ich schwöre! Ich bin unverdächtig! Bitte klassifiziere mich fair!',
+    portrait: 'node',
   },
   {
     speaker: 'Inspector Node',
@@ -80,22 +85,22 @@ export const teachingDialogues2: DialogLine[] = [
   },
   {
     speaker: 'Inspector Node',
-    text: 'Klassifikation bedeutet: Du ordnest ein Objekt einer Klasse zu — anhand seiner Merkmale.',
+    text: 'Heute lernst du: Wie wendet man einen fertigen Baum auf neue Fälle an?',
     portrait: 'node',
   },
   {
     speaker: 'Inspector Node',
-    text: 'Merkmale sind messbare Eigenschaften: Hut ja/nein, Mantel ja/nein, Bart ja/nein, Aktenkoffer ja/nein.',
+    text: 'Neue Merkmale: Hut, Mantel, Bart — und neu: Aktenkoffer ja/nein.',
     portrait: 'node',
   },
   {
     speaker: 'Inspector Node',
-    text: 'Der Baum stellt jedes Mal eine Ja/Nein-Frage. Je nach Antwort gehst du links (Ja) oder rechts (Nein).',
+    text: 'Du startest an der Wurzel, beantwortest jede Frage und folgst dem Ja- oder Nein-Pfeil.',
     portrait: 'node',
   },
   {
     speaker: 'Inspector Node',
-    text: 'Am Ende — beim Blatt — steht das Ergebnis: verdächtig oder unverdächtig. Kein Ermessen, nur Logik!',
+    text: 'Am Blatt steht das Ergebnis: verdächtig oder unverdächtig. Kein Ermessen — nur Logik!',
     portrait: 'node',
   },
   {
@@ -201,14 +206,18 @@ export const treeBasis2: TreeNode2[] = [
 export const suspectsBasis2 = ['viktor', 'rosa', 'otto']
 
 // Standard: 3 Merkmale (Hut, Mantel, Bart), 5 Verdächtige
+// Hut=Ja, Mantel=Ja → verdächtig
+// Hut=Ja, Mantel=Nein, Bart=Ja → verdächtig (Otto)
+// Hut=Ja, Mantel=Nein, Bart=Nein → unverdächtig (kein weiteres Warnsignal)
+// Hut=Nein → unverdächtig (Rosa, Lisa)
 export const treeStandard2: TreeNode2[] = [
   { id: 'root', question: 'Trägt die Person einen Hut?', attribute: 'hat', yes: 'n1', no: 'leaf_u1' },
   { id: 'n1', question: 'Trägt die Person einen Mantel?', attribute: 'coat', yes: 'leaf_v1', no: 'n2' },
   { id: 'leaf_u1', result: 'unverdächtig' },
   { id: 'leaf_v1', result: 'verdächtig' },
-  { id: 'n2', question: 'Hat die Person einen Bart?', attribute: 'beard', yes: 'leaf_v2', no: 'leaf_v3' },
+  { id: 'n2', question: 'Hat die Person einen Bart?', attribute: 'beard', yes: 'leaf_v2', no: 'leaf_u2' },
   { id: 'leaf_v2', result: 'verdächtig' },
-  { id: 'leaf_v3', result: 'verdächtig' },
+  { id: 'leaf_u2', result: 'unverdächtig' },
 ]
 
 export const suspectsStandard2 = ['viktor', 'rosa', 'otto', 'lisa', 'max']
@@ -286,6 +295,19 @@ export const quizQuestions2: QuizQuestion2[] = [
     correct: 2,
     explanation:
       'Entscheidungsbäume können beliebig viele Klassen haben! Unser Beispiel hat 2 (verdächtig/unverdächtig), aber echte Systeme klassifizieren z.B. Bildinhalte in hunderte Kategorien.',
+  },
+  {
+    id: 'q5',
+    question: 'Warum darf man denselben Datensatz nicht zum Trainieren UND Testen nutzen?',
+    options: [
+      'Das ist erlaubt — mehr Daten sind immer besser',
+      'Weil der Baum dann die Antworten "auswendig kennt" und man nicht weiß, ob er wirklich gelernt hat',
+      'Weil Testdaten immer größer sein müssen als Trainingsdaten',
+      'Weil das zu langsam wäre',
+    ],
+    correct: 1,
+    explanation:
+      'Wenn man mit denselben Daten trainiert und testet, prüft man nichts Neues. Der Baum kennt die Antworten schon — wie eine Prüfung mit denselben Aufgaben wie im Unterricht. Echte Tests brauchen neue Daten!',
   },
 ]
 

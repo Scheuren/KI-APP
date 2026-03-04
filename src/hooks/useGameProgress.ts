@@ -130,24 +130,42 @@ export function useGameProgress() {
 
   /**
    * Load all progress for all levels (for level lock/unlock logic).
+   * Merges server data with localStorage fallback.
    */
   const loadAllProgress = useCallback(async (): Promise<Partial<GameProgress>[]> => {
+    // Helper: build progress from localStorage for all 5 levels
+    const fromLocalStorage = (): Partial<GameProgress>[] => {
+      const results: Partial<GameProgress>[] = []
+      for (let i = 0; i < 5; i++) {
+        const entry = lsLoad(i + 1)
+        if (entry) {
+          // Ensure level field is always present for unlock checks
+          results.push({ ...entry, level: i + 1 })
+        }
+      }
+      return results
+    }
+
     try {
       const res = await fetch('/api/progress/load')
 
       if (res.status === 401) {
-        // Build from localStorage
-        return Array.from({ length: 5 }, (_, i) => lsLoad(i + 1) ?? {}).filter(Boolean)
+        // Not authenticated — use localStorage
+        return fromLocalStorage()
       }
 
       if (!res.ok) {
-        return Array.from({ length: 5 }, (_, i) => lsLoad(i + 1) ?? {}).filter(Boolean)
+        return fromLocalStorage()
       }
 
       const json = (await res.json()) as { data: GameProgress[] }
-      return json.data ?? []
+      if (!json.data || json.data.length === 0) {
+        // No server data yet — fall back to localStorage
+        return fromLocalStorage()
+      }
+      return json.data
     } catch {
-      return Array.from({ length: 5 }, (_, i) => lsLoad(i + 1) ?? {}).filter(Boolean)
+      return fromLocalStorage()
     }
   }, [])
 

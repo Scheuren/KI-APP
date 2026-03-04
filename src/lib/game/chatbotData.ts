@@ -1,4 +1,4 @@
-// Vordefinierte Chatbot-Antworten für Level 1
+// Vordefinierte Chatbot-Antworten für alle Level
 // Schlüsselwörter → Antwort
 
 export type ChatEntry = {
@@ -51,18 +51,46 @@ export const chatbotEntries: ChatEntry[] = [
       '📋 Ein **Merkmal** (auch Attribut genannt) ist eine Eigenschaft, die ein Objekt haben kann oder nicht. In unserem Fall: Hut ✓/✗, Mantel ✓/✗, Bart ✓/✗. Der Entscheidungsbaum fragt nach diesen Merkmalen.',
   },
   {
-    keywords: ['overfitting', 'überanpassung', 'zu viele'],
+    keywords: ['overfitting', 'überanpassung', 'auswendig', 'zu komplex'],
     answer:
-      '⚠️ Das kommt in Level 4! **Überanpassung** passiert, wenn ein Entscheidungsbaum zu viele Fragen hat und nur noch die Trainingsdaten auswendig kennt — aber bei neuen Daten versagt.',
+      '⚠️ **Überanpassung (Overfitting)** passiert, wenn ein Baum die Trainingsdaten auswendig lernt — aber bei neuen Daten versagt. Erkennbar: Trainings-Genauigkeit viel höher als Test-Genauigkeit.',
+    followUp: 'Das Gegenteil heißt Underfitting — der Baum ist zu simpel und lernt kaum etwas.',
+  },
+  {
+    keywords: ['underfitting', 'zu einfach', 'zu flach'],
+    answer:
+      '📉 **Underfitting** bedeutet: Der Baum ist zu simpel und erkennt keine echten Muster. Beispiel: Ein Baum mit nur einem Knoten kann kaum unterscheiden. Ziel ist immer die Balance zwischen zu komplex und zu simpel.',
+  },
+  {
+    keywords: ['genauigkeit', 'accuracy', 'prozent', 'wie gut', 'trefferquote'],
+    answer:
+      '📊 **Genauigkeit (Accuracy)** = Anteil der richtigen Vorhersagen an allen Vorhersagen. Beispiel: 8 von 10 richtig = 80% Genauigkeit. Wichtig: Immer auch die Test-Genauigkeit prüfen, nicht nur die Trainings-Genauigkeit!',
+  },
+  {
+    keywords: ['training', 'trainingsdaten', 'lernen', 'trainingsset'],
+    answer:
+      '📚 **Trainingsdaten** sind Beispiele mit bekannten Antworten (Labels), aus denen das Modell lernt. Typisch: 80% der Daten fürs Training, 20% für den Test (80/20-Split).',
+    followUp: 'Warum brauchen wir auch Testdaten? Frag mich nach "Testdaten"!',
+  },
+  {
+    keywords: ['test', 'testdaten', 'testset', 'split', '80/20'],
+    answer:
+      '🔬 **Testdaten** sind Daten, die das Modell noch nie gesehen hat. Sie prüfen, ob das Modell wirklich gelernt hat — oder nur auswendig gelernt hat. Typisch: 20% der Daten werden als Testdaten beiseitegelegt.',
+  },
+  {
+    keywords: ['bias', 'voreingenommenheit', 'diskriminierung', 'unfair', 'ungerecht'],
+    answer:
+      '⚖️ **Bias (Voreingenommenheit)** in KI entsteht, wenn die Trainingsdaten nicht alle Gruppen fair repräsentieren. Die KI lernt dann Vorurteile — und wendet sie auf neue Fälle an. Lösung: vielfältigere und ausgewogenere Daten.',
+    followUp: 'Mehr dazu in Level 5: Das voreingenommene Orakel.',
   },
   {
     keywords: ['hallo', 'hi', 'hey', 'guten'],
     answer:
-      '👋 Hallo, Agent X! Ich bin dein KI-Assistent. Frag mich alles über Entscheidungsbäume, Klassifikation oder die aktuelle Aufgabe!',
+      '👋 Hallo! Ich bin dein KI-Assistent für Team MKS. Frag mich alles über Entscheidungsbäume, Klassifikation oder die aktuelle Aufgabe!',
   },
   {
     keywords: ['danke', 'thanks', 'super', 'toll', 'verstanden'],
-    answer: '😊 Sehr gut! Weiter so, Agent X! Du machst das klasse.',
+    answer: '😊 Sehr gut! Weiter so — du machst das klasse!',
   },
 ]
 

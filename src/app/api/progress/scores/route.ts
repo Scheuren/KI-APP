@@ -6,20 +6,25 @@ import type { Json } from '@/lib/supabase/types'
 const ActivityScoreSchema = z.object({
   level: z.number().int().min(1).max(5),
   activity_type: z.enum(['quiz', 'puzzle', 'terms_match', 'teaching']),
-  score: z.number().int().min(0),
-  max_score: z.number().int().min(1),
-  attempt_number: z.number().int().min(1).default(1),
-  time_spent_seconds: z.number().int().min(0).default(0),
+  score: z.number().int().min(0).max(10000),
+  max_score: z.number().int().min(1).max(10000),
+  attempt_number: z.number().int().min(1).max(100).default(1),
+  time_spent_seconds: z.number().int().min(0).max(86400).default(0),
   difficulty: z.enum(['basis', 'standard', 'experten']).nullable().optional(),
-  answers_json: z.record(z.string(), z.unknown()).nullable().optional(),
+  // Limit answers_json: max 50 keys, each key/value as string max 500 chars
+  answers_json: z
+    .record(z.string().max(100), z.string().max(500))
+    .refine((obj) => Object.keys(obj).length <= 50, { message: 'answers_json darf maximal 50 Einträge haben.' })
+    .nullable()
+    .optional(),
 })
 
 // Also save learning analytics derived from quiz answers
 const LearningAnalyticSchema = z.object({
-  concept: z.string(),
+  concept: z.string().trim().min(1).max(200),
   understood: z.boolean(),
-  hint_requested: z.number().int().min(0).default(0),
-  errors_count: z.number().int().min(0).default(0),
+  hint_requested: z.number().int().min(0).max(100).default(0),
+  errors_count: z.number().int().min(0).max(1000).default(0),
 })
 
 const RequestSchema = z.object({

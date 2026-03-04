@@ -30,7 +30,7 @@ export const introDialogues4: DialogLine[] = [
     portrait: 'node',
   },
   {
-    speaker: 'Tim',
+    speaker: '{NAME}',
     text: 'Natürlich der mit 100% Genauigkeit — oder nicht?',
     portrait: 'player',
   },
@@ -59,12 +59,22 @@ export const teachingDialogues4: DialogLine[] = [
   },
   {
     speaker: 'Inspector Node',
-    text: 'Stell dir Sherlock vor: Er kennt jedes Detail im Büro. Aber bring ihn nach Tokio — und er scheitert!',
+    text: 'Stell dir vor: Du lernst für eine Prüfung nur die alten Aufgaben auswendig.',
     portrait: 'node',
   },
   {
     speaker: 'Inspector Node',
-    text: 'Ein guter Baum ist nicht perfekt auf Trainingsdaten — aber er funktioniert auch bei neuen Daten gut.',
+    text: 'Kommen neue Aufgaben, versagst du — obwohl du bei den alten 100% hattest. Das ist Overfitting!',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Genauigkeit auf Testdaten zeigt uns, ob das Modell wirklich gelernt hat — nicht nur auswendig kennt.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Deshalb ist der Training/Test-Split so wichtig: Testdaten sind die "echte Prüfung"!',
     portrait: 'node',
   },
   {
@@ -209,6 +219,19 @@ export const quizQuestions4: QuizQuestion4[] = [
     ],
     correct: 2,
     explanation:
-      'Overfitting vermeiden: (1) Baum-Tiefe begrenzen (Pruning), (2) mehr Trainingsdaten sammeln, (3) Regularisierung anwenden. Ein zu tiefer Baum lernt Rauschen statt echte Muster.',
+      'Overfitting vermeiden: (1) Baum-Tiefe begrenzen (Pruning), (2) mehr Trainingsdaten sammeln. Ein zu tiefer Baum lernt Zufälligkeiten statt echter Muster.',
+  },
+  {
+    id: 'q5',
+    question: 'Was ist "Underfitting" — das Gegenteil von Overfitting?',
+    options: [
+      'Das Modell ist zu einfach und erkennt keine echten Muster in den Daten',
+      'Das Modell ist zu komplex und lernt die Daten auswendig',
+      'Das Modell hat zu viele Trainingsdaten',
+      'Das Modell hat eine Genauigkeit von 100% auf Testdaten',
+    ],
+    correct: 0,
+    explanation:
+      'Underfitting = Modell ist zu simpel. Beispiel: Ein Baum mit nur einem Knoten kann kaum etwas unterscheiden. Sowohl Overfitting (zu komplex) als auch Underfitting (zu simpel) sind schlechte Ergebnisse. Das Ziel ist die Balance!',
   },
 ]

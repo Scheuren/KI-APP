@@ -74,7 +74,7 @@ export const introDialogues3: DialogLine[] = [
     portrait: 'node',
   },
   {
-    speaker: 'Tim',
+    speaker: '{NAME}',
     text: 'Ich baue meinen eigenen Baum? Das klingt nach echter KI-Arbeit!',
     portrait: 'player',
   },
@@ -108,7 +108,12 @@ export const teachingDialogues3: DialogLine[] = [
   },
   {
     speaker: 'Inspector Node',
-    text: 'Der Gini-Index und die Entropie helfen dabei, das beste Merkmal für die Wurzel zu wählen. Je reiner die Gruppen, desto besser!',
+    text: 'Tipp: Wähle das Merkmal als Wurzel, das die Gruppen am besten trennt.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Schau, ob ein Merkmal alle Verdächtigen auf einer Seite und alle Unverdächtigen auf der anderen hat.',
     portrait: 'node',
   },
   {
@@ -172,6 +177,19 @@ export const quizQuestions3: QuizQuestion3[] = [
     correct: 2,
     explanation:
       'Mehr Trainingsdaten helfen dem Modell, bessere und allgemeinere Regeln zu lernen. Mit nur 1-2 Beispielen kann kein zuverlässiger Baum entstehen. In der Praxis braucht man oft Tausende oder Millionen von Beispielen!',
+  },
+  {
+    id: 'q5',
+    question: 'Welches Merkmal wählt man sinnvollerweise als Wurzel des Entscheidungsbaums?',
+    options: [
+      'Das Merkmal, das in den Trainingsdaten am häufigsten vorkommt',
+      'Das Merkmal, das die Daten am besten in verdächtig und unverdächtig trennt',
+      'Immer das erste Merkmal in der Liste',
+      'Das Merkmal, das am seltensten vorkommt',
+    ],
+    correct: 1,
+    explanation:
+      'Als Wurzel wählt man das Merkmal, das die Gruppen am stärksten trennt — also auf einer Seite möglichst viele Verdächtige und auf der anderen möglichst viele Unverdächtige. Das macht den Baum effizient und genau.',
   },
 ]
 

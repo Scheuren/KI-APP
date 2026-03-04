@@ -2,15 +2,31 @@ import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 
+const KNOWN_PHASES = [
+  'characterSelect',
+  'intro',
+  'explore',
+  'video',
+  'postVideo',
+  'teaching',
+  'termsMatch',
+  'puzzle',
+  'quiz',
+  'complete',
+] as const
+
 const SaveProgressSchema = z.object({
   level: z.number().int().min(1).max(5),
-  phase: z.string(),
-  xp: z.number().int().min(0),
-  max_xp: z.number().int().min(1).default(200),
-  completed_zones: z.array(z.string()).default([]),
+  phase: z.enum(KNOWN_PHASES),
+  // Cap XP at a realistic maximum (5 levels × 500 XP each with generous buffer)
+  xp: z.number().int().min(0).max(2500),
+  max_xp: z.number().int().min(1).max(2500).default(200),
+  // Max 20 zone IDs, each max 100 chars
+  completed_zones: z.array(z.string().max(100)).max(20).default([]),
   difficulty: z.enum(['basis', 'standard', 'experten']).nullable().optional(),
   player_character: z.enum(['leader', 'social']).nullable().optional(),
-  player_name: z.string().max(50).nullable().optional(),
+  // Trim whitespace, enforce non-empty min length if provided
+  player_name: z.string().trim().min(1).max(50).nullable().optional(),
   is_completed: z.boolean().default(false),
 })
 

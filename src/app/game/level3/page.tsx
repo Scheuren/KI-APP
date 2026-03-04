@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { DialogBox } from '@/components/game/DialogBox'
 import { TeachingDialog } from '@/components/game/TeachingDialog'
 import { TreeBuilderPuzzle } from '@/components/game/TreeBuilderPuzzle'
@@ -15,6 +15,7 @@ import {
 } from '@/lib/game/level3Data'
 import Link from 'next/link'
 import { AuthButton } from '@/components/auth/AuthButton'
+import { useGameProgress } from '@/hooks/useGameProgress'
 
 type GamePhase = 'intro' | 'explore' | 'teaching' | 'puzzle' | 'quiz' | 'complete'
 type PlayerCharacter = 'leader' | 'social'
@@ -41,7 +42,8 @@ function QuizModal3({ onComplete }: { onComplete: (xp: number) => void }) {
 
   const next = () => {
     if (isLast) {
-      onComplete(score + (selected === question.correct ? 25 : 0))
+      // score state already updated in confirm()
+      onComplete(score)
       return
     }
     setSelected(null); setConfirmed(false); setCurrent(c => c + 1)
@@ -97,7 +99,7 @@ function QuizModal3({ onComplete }: { onComplete: (xp: number) => void }) {
             <button onClick={confirm} disabled={selected === null} className="comic-btn px-5 py-2 rounded-xl font-bangers text-base tracking-wide disabled:opacity-40" style={{ background: '#FFE135', color: '#111' }}>Antworten!</button>
           ) : (
             <button onClick={next} className="comic-btn px-5 py-2 rounded-xl font-bangers text-base tracking-wide" style={{ background: '#0066FF', color: 'white' }}>
-              {isLast ? `Fertig! (+${score + (selected === question.correct ? 25 : 0)} XP)` : 'Nächste →'}
+              {isLast ? `Fertig! (+${score} XP)` : 'Nächste →'}
             </button>
           )}
         </div>
@@ -288,6 +290,10 @@ function HUD3({ xp, completedZones }: { xp: number; completedZones: string[] }) 
 
 export default function Level3Page() {
   const [scale, setScale] = useState(1)
+  const { saveProgress, loadProgress, saveActivityScore } = useGameProgress()
+  const progressLoaded = useRef(false)
+  const startTime = useRef<number>(Date.now())
+
   useEffect(() => {
     const update = () => setScale(Math.min(window.innerWidth / WORLD_WIDTH, window.innerHeight / WORLD_HEIGHT))
     update()
@@ -313,6 +319,21 @@ export default function Level3Page() {
   const [quizXP, setQuizXP] = useState(0)
   const [xp, setXp] = useState(0)
 
+  // Load saved progress on mount
+  useEffect(() => {
+    if (progressLoaded.current) return
+    progressLoaded.current = true
+    const load = async () => {
+      const saved = await loadProgress(3)
+      if (saved && saved.phase && saved.phase !== 'complete') {
+        if (saved.xp !== undefined) setXp(saved.xp)
+        if (saved.completed_zones) setCompletedZones(saved.completed_zones)
+        if (saved.phase !== 'intro') setPhase(saved.phase as GamePhase)
+      }
+    }
+    load()
+  }, [loadProgress])
+
   const handleInteract = useCallback((zone: 'datalab' | 'inspector' | 'builder') => {
     if (zone === 'datalab' && !completedZones.includes('datalab')) {
       setTeachingTarget('datalab')
@@ -320,37 +341,69 @@ export default function Level3Page() {
     } else if (zone === 'inspector' && !completedZones.includes('inspector')) {
       setTeachingTarget('inspector')
       setPhase('teaching')
-    } else if (zone === 'builder' && !completedZones.includes('builder')) {
+    } else if (
+      zone === 'builder' &&
+      !completedZones.includes('builder') &&
+      completedZones.includes('datalab') &&
+      completedZones.includes('inspector')
+    ) {
+      // Both prerequisites met — start the builder puzzle
+      setTeachingTarget('inspector') // builder uses inspector context
       setPhase('puzzle')
     }
   }, [completedZones])
 
   const handleTeachingComplete = () => {
-    setCompletedZones(z => [...z, 'inspector'])
-    setXp(x => x + 15)
+    const newZones = [...completedZones, 'inspector']
+    const newXp = xp + 15
+    setCompletedZones(newZones)
+    setXp(newXp)
     setPhase('explore')
+    saveProgress({ level: 3, phase: 'explore', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
   }
 
   const handlePuzzleComplete = (score: number) => {
     if (!completedZones.includes('datalab')) {
-      setCompletedZones(z => [...z, 'datalab'])
-      setXp(x => x + 10)
+      const newZones = [...completedZones, 'datalab']
+      const newXp = xp + 10
+      setCompletedZones(newZones)
+      setXp(newXp)
       setPhase('explore')
+      saveProgress({ level: 3, phase: 'explore', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
     } else {
+      const newZones = [...completedZones, 'builder']
+      const newXp = xp + score
       setPuzzleXP(score)
-      setXp(x => x + score)
-      setCompletedZones(z => [...z, 'builder'])
+      setXp(newXp)
+      setCompletedZones(newZones)
       setPhase('quiz')
+      saveProgress({ level: 3, phase: 'quiz', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
+      saveActivityScore({
+        level: 3,
+        activity_type: 'puzzle',
+        score,
+        max_score: 100,
+        time_spent_seconds: Math.floor((Date.now() - startTime.current) / 1000),
+      })
     }
   }
 
   const handleQuizComplete = (score: number) => {
+    const finalXp = xp + score
     setQuizXP(score)
-    setXp(x => x + score)
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('mks_level3_complete', 'true')
-      localStorage.setItem('mks_level3_xp', String(puzzleXP + score))
-    }
+    setXp(finalXp)
+    saveProgress({
+      level: 3, phase: 'complete', xp: finalXp,
+      completed_zones: completedZones, player_character: playerCharacter,
+      player_name: playerName, is_completed: true,
+    })
+    saveActivityScore({
+      level: 3,
+      activity_type: 'quiz',
+      score,
+      max_score: 100,
+      time_spent_seconds: Math.floor((Date.now() - startTime.current) / 1000),
+    })
     setPhase('complete')
   }
 
@@ -358,6 +411,7 @@ export default function Level3Page() {
     setPhase('intro')
     setCompletedZones([])
     setXp(0); setPuzzleXP(0); setQuizXP(0)
+    startTime.current = Date.now()
   }
 
   const handleNext = () => { window.location.href = '/game/level4' }

@@ -81,10 +81,10 @@ export function GameHubClient({ showAuthOnly = false }: GameHubClientProps) {
     return <AuthButton compact />
   }
 
-  // Alle Levels sind vorerst freigeschaltet (Backend kommt separat)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const isUnlocked = (_levelNum: number): boolean => {
-    return true
+  // Level 1 is always unlocked. Level N requires level N-1 to be completed.
+  const isUnlocked = (levelNum: number): boolean => {
+    if (levelNum === 1) return true
+    return completedLevels.has(levelNum - 1)
   }
 
   return (

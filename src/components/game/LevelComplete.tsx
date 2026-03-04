@@ -92,7 +92,7 @@ export function LevelComplete({ puzzleXP, quizXP, onNext, onReplay }: Props) {
             className="flex-1 py-3 border-[3px] border-[#111] rounded-xl font-bangers text-base tracking-wide shadow-[3px_3px_0_#111] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all"
             style={{ background: '#0066FF', color: 'white' }}
           >
-            Level 2 → (bald)
+            Level 2 →
           </button>
         </div>
       </div>

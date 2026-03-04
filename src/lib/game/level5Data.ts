@@ -50,7 +50,7 @@ export const introDialogues5: DialogLine[] = [
     portrait: 'node',
   },
   {
-    speaker: 'Tim',
+    speaker: '{NAME}',
     text: 'Und jetzt markiert die KI alle aus Bezirk X als verdächtig?',
     portrait: 'player',
   },
@@ -148,6 +148,12 @@ export const ethicsStatements: EthicsStatement[] = [
     correctVerdict: 'richtig',
     explanation: 'Richtig! Transparenz ist ein wichtiges KI-Ethik-Prinzip. Wenn jemand von einer KI-Entscheidung betroffen ist, hat er ein Recht zu wissen, warum. Das nennt man "Erklärbarkeit".',
   },
+  {
+    id: 'e5',
+    text: 'Eine KI, die bei einer Gruppe 80% und bei einer anderen Gruppe nur 40% Genauigkeit hat, ist fair.',
+    correctVerdict: 'falsch',
+    explanation: 'Falsch! Faire KI-Systeme sollten für alle Gruppen ähnlich gut funktionieren. Große Genauigkeitsunterschiede zwischen Gruppen sind ein Zeichen von Bias — auch wenn das Modell insgesamt "gut" abschneidet.',
+  },
 ]
 
 // ─── Quiz-Fragen ───────────────────────────────────────────────────────────────
@@ -203,7 +209,20 @@ export const quizQuestions5: QuizQuestion5[] = [
     ],
     correct: 2,
     explanation:
-      'Verantwortung für KI-Systeme ist geteilt: Entwickler sind für den Algorithmus verantwortlich, Auftraggeber für die Anforderungen, Betreiber für den Einsatz. In der EU regelt das AI Act die Verantwortlichkeiten gesetzlich.',
+      'Verantwortung für KI-Systeme ist geteilt: Entwickler sind für den Algorithmus verantwortlich, Auftraggeber für die Anforderungen, Betreiber für den Einsatz. Der EU AI Act (seit 2024) regelt diese Verantwortlichkeiten gesetzlich.',
+  },
+  {
+    id: 'q5',
+    question: 'Wie kann man Datenbias in einem KI-System reduzieren?',
+    options: [
+      'Den Algorithmus schneller machen',
+      'Mehr Daten aus derselben Quelle sammeln',
+      'Vielfältigere und ausgewogenere Trainingsdaten verwenden und regelmäßig auf Fairness prüfen',
+      'Den Baum tiefer machen',
+    ],
+    correct: 2,
+    explanation:
+      'Bias reduzieren: (1) Daten aus verschiedenen Gruppen gleichmäßig sammeln, (2) Daten auf Überrepräsentation prüfen, (3) Fairness-Tests für alle betroffenen Gruppen durchführen, (4) Ergebnisse regelmäßig kritisch hinterfragen.',
   },
 ]
 
@@ -217,12 +236,17 @@ export const finalSpeechDialogues: DialogLine[] = [
   },
   {
     speaker: 'Inspector Node',
-    text: 'Denk daran: KI ist mächtig, aber nicht unfehlbar. Sie lernt aus Daten — und Daten spiegeln unsere Welt wider, mit all ihren Unvollkommenheiten.',
+    text: 'KI ist mächtig, aber nicht unfehlbar. Sie lernt aus Daten — und Daten spiegeln unsere Welt wider.',
     portrait: 'node',
   },
   {
     speaker: 'Inspector Node',
-    text: 'Als zukünftige Gestalter dieser Technologie habt ihr eine besondere Verantwortung: KI fair, transparent und zum Wohl aller einzusetzen.',
+    text: 'Unsere Welt ist nicht perfekt — und deshalb sind KI-Systeme es auch nicht. Das ist wichtig zu wissen!',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Ihr seid die Gestalter von morgen. Setzt KI fair, transparent und zum Wohl aller ein!',
     portrait: 'node',
   },
   {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { DialogBox } from '@/components/game/DialogBox'
 import { TeachingDialog } from '@/components/game/TeachingDialog'
 import { ClassifyPuzzle } from '@/components/game/ClassifyPuzzle'
@@ -17,6 +17,7 @@ import {
 import type { DialogLine } from '@/lib/game/level1Data'
 import Link from 'next/link'
 import { AuthButton } from '@/components/auth/AuthButton'
+import { useGameProgress } from '@/hooks/useGameProgress'
 
 type GamePhase =
   | 'intro'
@@ -58,8 +59,8 @@ function QuizModal2({ onComplete }: { onComplete: (xp: number) => void }) {
 
   const next = () => {
     if (isLast) {
-      const finalScore = score + (selected === question.correct ? 25 : 0)
-      onComplete(finalScore)
+      // score state already includes points from this question (set in confirm())
+      onComplete(score)
       return
     }
     setSelected(null)
@@ -151,7 +152,7 @@ function QuizModal2({ onComplete }: { onComplete: (xp: number) => void }) {
               className="comic-btn px-5 py-2 rounded-xl font-bangers text-base tracking-wide"
               style={{ background: '#0066FF', color: 'white' }}
             >
-              {isLast ? `Fertig! (+${score + (selected === question.correct ? 25 : 0)} XP)` : 'Nächste →'}
+              {isLast ? `Fertig! (+${score} XP)` : 'Nächste →'}
             </button>
           )}
         </div>
@@ -457,6 +458,9 @@ function HUD2({ xp, completedZones }: { xp: number; completedZones: string[] }) 
 
 export default function Level2Page() {
   const [scale, setScale] = useState(1)
+  const { saveProgress, loadProgress, saveActivityScore } = useGameProgress()
+  const progressLoaded = useRef(false)
+  const startTime = useRef<number>(Date.now())
 
   useEffect(() => {
     const update = () => {
@@ -467,7 +471,7 @@ export default function Level2Page() {
     return () => window.removeEventListener('resize', update)
   }, [])
 
-  // Load from localStorage
+  // Load from localStorage (set by level1 character select)
   const [playerCharacter, setPlayerCharacter] = useState<PlayerCharacter>('leader')
   const [playerName, setPlayerName] = useState<string>('Detektiv')
 
@@ -488,19 +492,27 @@ export default function Level2Page() {
   const [quizXP, setQuizXP] = useState(0)
   const [xp, setXp] = useState(0)
 
-  const handleIntroComplete = () => setPhase('explore')
-
-  const handleZoneInteract = useCallback((zone: 'viktor' | 'inspector' | 'caseboard') => {
-    if (zone === 'viktor' && !completedZones.includes('viktor')) {
-      setPhase('teaching') // reuse TeachingDialog as Viktor dialog
-    } else if (zone === 'inspector' && !completedZones.includes('inspector')) {
-      setPhase('teaching')
-    } else if (zone === 'caseboard' && completedZones.includes('inspector') && !completedZones.includes('caseboard')) {
-      setShowDifficultyPicker(true)
+  // Load saved progress on mount
+  useEffect(() => {
+    if (progressLoaded.current) return
+    progressLoaded.current = true
+    const load = async () => {
+      const saved = await loadProgress(2)
+      if (saved && saved.phase && saved.phase !== 'complete') {
+        if (saved.xp !== undefined) setXp(saved.xp)
+        if (saved.completed_zones) setCompletedZones(saved.completed_zones)
+        if (saved.phase !== 'intro') setPhase(saved.phase as GamePhase)
+      }
     }
-  }, [completedZones])
+    load()
+  }, [loadProgress])
 
-  // Simplified: viktor → teaching phase for inspector, then classify
+  const handleIntroComplete = () => {
+    setPhase('explore')
+    saveProgress({ level: 2, phase: 'explore', xp: 0, player_character: playerCharacter, player_name: playerName })
+  }
+
+  // Single interaction handler (removed duplicate handleZoneInteract)
   const [teachingTarget, setTeachingTarget] = useState<'viktor' | 'inspector'>('viktor')
 
   const handleExploreInteract = useCallback((zone: 'viktor' | 'inspector' | 'caseboard') => {
@@ -516,40 +528,55 @@ export default function Level2Page() {
   }, [completedZones])
 
   const handleTeachingComplete = () => {
-    if (teachingTarget === 'viktor') {
-      setCompletedZones(z => [...z, 'viktor'])
-      setXp(x => x + 15)
-    } else {
-      setCompletedZones(z => [...z, 'inspector'])
-      setXp(x => x + 15)
-    }
+    const zone = teachingTarget
+    const newZones = [...completedZones, zone]
+    const newXp = xp + 15
+    setCompletedZones(newZones)
+    setXp(newXp)
     setPhase('explore')
+    saveProgress({ level: 2, phase: 'explore', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
   }
 
   const handleDifficultySelect = (d: Difficulty2) => {
     setDifficulty(d)
     setShowDifficultyPicker(false)
     setPhase('classify')
+    saveProgress({ level: 2, phase: 'classify', xp, completed_zones: completedZones, player_character: playerCharacter, player_name: playerName })
   }
 
   const handleClassifyComplete = (score: number) => {
+    const newZones = [...completedZones, 'caseboard']
+    const newXp = xp + score
     setPuzzleXP(score)
-    setXp(x => x + score)
-    setCompletedZones(z => [...z, 'caseboard'])
+    setXp(newXp)
+    setCompletedZones(newZones)
     setPhase('quiz')
+    saveProgress({ level: 2, phase: 'quiz', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
+    saveActivityScore({
+      level: 2,
+      activity_type: 'puzzle',
+      score,
+      max_score: 100,
+      time_spent_seconds: Math.floor((Date.now() - startTime.current) / 1000),
+    })
   }
 
   const handleQuizComplete = (score: number) => {
+    const finalXp = xp + score
     setQuizXP(score)
-    setXp(x => x + score)
-
-    // Save to localStorage
-    if (typeof window !== 'undefined') {
-      const total = puzzleXP + score
-      localStorage.setItem('mks_level2_complete', 'true')
-      localStorage.setItem('mks_level2_xp', String(total))
-    }
-
+    setXp(finalXp)
+    saveProgress({
+      level: 2, phase: 'complete', xp: finalXp,
+      completed_zones: completedZones, player_character: playerCharacter,
+      player_name: playerName, is_completed: true,
+    })
+    saveActivityScore({
+      level: 2,
+      activity_type: 'quiz',
+      score,
+      max_score: 100,
+      time_spent_seconds: Math.floor((Date.now() - startTime.current) / 1000),
+    })
     setPhase('complete')
   }
 
@@ -561,6 +588,7 @@ export default function Level2Page() {
     setQuizXP(0)
     setDifficulty(null)
     setShowDifficultyPicker(false)
+    startTime.current = Date.now()
   }
 
   const handleNext = () => {

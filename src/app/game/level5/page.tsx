@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { DialogBox } from '@/components/game/DialogBox'
 import { TeachingDialog } from '@/components/game/TeachingDialog'
 import { BiasDetector } from '@/components/game/BiasDetector'
@@ -16,6 +16,8 @@ import {
   type QuizQuestion5,
 } from '@/lib/game/level5Data'
 import Link from 'next/link'
+import { AuthButton } from '@/components/auth/AuthButton'
+import { useGameProgress } from '@/hooks/useGameProgress'
 
 type GamePhase = 'intro' | 'explore' | 'teaching' | 'bias' | 'ethics' | 'speech' | 'quiz' | 'complete'
 type PlayerCharacter = 'leader' | 'social'
@@ -41,7 +43,7 @@ function QuizModal5({ onComplete }: { onComplete: (xp: number) => void }) {
   }
 
   const next = () => {
-    if (isLast) { onComplete(score + (selected === question.correct ? 25 : 0)); return }
+    if (isLast) { onComplete(score); return }
     setSelected(null); setConfirmed(false); setCurrent(c => c + 1)
   }
 
@@ -93,7 +95,7 @@ function QuizModal5({ onComplete }: { onComplete: (xp: number) => void }) {
             <button onClick={confirm} disabled={selected === null} className="comic-btn px-5 py-2 rounded-xl font-bangers text-base disabled:opacity-40" style={{ background: '#9C27B0', color: 'white' }}>Antworten!</button>
           ) : (
             <button onClick={next} className="comic-btn px-5 py-2 rounded-xl font-bangers text-base" style={{ background: '#FF3B3F', color: 'white' }}>
-              {isLast ? `Fertig! (+${score + (selected === question.correct ? 25 : 0)} XP)` : 'Nächste →'}
+              {isLast ? `Fertig! (+${score} XP)` : 'Nächste →'}
             </button>
           )}
         </div>
@@ -314,6 +316,10 @@ function HUD5({ xp, completedZones }: { xp: number; completedZones: string[] }) 
 
 export default function Level5Page() {
   const [scale, setScale] = useState(1)
+  const { saveProgress, loadProgress, saveActivityScore } = useGameProgress()
+  const progressLoaded = useRef(false)
+  const startTime = useRef<number>(Date.now())
+
   useEffect(() => {
     const update = () => setScale(Math.min(window.innerWidth / WORLD_WIDTH, window.innerHeight / WORLD_HEIGHT))
     update()
@@ -338,33 +344,65 @@ export default function Level5Page() {
   const [quizXP, setQuizXP] = useState(0)
   const [xp, setXp] = useState(0)
 
+  // Load saved progress on mount
+  useEffect(() => {
+    if (progressLoaded.current) return
+    progressLoaded.current = true
+    const load = async () => {
+      const saved = await loadProgress(5)
+      if (saved && saved.phase && saved.phase !== 'complete') {
+        if (saved.xp !== undefined) setXp(saved.xp)
+        if (saved.completed_zones) setCompletedZones(saved.completed_zones)
+        if (saved.phase !== 'intro') setPhase(saved.phase as GamePhase)
+      }
+    }
+    load()
+  }, [loadProgress])
+
   const handleInteract = useCallback((zone: 'inspector' | 'bias' | 'ethics') => {
     if (zone === 'inspector' && !completedZones.includes('inspector')) {
       setPhase('teaching')
-    } else if (zone === 'bias' && !completedZones.includes('bias')) {
+    } else if (zone === 'bias' && completedZones.includes('inspector') && !completedZones.includes('bias')) {
       setPhase('bias')
-    } else if (zone === 'ethics' && !completedZones.includes('ethics')) {
+    } else if (zone === 'ethics' && completedZones.includes('bias') && !completedZones.includes('ethics')) {
       setPhase('ethics')
     }
   }, [completedZones])
 
   const handleTeachingComplete = () => {
-    setCompletedZones(z => [...z, 'inspector'])
-    setXp(x => x + 15)
+    const newZones = [...completedZones, 'inspector']
+    const newXp = xp + 15
+    setCompletedZones(newZones)
+    setXp(newXp)
     setPhase('explore')
+    saveProgress({ level: 5, phase: 'explore', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
   }
 
   const handleBiasComplete = () => {
-    setCompletedZones(z => [...z, 'bias'])
-    setXp(x => x + 10)
+    const newZones = [...completedZones, 'bias']
+    const newXp = xp + 10
+    setCompletedZones(newZones)
+    setXp(newXp)
     setPhase('explore')
+    saveProgress({ level: 5, phase: 'explore', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
+    saveActivityScore({ level: 5, activity_type: 'teaching', score: 10, max_score: 10 })
   }
 
   const handleEthicsComplete = (score: number) => {
+    const newZones = [...completedZones, 'ethics']
+    const newXp = xp + score
     setPuzzleXP(score)
-    setXp(x => x + score)
-    setCompletedZones(z => [...z, 'ethics'])
+    setXp(newXp)
+    setCompletedZones(newZones)
     setPhase('speech')
+    saveProgress({ level: 5, phase: 'speech', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
+    saveActivityScore({
+      level: 5,
+      activity_type: 'puzzle',
+      score,
+      max_score: 100,
+      time_spent_seconds: Math.floor((Date.now() - startTime.current) / 1000),
+    })
   }
 
   const handleSpeechComplete = () => {
@@ -372,21 +410,35 @@ export default function Level5Page() {
   }
 
   const handleQuizComplete = (score: number) => {
+    const finalXp = xp + score
     setQuizXP(score)
-    setXp(x => x + score)
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('mks_level5_complete', 'true')
-      localStorage.setItem('mks_level5_xp', String(puzzleXP + score))
-    }
+    setXp(finalXp)
+    saveProgress({
+      level: 5, phase: 'complete', xp: finalXp,
+      completed_zones: completedZones, player_character: playerCharacter,
+      player_name: playerName, is_completed: true,
+    })
+    saveActivityScore({
+      level: 5,
+      activity_type: 'quiz',
+      score,
+      max_score: 100,
+      time_spent_seconds: Math.floor((Date.now() - startTime.current) / 1000),
+    })
     setPhase('complete')
   }
 
   const handleReplay = () => {
     setPhase('intro'); setCompletedZones([]); setXp(0); setPuzzleXP(0); setQuizXP(0)
+    startTime.current = Date.now()
   }
 
   return (
     <div className="fixed inset-0 bg-slate-950 flex items-center justify-center overflow-hidden">
+      {/* Auth button overlay */}
+      <div className="absolute top-4 right-4 z-50">
+        <AuthButton compact />
+      </div>
       <div style={{ width: WORLD_WIDTH * scale, height: WORLD_HEIGHT * scale, position: 'relative', flexShrink: 0 }}>
         <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left', position: 'absolute', width: WORLD_WIDTH, height: WORLD_HEIGHT }}>
           <div className="relative" style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT }}>
@@ -398,7 +450,10 @@ export default function Level5Page() {
             )}
             {phase === 'intro' && (
               <div className="absolute inset-0">
-                <DialogBox lines={introDialogues5} onComplete={() => setPhase('explore')} playerCharacter={playerCharacter} playerName={playerName} />
+                <DialogBox lines={introDialogues5} onComplete={() => {
+                  setPhase('explore')
+                  saveProgress({ level: 5, phase: 'explore', xp: 0, player_character: playerCharacter, player_name: playerName })
+                }} playerCharacter={playerCharacter} playerName={playerName} />
               </div>
             )}
             {phase === 'teaching' && (

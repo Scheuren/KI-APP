@@ -2,6 +2,33 @@
 // Lernziele: Klassifikation, Entscheidungsbaum (Wurzel/Knoten/Kante/Blatt),
 //             Objekte klassifizieren
 
+// ─── Mini-Spiel Integration (neue Komponenten) ────────────────────────────────
+// Die folgenden neuen Mini-Spiel-Komponenten können in Level-Pages eingebunden werden:
+//
+// 1. SortingGame — Drag-and-Drop Sortier-Spiel (Trainingsdaten / Testdaten)
+//    Import:   import { SortingGame } from '@/components/game/SortingGame'
+//    Usage:    <SortingGame onComplete={(xp) => handleXp(xp)} />
+//    XP:       0–60 XP je nach Genauigkeit
+//
+// 2. FillInTheBlank — Lückentext-Komponente (6 Sätze über Entscheidungsbaum-Begriffe)
+//    Import:   import { FillInTheBlank } from '@/components/game/FillInTheBlank'
+//    Usage:    <FillInTheBlank onComplete={(xp) => handleXp(xp)} />
+//    XP:       15 XP pro richtiger Antwort (max. 90 XP)
+//
+// 3. MatchingPairs — Memory/Matching Karten-Spiel mit Timer-Bonus
+//    Import:   import { MatchingPairs } from '@/components/game/MatchingPairs'
+//    Usage:    <MatchingPairs onComplete={(xp) => handleXp(xp)} />
+//    XP:       60 Basis-XP + 30 Zeitbonus − 3 XP pro Fehler (mind. 10 XP)
+//
+// 4. CodeTracer — Pseudo-Code Tracer für algorithmisches Denken
+//    Import:   import { CodeTracer } from '@/components/game/CodeTracer'
+//    Usage:    <CodeTracer onComplete={(xp) => handleXp(xp)} />
+//    XP:       20 XP pro Objekt (3 Objekte = max. 60 XP)
+//
+// Alle Komponenten haben einheitliche Props: { onComplete: (xp: number) => void }
+// Sie rendern als fixed overlay (z-50) mit Comic-Stil-Design.
+// ─────────────────────────────────────────────────────────────────────────────
+
 export type DialogLine = {
   speaker: string
   text: string
@@ -50,16 +77,21 @@ export const introDialogues: DialogLine[] = [
   },
   {
     speaker: 'Inspector Node',
-    text: 'Wir haben ein Problem: Unser Archiv ist ein Chaos! Niemand weiß mehr, welche Verdächtigen wirklich gefährlich sind.',
+    text: 'Wir haben ein Problem: Unser Archiv ist ein Chaos!',
     portrait: 'node',
   },
   {
     speaker: 'Inspector Node',
-    text: 'Zum Glück kenne ich das geheimste Werkzeug jedes Top-Detektivs: den Entscheidungsbaum!',
+    text: 'Niemand weiß mehr, welche Verdächtigen wirklich gefährlich sind.',
     portrait: 'node',
   },
   {
-    speaker: 'Tim',
+    speaker: 'Inspector Node',
+    text: 'Ich kenne das wichtigste Werkzeug jedes Top-Detektivs: den Entscheidungsbaum!',
+    portrait: 'node',
+  },
+  {
+    speaker: '{NAME}',
     text: 'Einen Entscheidungsbaum? Was ist das?',
     portrait: 'player',
   },
@@ -100,7 +132,12 @@ export const teachingDialogues: DialogLine[] = [
   },
   {
     speaker: 'Inspector Node',
-    text: 'Die KNOTEN in der Mitte sind weitere Fragen. Die KANTEN sind die Pfeile: Ja oder Nein.',
+    text: 'Die KNOTEN in der Mitte stellen weitere Ja/Nein-Fragen.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Die KANTEN sind die Pfeile zwischen den Knoten — sie zeigen: Ja-Weg oder Nein-Weg.',
     portrait: 'node',
   },
   {
@@ -109,7 +146,7 @@ export const teachingDialogues: DialogLine[] = [
     portrait: 'node',
   },
   {
-    speaker: 'Tim',
+    speaker: '{NAME}',
     text: 'Das klingt wie ein riesiges Ablaufdiagramm!',
     portrait: 'player',
   },
@@ -267,11 +304,11 @@ export const quizQuestions: QuizQuestion[] = [
   {
     id: 'q4',
     question:
-      'Boris hat einen Hut (Ja) und keinen Mantel (Nein) und einen Bart (Ja). Welche Kategorie ergibt der Standard-Baum?',
+      'Boris: Hut=Ja, Mantel=Nein, Bart=Ja. Welche Kategorie ergibt der Standard-Baum?',
     options: ['unverdächtig', 'verdächtig', 'unbekannt', 'Fehler im Baum'],
     correct: 1,
     explanation:
-      'Hut=Ja → Mantel? Nein → Bart? Ja → verdächtig. Gut klassifiziert, {NAME}!',
+      'Hut=Ja → Mantel=Nein → Bart=Ja → verdächtig. Du hast den Pfad richtig durchlaufen!',
   },
   {
     id: 'q5',
@@ -310,6 +347,19 @@ export const quizQuestions: QuizQuestion[] = [
     options: ['verdächtig', 'unverdächtig', 'Es wird weiter gefragt', 'Fehler im Baum'],
     correct: 1,
     explanation: 'Im Basis-Baum: Hut=Nein → direkt unverdächtig. Kein Hut bedeutet keine weitere Prüfung nötig.',
+  },
+  {
+    id: 'q9',
+    question: 'Welche Aussage über Entscheidungsbäume ist korrekt?',
+    options: [
+      'Ein Entscheidungsbaum kann nur zwei Merkmale prüfen',
+      'Jeder Knoten kann beliebig viele Ausgänge haben',
+      'Der Baum startet immer an der Wurzel und endet an einem Blatt',
+      'Blätter stellen Fragen, Knoten geben Ergebnisse',
+    ],
+    correct: 2,
+    explanation:
+      'Richtig! Jede Klassifikation startet an der Wurzel und folgt den Kanten bis zu einem Blatt. Blätter sind Endpunkte mit Ergebnissen — nie Fragen.',
   },
 ]
 

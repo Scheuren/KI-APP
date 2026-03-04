@@ -155,6 +155,11 @@ export default function Level1Page() {
   const handleCharacterSelect = (char: PlayerCharacter, name: string) => {
     setPlayerCharacter(char)
     setPlayerName(name)
+    // Persist to shared localStorage keys so later levels can read character/name
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('mks_player_character', char)
+      localStorage.setItem('mks_player_name', name)
+    }
     setPhase('intro')
     persistProgress('intro', xp, completedZones, char, name)
   }
@@ -379,7 +384,7 @@ export default function Level1Page() {
           xp={xp}
           puzzleXP={puzzleXP}
           quizXP={quizXP}
-          onNext={() => {}}
+          onNext={() => { window.location.href = '/game/level2' }}
           onReplay={handleReplay}
         />
       )}
