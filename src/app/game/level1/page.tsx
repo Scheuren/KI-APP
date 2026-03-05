@@ -12,6 +12,7 @@ import { HUD } from '@/components/game/HUD'
 import { TermsMatchingGame } from '@/components/game/TermsMatchingGame'
 import { FillInTheBlank } from '@/components/game/FillInTheBlank'
 import { TeachingDialog } from '@/components/game/TeachingDialog'
+import Link from 'next/link'
 import { AuthButton } from '@/components/auth/AuthButton'
 import { useGameProgress } from '@/hooks/useGameProgress'
 import {
@@ -292,7 +293,7 @@ export default function Level1Page() {
   // Character select — full screen, outside the game world scaling
   if (phase === 'characterSelect') {
     return (
-      <div className="fixed inset-0 bg-slate-950 flex items-center justify-center overflow-hidden">
+      <div className="fixed inset-0 bg-slate-950 flex items-start justify-center overflow-hidden">
         {/* Auth button top right */}
         <div className="absolute top-4 right-4 z-50">
           <AuthButton compact />
@@ -304,10 +305,17 @@ export default function Level1Page() {
   }
 
   return (
-    <div className="fixed inset-0 bg-slate-950 flex items-center justify-center overflow-hidden">
+    <div className="fixed inset-0 bg-slate-950 flex items-start justify-center overflow-hidden">
       {/* Auth button overlay */}
       <div className="absolute top-4 right-4 z-50">
         <AuthButton compact />
+      </div>
+
+      {/* Back to hub link */}
+      <div className="fixed top-3 left-3 z-30">
+        <Link href="/game" className="bg-white border-[2px] border-[#111] rounded-lg px-3 py-1.5 font-bangers text-[#111] text-sm shadow-[2px_2px_0_#111] hover:bg-[#FFE135] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFE135]">
+          ← Hub
+        </Link>
       </div>
 
       {/* Vollbild-Wrapper — skaliert die 900×500 Spielwelt auf den ganzen Bildschirm */}

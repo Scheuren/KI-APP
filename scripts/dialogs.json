@@ -1,0 +1,1158 @@
+{
+  "entries": [
+    {
+      "id": "level1_intro_000",
+      "speaker": "Inspector Node",
+      "text": "Willkommen bei Team MKS! Ich bin Inspector Node — dein Mentor.",
+      "level": 1,
+      "arrayName": "intro",
+      "lineIndex": 0
+    },
+    {
+      "id": "level1_intro_001",
+      "speaker": "Inspector Node",
+      "text": "Wir haben ein Problem: Unser Archiv ist ein Chaos!",
+      "level": 1,
+      "arrayName": "intro",
+      "lineIndex": 1
+    },
+    {
+      "id": "level1_intro_002",
+      "speaker": "Inspector Node",
+      "text": "Niemand weiß mehr, welche Verdächtigen wirklich gefährlich sind.",
+      "level": 1,
+      "arrayName": "intro",
+      "lineIndex": 2
+    },
+    {
+      "id": "level1_intro_003",
+      "speaker": "Inspector Node",
+      "text": "Ich kenne das wichtigste Werkzeug jedes Top-Detektivs: den Entscheidungsbaum!",
+      "level": 1,
+      "arrayName": "intro",
+      "lineIndex": 3
+    },
+    {
+      "id": "level1_intro_004",
+      "speaker": "{NAME}",
+      "text": "Einen Entscheidungsbaum? Was ist das?",
+      "level": 1,
+      "arrayName": "intro",
+      "lineIndex": 4
+    },
+    {
+      "id": "level1_intro_005",
+      "speaker": "Inspector Node",
+      "text": "Schau dir zuerst das Video am Monitor an — dann erkläre ich dir alles. Los!",
+      "level": 1,
+      "arrayName": "intro",
+      "lineIndex": 5
+    },
+    {
+      "id": "level1_monitor_000",
+      "speaker": "Inspector Node",
+      "text": "Super! Jetzt weißt du: Klassifikation bedeutet, Objekte anhand ihrer Merkmale in Kategorien einzuteilen.",
+      "level": 1,
+      "arrayName": "monitor",
+      "lineIndex": 0
+    },
+    {
+      "id": "level1_monitor_001",
+      "speaker": "Inspector Node",
+      "text": "Ein Entscheidungsbaum hilft uns dabei — er stellt Ja/Nein-Fragen zu den Merkmalen.",
+      "level": 1,
+      "arrayName": "monitor",
+      "lineIndex": 1
+    },
+    {
+      "id": "level1_teaching_000",
+      "speaker": "Inspector Node",
+      "text": "Schau her! Das ist unser Entscheidungsbaum. Lass mich dir die Teile zeigen.",
+      "level": 1,
+      "arrayName": "teaching",
+      "lineIndex": 0
+    },
+    {
+      "id": "level1_teaching_001",
+      "speaker": "Inspector Node",
+      "text": "Die WURZEL ist ganz oben — das ist die erste Frage, die wir stellen.",
+      "level": 1,
+      "arrayName": "teaching",
+      "lineIndex": 1
+    },
+    {
+      "id": "level1_teaching_002",
+      "speaker": "Inspector Node",
+      "text": "Die KNOTEN in der Mitte stellen weitere Ja/Nein-Fragen.",
+      "level": 1,
+      "arrayName": "teaching",
+      "lineIndex": 2
+    },
+    {
+      "id": "level1_teaching_003",
+      "speaker": "Inspector Node",
+      "text": "Die KANTEN sind die Pfeile zwischen den Knoten — sie zeigen: Ja-Weg oder Nein-Weg.",
+      "level": 1,
+      "arrayName": "teaching",
+      "lineIndex": 3
+    },
+    {
+      "id": "level1_teaching_004",
+      "speaker": "Inspector Node",
+      "text": "Die BLÄTTER ganz unten geben die Antwort: verdächtig oder unverdächtig!",
+      "level": 1,
+      "arrayName": "teaching",
+      "lineIndex": 4
+    },
+    {
+      "id": "level1_teaching_005",
+      "speaker": "{NAME}",
+      "text": "Das klingt wie ein riesiges Ablaufdiagramm!",
+      "level": 1,
+      "arrayName": "teaching",
+      "lineIndex": 5
+    },
+    {
+      "id": "level1_teaching_006",
+      "speaker": "Inspector Node",
+      "text": "Genau! Jetzt kannst du selbst 3 Verdächtige klassifizieren. Viel Erfolg, {NAME}!",
+      "level": 1,
+      "arrayName": "teaching",
+      "lineIndex": 6
+    },
+    {
+      "id": "level2_intro_000",
+      "speaker": "Inspector Node",
+      "text": "Willkommen zurück, Detektiv! In Level 2 wirst du zeigen, was du gelernt hast.",
+      "level": 2,
+      "arrayName": "intro",
+      "lineIndex": 0
+    },
+    {
+      "id": "level2_intro_001",
+      "speaker": "Inspector Node",
+      "text": "Diesmal: 5 neue Verdächtige und ein fertiger Entscheidungsbaum.",
+      "level": 2,
+      "arrayName": "intro",
+      "lineIndex": 1
+    },
+    {
+      "id": "level2_intro_002",
+      "speaker": "Inspector Node",
+      "text": "Deine Aufgabe: Klassifiziere jeden Verdächtigen mit dem Baum!",
+      "level": 2,
+      "arrayName": "intro",
+      "lineIndex": 2
+    },
+    {
+      "id": "level2_intro_003",
+      "speaker": "Inspector Node",
+      "text": "Und pass auf — Verdächtiger Viktor ist auch dabei. Er sagt, er ist unschuldig... Aber stimmt das?",
+      "level": 2,
+      "arrayName": "intro",
+      "lineIndex": 3
+    },
+    {
+      "id": "level2_intro_004",
+      "speaker": "Viktor",
+      "text": "Ich schwöre! Ich bin unverdächtig! Bitte klassifiziere mich fair!",
+      "level": 2,
+      "arrayName": "intro",
+      "lineIndex": 4
+    },
+    {
+      "id": "level2_intro_005",
+      "speaker": "Inspector Node",
+      "text": "Lass den Baum entscheiden, nicht die Meinung. Das ist das Prinzip der KI-Klassifikation!",
+      "level": 2,
+      "arrayName": "intro",
+      "lineIndex": 5
+    },
+    {
+      "id": "level2_teaching_000",
+      "speaker": "Inspector Node",
+      "text": "Schau her — unser Entscheidungsbaum hat 4 Ebenen. Jede Ebene prüft ein Merkmal.",
+      "level": 2,
+      "arrayName": "teaching",
+      "lineIndex": 0
+    },
+    {
+      "id": "level2_teaching_001",
+      "speaker": "Inspector Node",
+      "text": "Heute lernst du: Wie wendet man einen fertigen Baum auf neue Fälle an?",
+      "level": 2,
+      "arrayName": "teaching",
+      "lineIndex": 1
+    },
+    {
+      "id": "level2_teaching_002",
+      "speaker": "Inspector Node",
+      "text": "Neue Merkmale: Hut, Mantel, Bart — und neu: Aktenkoffer ja/nein.",
+      "level": 2,
+      "arrayName": "teaching",
+      "lineIndex": 2
+    },
+    {
+      "id": "level2_teaching_003",
+      "speaker": "Inspector Node",
+      "text": "Du startest an der Wurzel, beantwortest jede Frage und folgst dem Ja- oder Nein-Pfeil.",
+      "level": 2,
+      "arrayName": "teaching",
+      "lineIndex": 3
+    },
+    {
+      "id": "level2_teaching_004",
+      "speaker": "Inspector Node",
+      "text": "Am Blatt steht das Ergebnis: verdächtig oder unverdächtig. Kein Ermessen — nur Logik!",
+      "level": 2,
+      "arrayName": "teaching",
+      "lineIndex": 4
+    },
+    {
+      "id": "level2_teaching_005",
+      "speaker": "Inspector Node",
+      "text": "Jetzt du! Klicke auf \"Starte Klassifikation\" und arbeite dich durch den Baum. Viel Erfolg, {NAME}!",
+      "level": 2,
+      "arrayName": "teaching",
+      "lineIndex": 5
+    },
+    {
+      "id": "level3_intro_000",
+      "speaker": "Inspector Node",
+      "text": "Willkommen in Level 3, {NAME}! Bisher haben wir fertige Bäume benutzt. Heute baust du selbst einen!",
+      "level": 3,
+      "arrayName": "intro",
+      "lineIndex": 0
+    },
+    {
+      "id": "level3_intro_001",
+      "speaker": "Inspector Node",
+      "text": "Du hast 10 Beispiel-Verdächtige mit bekannten Ergebnissen. Das nennt man Trainingsdaten!",
+      "level": 3,
+      "arrayName": "intro",
+      "lineIndex": 1
+    },
+    {
+      "id": "level3_intro_002",
+      "speaker": "Inspector Node",
+      "text": "Zuerst sortierst du die Daten: 8 für Training, 2 für Tests. Dann baust du deinen eigenen Entscheidungsbaum!",
+      "level": 3,
+      "arrayName": "intro",
+      "lineIndex": 2
+    },
+    {
+      "id": "level3_intro_003",
+      "speaker": "{NAME}",
+      "text": "Ich baue meinen eigenen Baum? Das klingt nach echter KI-Arbeit!",
+      "level": 3,
+      "arrayName": "intro",
+      "lineIndex": 3
+    },
+    {
+      "id": "level3_intro_004",
+      "speaker": "Inspector Node",
+      "text": "Genau das ist es! KI \"lernt\" aus Beispielen — genau wie du jetzt. Los geht's, {NAME}!",
+      "level": 3,
+      "arrayName": "intro",
+      "lineIndex": 4
+    },
+    {
+      "id": "level3_teaching_000",
+      "speaker": "Inspector Node",
+      "text": "Beim maschinellen Lernen zeigt man dem Algorithmus viele Beispiele mit bekannten Antworten.",
+      "level": 3,
+      "arrayName": "teaching",
+      "lineIndex": 0
+    },
+    {
+      "id": "level3_teaching_001",
+      "speaker": "Inspector Node",
+      "text": "Diese Beispiele heißen Trainingsdaten. Der Algorithmus \"lernt\" daraus Regeln — also einen Baum!",
+      "level": 3,
+      "arrayName": "teaching",
+      "lineIndex": 1
+    },
+    {
+      "id": "level3_teaching_002",
+      "speaker": "Inspector Node",
+      "text": "Aber Vorsicht: Wir brauchen auch Testdaten, die der Baum vorher nicht gesehen hat.",
+      "level": 3,
+      "arrayName": "teaching",
+      "lineIndex": 2
+    },
+    {
+      "id": "level3_teaching_003",
+      "speaker": "Inspector Node",
+      "text": "Typisch ist ein 80/20 Split: 80% Training, 20% Test. Bei 10 Datensätzen: 8 Training, 2 Test.",
+      "level": 3,
+      "arrayName": "teaching",
+      "lineIndex": 3
+    },
+    {
+      "id": "level3_teaching_004",
+      "speaker": "Inspector Node",
+      "text": "Tipp: Wähle das Merkmal als Wurzel, das die Gruppen am besten trennt.",
+      "level": 3,
+      "arrayName": "teaching",
+      "lineIndex": 4
+    },
+    {
+      "id": "level3_teaching_005",
+      "speaker": "Inspector Node",
+      "text": "Schau, ob ein Merkmal alle Verdächtigen auf einer Seite und alle Unverdächtigen auf der anderen hat.",
+      "level": 3,
+      "arrayName": "teaching",
+      "lineIndex": 5
+    },
+    {
+      "id": "level3_teaching_006",
+      "speaker": "Inspector Node",
+      "text": "Jetzt sortierst du zuerst die Datensätze, dann baust du deinen Baum. Viel Erfolg, {NAME}!",
+      "level": 3,
+      "arrayName": "teaching",
+      "lineIndex": 6
+    },
+    {
+      "id": "level4_intro_000",
+      "speaker": "Inspector Node",
+      "text": "Willkommen in Level 4, {NAME}! Heute geht es um Fehler — und wie man sie erkennt.",
+      "level": 4,
+      "arrayName": "intro",
+      "lineIndex": 0
+    },
+    {
+      "id": "level4_intro_001",
+      "speaker": "Inspector Node",
+      "text": "Unser Labor hat zwei Entscheidungsbäume gebaut. Baum A und Baum B. Welcher ist besser?",
+      "level": 4,
+      "arrayName": "intro",
+      "lineIndex": 1
+    },
+    {
+      "id": "level4_intro_002",
+      "speaker": "{NAME}",
+      "text": "Natürlich der mit 100% Genauigkeit — oder nicht?",
+      "level": 4,
+      "arrayName": "intro",
+      "lineIndex": 2
+    },
+    {
+      "id": "level4_intro_003",
+      "speaker": "Inspector Node",
+      "text": "Das dachten wir auch. Aber schau dir die Testdaten an... Da wird es interessant, {NAME}!",
+      "level": 4,
+      "arrayName": "intro",
+      "lineIndex": 3
+    },
+    {
+      "id": "level4_teaching_000",
+      "speaker": "Inspector Node",
+      "text": "Genauigkeit (Accuracy) gibt an, wie viel Prozent der Vorhersagen korrekt sind.",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 0
+    },
+    {
+      "id": "level4_teaching_001",
+      "speaker": "Inspector Node",
+      "text": "Ein Baum mit 100% Training-Genauigkeit klingt toll. Aber was, wenn er bei neuen Daten versagt?",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 1
+    },
+    {
+      "id": "level4_teaching_002",
+      "speaker": "Inspector Node",
+      "text": "Das nennt man Overfitting — der Baum lernt die Trainingsdaten auswendig, versteht aber die Regeln nicht wirklich.",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 2
+    },
+    {
+      "id": "level4_teaching_003",
+      "speaker": "Inspector Node",
+      "text": "Stell dir vor: Du lernst für eine Prüfung nur die alten Aufgaben auswendig.",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 3
+    },
+    {
+      "id": "level4_teaching_004",
+      "speaker": "Inspector Node",
+      "text": "Kommen neue Aufgaben, versagst du — obwohl du bei den alten 100% hattest. Das ist Overfitting!",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 4
+    },
+    {
+      "id": "level4_teaching_005",
+      "speaker": "Inspector Node",
+      "text": "Genauigkeit auf Testdaten zeigt uns, ob das Modell wirklich gelernt hat — nicht nur auswendig kennt.",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 5
+    },
+    {
+      "id": "level4_teaching_006",
+      "speaker": "Inspector Node",
+      "text": "Deshalb ist der Training/Test-Split so wichtig: Testdaten sind die \"echte Prüfung\"!",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 6
+    },
+    {
+      "id": "level4_teaching_007",
+      "speaker": "Inspector Node",
+      "text": "Untersuche jetzt Baum A und Baum B. Erkenne, welcher overfitted ist!",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 7
+    },
+    {
+      "id": "level5_intro_000",
+      "speaker": "Inspector Node",
+      "text": "Willkommen zum letzten Level, {NAME}! Heute geht es um eine der wichtigsten Fragen der KI: Ist sie fair?",
+      "level": 5,
+      "arrayName": "intro",
+      "lineIndex": 0
+    },
+    {
+      "id": "level5_intro_001",
+      "speaker": "Inspector Node",
+      "text": "Die Stadtpolizei hat eine Einstellungs-KI gebaut. Sie soll entscheiden, wer als \"verdächtig\" gilt.",
+      "level": 5,
+      "arrayName": "intro",
+      "lineIndex": 1
+    },
+    {
+      "id": "level5_intro_002",
+      "speaker": "Inspector Node",
+      "text": "Aber es gibt ein Problem: Alle Trainingsdaten kamen aus Stadtbezirk X — einem benachteiligten Viertel.",
+      "level": 5,
+      "arrayName": "intro",
+      "lineIndex": 2
+    },
+    {
+      "id": "level5_intro_003",
+      "speaker": "{NAME}",
+      "text": "Und jetzt markiert die KI alle aus Bezirk X als verdächtig?",
+      "level": 5,
+      "arrayName": "intro",
+      "lineIndex": 3
+    },
+    {
+      "id": "level5_intro_004",
+      "speaker": "Inspector Node",
+      "text": "Genau! Das nennt man Datenbias. Die KI lernt Vorurteile aus den Daten — und verstärkt sie noch!",
+      "level": 5,
+      "arrayName": "intro",
+      "lineIndex": 4
+    },
+    {
+      "id": "level5_teaching_000",
+      "speaker": "Inspector Node",
+      "text": "Bias bedeutet \"Voreingenommenheit\". In KI-Systemen entsteht Bias, wenn die Trainingsdaten nicht repräsentativ sind.",
+      "level": 5,
+      "arrayName": "teaching",
+      "lineIndex": 0
+    },
+    {
+      "id": "level5_teaching_001",
+      "speaker": "Inspector Node",
+      "text": "In unserem Fall: 90% der Daten aus Bezirk X, nur 10% aus Y. Die KI \"denkt\", X-Bewohner sind häufiger verdächtig.",
+      "level": 5,
+      "arrayName": "teaching",
+      "lineIndex": 1
+    },
+    {
+      "id": "level5_teaching_002",
+      "speaker": "Inspector Node",
+      "text": "Aber das stimmt nicht! Die Daten aus X wurden nur häufiger erhoben — weil die Polizei dort mehr patrouilliert.",
+      "level": 5,
+      "arrayName": "teaching",
+      "lineIndex": 2
+    },
+    {
+      "id": "level5_teaching_003",
+      "speaker": "Inspector Node",
+      "text": "Dieses Problem heißt Confirmation Bias: Die Daten bestätigen bereits existierende Vorurteile.",
+      "level": 5,
+      "arrayName": "teaching",
+      "lineIndex": 3
+    },
+    {
+      "id": "level5_teaching_004",
+      "speaker": "Inspector Node",
+      "text": "KI-Systeme können Diskriminierung automatisieren — und das passiert meist unbeabsichtigt!",
+      "level": 5,
+      "arrayName": "teaching",
+      "lineIndex": 4
+    },
+    {
+      "id": "level5_teaching_005",
+      "speaker": "Inspector Node",
+      "text": "Deine Aufgabe: Analysiere die Daten, erkenne den Bias, und denke über die ethischen Konsequenzen nach!",
+      "level": 5,
+      "arrayName": "teaching",
+      "lineIndex": 5
+    },
+    {
+      "id": "level5_face_recog_000",
+      "speaker": "Inspector Node",
+      "text": "Gut erkannt, {NAME}! Aber Datenbias tritt nicht nur bei der Polizei auf. Schau dir dieses Beispiel an!",
+      "level": 5,
+      "arrayName": "face_recog",
+      "lineIndex": 0
+    },
+    {
+      "id": "level5_face_recog_001",
+      "speaker": "Inspector Node",
+      "text": "Ein Unternehmen hat eine Gesichtserkennung entwickelt — mit 1000 Trainingsfotos: 900 von Gruppe A, nur 100 von Gruppe B.",
+      "level": 5,
+      "arrayName": "face_recog",
+      "lineIndex": 1
+    },
+    {
+      "id": "level5_face_recog_002",
+      "speaker": "Inspector Node",
+      "text": "Jetzt testen wir: Wie gut erkennt die KI Gesichter aus Gruppe A? Und aus Gruppe B?",
+      "level": 5,
+      "arrayName": "face_recog",
+      "lineIndex": 2
+    },
+    {
+      "id": "level5_face_recog_003",
+      "speaker": "{NAME}",
+      "text": "Das Ergebnis ist bestimmt unterschiedlich, oder?",
+      "level": 5,
+      "arrayName": "face_recog",
+      "lineIndex": 3
+    },
+    {
+      "id": "level5_face_recog_004",
+      "speaker": "Inspector Node",
+      "text": "Genau! Analysiere die Erkennungsrate — und überlege: Welche realen Konsequenzen hätte das?",
+      "level": 5,
+      "arrayName": "face_recog",
+      "lineIndex": 4
+    },
+    {
+      "id": "level5_final_speech_000",
+      "speaker": "Inspector Node",
+      "text": "Glückwunsch, {NAME}! Du hast alle 5 Level abgeschlossen und die wichtigsten KI-Konzepte gemeistert.",
+      "level": 5,
+      "arrayName": "final_speech",
+      "lineIndex": 0
+    },
+    {
+      "id": "level5_final_speech_001",
+      "speaker": "Inspector Node",
+      "text": "KI ist mächtig, aber nicht unfehlbar. Sie lernt aus Daten — und Daten spiegeln unsere Welt wider.",
+      "level": 5,
+      "arrayName": "final_speech",
+      "lineIndex": 1
+    },
+    {
+      "id": "level5_final_speech_002",
+      "speaker": "Inspector Node",
+      "text": "Unsere Welt ist nicht perfekt — und deshalb sind KI-Systeme es auch nicht. Das ist wichtig zu wissen!",
+      "level": 5,
+      "arrayName": "final_speech",
+      "lineIndex": 2
+    },
+    {
+      "id": "level5_final_speech_003",
+      "speaker": "Inspector Node",
+      "text": "Ihr seid die Gestalter von morgen. Setzt KI fair, transparent und zum Wohl aller ein!",
+      "level": 5,
+      "arrayName": "final_speech",
+      "lineIndex": 3
+    },
+    {
+      "id": "level5_final_speech_004",
+      "speaker": "Inspector Node",
+      "text": "Team MKS — ihr seid jetzt echte KI-Detektive. Macht eure Sache gut da draußen!",
+      "level": 5,
+      "arrayName": "final_speech",
+      "lineIndex": 4
+    }
+  ],
+  "unique": [
+    {
+      "id": "level1_intro_000",
+      "speaker": "Inspector Node",
+      "text": "Willkommen bei Team MKS! Ich bin Inspector Node — dein Mentor.",
+      "level": 1,
+      "arrayName": "intro",
+      "lineIndex": 0
+    },
+    {
+      "id": "level1_intro_001",
+      "speaker": "Inspector Node",
+      "text": "Wir haben ein Problem: Unser Archiv ist ein Chaos!",
+      "level": 1,
+      "arrayName": "intro",
+      "lineIndex": 1
+    },
+    {
+      "id": "level1_intro_002",
+      "speaker": "Inspector Node",
+      "text": "Niemand weiß mehr, welche Verdächtigen wirklich gefährlich sind.",
+      "level": 1,
+      "arrayName": "intro",
+      "lineIndex": 2
+    },
+    {
+      "id": "level1_intro_003",
+      "speaker": "Inspector Node",
+      "text": "Ich kenne das wichtigste Werkzeug jedes Top-Detektivs: den Entscheidungsbaum!",
+      "level": 1,
+      "arrayName": "intro",
+      "lineIndex": 3
+    },
+    {
+      "id": "level1_intro_004",
+      "speaker": "{NAME}",
+      "text": "Einen Entscheidungsbaum? Was ist das?",
+      "level": 1,
+      "arrayName": "intro",
+      "lineIndex": 4
+    },
+    {
+      "id": "level1_intro_005",
+      "speaker": "Inspector Node",
+      "text": "Schau dir zuerst das Video am Monitor an — dann erkläre ich dir alles. Los!",
+      "level": 1,
+      "arrayName": "intro",
+      "lineIndex": 5
+    },
+    {
+      "id": "level1_monitor_000",
+      "speaker": "Inspector Node",
+      "text": "Super! Jetzt weißt du: Klassifikation bedeutet, Objekte anhand ihrer Merkmale in Kategorien einzuteilen.",
+      "level": 1,
+      "arrayName": "monitor",
+      "lineIndex": 0
+    },
+    {
+      "id": "level1_monitor_001",
+      "speaker": "Inspector Node",
+      "text": "Ein Entscheidungsbaum hilft uns dabei — er stellt Ja/Nein-Fragen zu den Merkmalen.",
+      "level": 1,
+      "arrayName": "monitor",
+      "lineIndex": 1
+    },
+    {
+      "id": "level1_teaching_000",
+      "speaker": "Inspector Node",
+      "text": "Schau her! Das ist unser Entscheidungsbaum. Lass mich dir die Teile zeigen.",
+      "level": 1,
+      "arrayName": "teaching",
+      "lineIndex": 0
+    },
+    {
+      "id": "level1_teaching_001",
+      "speaker": "Inspector Node",
+      "text": "Die WURZEL ist ganz oben — das ist die erste Frage, die wir stellen.",
+      "level": 1,
+      "arrayName": "teaching",
+      "lineIndex": 1
+    },
+    {
+      "id": "level1_teaching_002",
+      "speaker": "Inspector Node",
+      "text": "Die KNOTEN in der Mitte stellen weitere Ja/Nein-Fragen.",
+      "level": 1,
+      "arrayName": "teaching",
+      "lineIndex": 2
+    },
+    {
+      "id": "level1_teaching_003",
+      "speaker": "Inspector Node",
+      "text": "Die KANTEN sind die Pfeile zwischen den Knoten — sie zeigen: Ja-Weg oder Nein-Weg.",
+      "level": 1,
+      "arrayName": "teaching",
+      "lineIndex": 3
+    },
+    {
+      "id": "level1_teaching_004",
+      "speaker": "Inspector Node",
+      "text": "Die BLÄTTER ganz unten geben die Antwort: verdächtig oder unverdächtig!",
+      "level": 1,
+      "arrayName": "teaching",
+      "lineIndex": 4
+    },
+    {
+      "id": "level1_teaching_005",
+      "speaker": "{NAME}",
+      "text": "Das klingt wie ein riesiges Ablaufdiagramm!",
+      "level": 1,
+      "arrayName": "teaching",
+      "lineIndex": 5
+    },
+    {
+      "id": "level1_teaching_006",
+      "speaker": "Inspector Node",
+      "text": "Genau! Jetzt kannst du selbst 3 Verdächtige klassifizieren. Viel Erfolg, {NAME}!",
+      "level": 1,
+      "arrayName": "teaching",
+      "lineIndex": 6
+    },
+    {
+      "id": "level2_intro_000",
+      "speaker": "Inspector Node",
+      "text": "Willkommen zurück, Detektiv! In Level 2 wirst du zeigen, was du gelernt hast.",
+      "level": 2,
+      "arrayName": "intro",
+      "lineIndex": 0
+    },
+    {
+      "id": "level2_intro_001",
+      "speaker": "Inspector Node",
+      "text": "Diesmal: 5 neue Verdächtige und ein fertiger Entscheidungsbaum.",
+      "level": 2,
+      "arrayName": "intro",
+      "lineIndex": 1
+    },
+    {
+      "id": "level2_intro_002",
+      "speaker": "Inspector Node",
+      "text": "Deine Aufgabe: Klassifiziere jeden Verdächtigen mit dem Baum!",
+      "level": 2,
+      "arrayName": "intro",
+      "lineIndex": 2
+    },
+    {
+      "id": "level2_intro_003",
+      "speaker": "Inspector Node",
+      "text": "Und pass auf — Verdächtiger Viktor ist auch dabei. Er sagt, er ist unschuldig... Aber stimmt das?",
+      "level": 2,
+      "arrayName": "intro",
+      "lineIndex": 3
+    },
+    {
+      "id": "level2_intro_004",
+      "speaker": "Viktor",
+      "text": "Ich schwöre! Ich bin unverdächtig! Bitte klassifiziere mich fair!",
+      "level": 2,
+      "arrayName": "intro",
+      "lineIndex": 4
+    },
+    {
+      "id": "level2_intro_005",
+      "speaker": "Inspector Node",
+      "text": "Lass den Baum entscheiden, nicht die Meinung. Das ist das Prinzip der KI-Klassifikation!",
+      "level": 2,
+      "arrayName": "intro",
+      "lineIndex": 5
+    },
+    {
+      "id": "level2_teaching_000",
+      "speaker": "Inspector Node",
+      "text": "Schau her — unser Entscheidungsbaum hat 4 Ebenen. Jede Ebene prüft ein Merkmal.",
+      "level": 2,
+      "arrayName": "teaching",
+      "lineIndex": 0
+    },
+    {
+      "id": "level2_teaching_001",
+      "speaker": "Inspector Node",
+      "text": "Heute lernst du: Wie wendet man einen fertigen Baum auf neue Fälle an?",
+      "level": 2,
+      "arrayName": "teaching",
+      "lineIndex": 1
+    },
+    {
+      "id": "level2_teaching_002",
+      "speaker": "Inspector Node",
+      "text": "Neue Merkmale: Hut, Mantel, Bart — und neu: Aktenkoffer ja/nein.",
+      "level": 2,
+      "arrayName": "teaching",
+      "lineIndex": 2
+    },
+    {
+      "id": "level2_teaching_003",
+      "speaker": "Inspector Node",
+      "text": "Du startest an der Wurzel, beantwortest jede Frage und folgst dem Ja- oder Nein-Pfeil.",
+      "level": 2,
+      "arrayName": "teaching",
+      "lineIndex": 3
+    },
+    {
+      "id": "level2_teaching_004",
+      "speaker": "Inspector Node",
+      "text": "Am Blatt steht das Ergebnis: verdächtig oder unverdächtig. Kein Ermessen — nur Logik!",
+      "level": 2,
+      "arrayName": "teaching",
+      "lineIndex": 4
+    },
+    {
+      "id": "level2_teaching_005",
+      "speaker": "Inspector Node",
+      "text": "Jetzt du! Klicke auf \"Starte Klassifikation\" und arbeite dich durch den Baum. Viel Erfolg, {NAME}!",
+      "level": 2,
+      "arrayName": "teaching",
+      "lineIndex": 5
+    },
+    {
+      "id": "level3_intro_000",
+      "speaker": "Inspector Node",
+      "text": "Willkommen in Level 3, {NAME}! Bisher haben wir fertige Bäume benutzt. Heute baust du selbst einen!",
+      "level": 3,
+      "arrayName": "intro",
+      "lineIndex": 0
+    },
+    {
+      "id": "level3_intro_001",
+      "speaker": "Inspector Node",
+      "text": "Du hast 10 Beispiel-Verdächtige mit bekannten Ergebnissen. Das nennt man Trainingsdaten!",
+      "level": 3,
+      "arrayName": "intro",
+      "lineIndex": 1
+    },
+    {
+      "id": "level3_intro_002",
+      "speaker": "Inspector Node",
+      "text": "Zuerst sortierst du die Daten: 8 für Training, 2 für Tests. Dann baust du deinen eigenen Entscheidungsbaum!",
+      "level": 3,
+      "arrayName": "intro",
+      "lineIndex": 2
+    },
+    {
+      "id": "level3_intro_003",
+      "speaker": "{NAME}",
+      "text": "Ich baue meinen eigenen Baum? Das klingt nach echter KI-Arbeit!",
+      "level": 3,
+      "arrayName": "intro",
+      "lineIndex": 3
+    },
+    {
+      "id": "level3_intro_004",
+      "speaker": "Inspector Node",
+      "text": "Genau das ist es! KI \"lernt\" aus Beispielen — genau wie du jetzt. Los geht's, {NAME}!",
+      "level": 3,
+      "arrayName": "intro",
+      "lineIndex": 4
+    },
+    {
+      "id": "level3_teaching_000",
+      "speaker": "Inspector Node",
+      "text": "Beim maschinellen Lernen zeigt man dem Algorithmus viele Beispiele mit bekannten Antworten.",
+      "level": 3,
+      "arrayName": "teaching",
+      "lineIndex": 0
+    },
+    {
+      "id": "level3_teaching_001",
+      "speaker": "Inspector Node",
+      "text": "Diese Beispiele heißen Trainingsdaten. Der Algorithmus \"lernt\" daraus Regeln — also einen Baum!",
+      "level": 3,
+      "arrayName": "teaching",
+      "lineIndex": 1
+    },
+    {
+      "id": "level3_teaching_002",
+      "speaker": "Inspector Node",
+      "text": "Aber Vorsicht: Wir brauchen auch Testdaten, die der Baum vorher nicht gesehen hat.",
+      "level": 3,
+      "arrayName": "teaching",
+      "lineIndex": 2
+    },
+    {
+      "id": "level3_teaching_003",
+      "speaker": "Inspector Node",
+      "text": "Typisch ist ein 80/20 Split: 80% Training, 20% Test. Bei 10 Datensätzen: 8 Training, 2 Test.",
+      "level": 3,
+      "arrayName": "teaching",
+      "lineIndex": 3
+    },
+    {
+      "id": "level3_teaching_004",
+      "speaker": "Inspector Node",
+      "text": "Tipp: Wähle das Merkmal als Wurzel, das die Gruppen am besten trennt.",
+      "level": 3,
+      "arrayName": "teaching",
+      "lineIndex": 4
+    },
+    {
+      "id": "level3_teaching_005",
+      "speaker": "Inspector Node",
+      "text": "Schau, ob ein Merkmal alle Verdächtigen auf einer Seite und alle Unverdächtigen auf der anderen hat.",
+      "level": 3,
+      "arrayName": "teaching",
+      "lineIndex": 5
+    },
+    {
+      "id": "level3_teaching_006",
+      "speaker": "Inspector Node",
+      "text": "Jetzt sortierst du zuerst die Datensätze, dann baust du deinen Baum. Viel Erfolg, {NAME}!",
+      "level": 3,
+      "arrayName": "teaching",
+      "lineIndex": 6
+    },
+    {
+      "id": "level4_intro_000",
+      "speaker": "Inspector Node",
+      "text": "Willkommen in Level 4, {NAME}! Heute geht es um Fehler — und wie man sie erkennt.",
+      "level": 4,
+      "arrayName": "intro",
+      "lineIndex": 0
+    },
+    {
+      "id": "level4_intro_001",
+      "speaker": "Inspector Node",
+      "text": "Unser Labor hat zwei Entscheidungsbäume gebaut. Baum A und Baum B. Welcher ist besser?",
+      "level": 4,
+      "arrayName": "intro",
+      "lineIndex": 1
+    },
+    {
+      "id": "level4_intro_002",
+      "speaker": "{NAME}",
+      "text": "Natürlich der mit 100% Genauigkeit — oder nicht?",
+      "level": 4,
+      "arrayName": "intro",
+      "lineIndex": 2
+    },
+    {
+      "id": "level4_intro_003",
+      "speaker": "Inspector Node",
+      "text": "Das dachten wir auch. Aber schau dir die Testdaten an... Da wird es interessant, {NAME}!",
+      "level": 4,
+      "arrayName": "intro",
+      "lineIndex": 3
+    },
+    {
+      "id": "level4_teaching_000",
+      "speaker": "Inspector Node",
+      "text": "Genauigkeit (Accuracy) gibt an, wie viel Prozent der Vorhersagen korrekt sind.",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 0
+    },
+    {
+      "id": "level4_teaching_001",
+      "speaker": "Inspector Node",
+      "text": "Ein Baum mit 100% Training-Genauigkeit klingt toll. Aber was, wenn er bei neuen Daten versagt?",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 1
+    },
+    {
+      "id": "level4_teaching_002",
+      "speaker": "Inspector Node",
+      "text": "Das nennt man Overfitting — der Baum lernt die Trainingsdaten auswendig, versteht aber die Regeln nicht wirklich.",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 2
+    },
+    {
+      "id": "level4_teaching_003",
+      "speaker": "Inspector Node",
+      "text": "Stell dir vor: Du lernst für eine Prüfung nur die alten Aufgaben auswendig.",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 3
+    },
+    {
+      "id": "level4_teaching_004",
+      "speaker": "Inspector Node",
+      "text": "Kommen neue Aufgaben, versagst du — obwohl du bei den alten 100% hattest. Das ist Overfitting!",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 4
+    },
+    {
+      "id": "level4_teaching_005",
+      "speaker": "Inspector Node",
+      "text": "Genauigkeit auf Testdaten zeigt uns, ob das Modell wirklich gelernt hat — nicht nur auswendig kennt.",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 5
+    },
+    {
+      "id": "level4_teaching_006",
+      "speaker": "Inspector Node",
+      "text": "Deshalb ist der Training/Test-Split so wichtig: Testdaten sind die \"echte Prüfung\"!",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 6
+    },
+    {
+      "id": "level4_teaching_007",
+      "speaker": "Inspector Node",
+      "text": "Untersuche jetzt Baum A und Baum B. Erkenne, welcher overfitted ist!",
+      "level": 4,
+      "arrayName": "teaching",
+      "lineIndex": 7
+    },
+    {
+      "id": "level5_intro_000",
+      "speaker": "Inspector Node",
+      "text": "Willkommen zum letzten Level, {NAME}! Heute geht es um eine der wichtigsten Fragen der KI: Ist sie fair?",
+      "level": 5,
+      "arrayName": "intro",
+      "lineIndex": 0
+    },
+    {
+      "id": "level5_intro_001",
+      "speaker": "Inspector Node",
+      "text": "Die Stadtpolizei hat eine Einstellungs-KI gebaut. Sie soll entscheiden, wer als \"verdächtig\" gilt.",
+      "level": 5,
+      "arrayName": "intro",
+      "lineIndex": 1
+    },
+    {
+      "id": "level5_intro_002",
+      "speaker": "Inspector Node",
+      "text": "Aber es gibt ein Problem: Alle Trainingsdaten kamen aus Stadtbezirk X — einem benachteiligten Viertel.",
+      "level": 5,
+      "arrayName": "intro",
+      "lineIndex": 2
+    },
+    {
+      "id": "level5_intro_003",
+      "speaker": "{NAME}",
+      "text": "Und jetzt markiert die KI alle aus Bezirk X als verdächtig?",
+      "level": 5,
+      "arrayName": "intro",
+      "lineIndex": 3
+    },
+    {
+      "id": "level5_intro_004",
+      "speaker": "Inspector Node",
+      "text": "Genau! Das nennt man Datenbias. Die KI lernt Vorurteile aus den Daten — und verstärkt sie noch!",
+      "level": 5,
+      "arrayName": "intro",
+      "lineIndex": 4
+    },
+    {
+      "id": "level5_teaching_000",
+      "speaker": "Inspector Node",
+      "text": "Bias bedeutet \"Voreingenommenheit\". In KI-Systemen entsteht Bias, wenn die Trainingsdaten nicht repräsentativ sind.",
+      "level": 5,
+      "arrayName": "teaching",
+      "lineIndex": 0
+    },
+    {
+      "id": "level5_teaching_001",
+      "speaker": "Inspector Node",
+      "text": "In unserem Fall: 90% der Daten aus Bezirk X, nur 10% aus Y. Die KI \"denkt\", X-Bewohner sind häufiger verdächtig.",
+      "level": 5,
+      "arrayName": "teaching",
+      "lineIndex": 1
+    },
+    {
+      "id": "level5_teaching_002",
+      "speaker": "Inspector Node",
+      "text": "Aber das stimmt nicht! Die Daten aus X wurden nur häufiger erhoben — weil die Polizei dort mehr patrouilliert.",
+      "level": 5,
+      "arrayName": "teaching",
+      "lineIndex": 2
+    },
+    {
+      "id": "level5_teaching_003",
+      "speaker": "Inspector Node",
+      "text": "Dieses Problem heißt Confirmation Bias: Die Daten bestätigen bereits existierende Vorurteile.",
+      "level": 5,
+      "arrayName": "teaching",
+      "lineIndex": 3
+    },
+    {
+      "id": "level5_teaching_004",
+      "speaker": "Inspector Node",
+      "text": "KI-Systeme können Diskriminierung automatisieren — und das passiert meist unbeabsichtigt!",
+      "level": 5,
+      "arrayName": "teaching",
+      "lineIndex": 4
+    },
+    {
+      "id": "level5_teaching_005",
+      "speaker": "Inspector Node",
+      "text": "Deine Aufgabe: Analysiere die Daten, erkenne den Bias, und denke über die ethischen Konsequenzen nach!",
+      "level": 5,
+      "arrayName": "teaching",
+      "lineIndex": 5
+    },
+    {
+      "id": "level5_face_recog_000",
+      "speaker": "Inspector Node",
+      "text": "Gut erkannt, {NAME}! Aber Datenbias tritt nicht nur bei der Polizei auf. Schau dir dieses Beispiel an!",
+      "level": 5,
+      "arrayName": "face_recog",
+      "lineIndex": 0
+    },
+    {
+      "id": "level5_face_recog_001",
+      "speaker": "Inspector Node",
+      "text": "Ein Unternehmen hat eine Gesichtserkennung entwickelt — mit 1000 Trainingsfotos: 900 von Gruppe A, nur 100 von Gruppe B.",
+      "level": 5,
+      "arrayName": "face_recog",
+      "lineIndex": 1
+    },
+    {
+      "id": "level5_face_recog_002",
+      "speaker": "Inspector Node",
+      "text": "Jetzt testen wir: Wie gut erkennt die KI Gesichter aus Gruppe A? Und aus Gruppe B?",
+      "level": 5,
+      "arrayName": "face_recog",
+      "lineIndex": 2
+    },
+    {
+      "id": "level5_face_recog_003",
+      "speaker": "{NAME}",
+      "text": "Das Ergebnis ist bestimmt unterschiedlich, oder?",
+      "level": 5,
+      "arrayName": "face_recog",
+      "lineIndex": 3
+    },
+    {
+      "id": "level5_face_recog_004",
+      "speaker": "Inspector Node",
+      "text": "Genau! Analysiere die Erkennungsrate — und überlege: Welche realen Konsequenzen hätte das?",
+      "level": 5,
+      "arrayName": "face_recog",
+      "lineIndex": 4
+    },
+    {
+      "id": "level5_final_speech_000",
+      "speaker": "Inspector Node",
+      "text": "Glückwunsch, {NAME}! Du hast alle 5 Level abgeschlossen und die wichtigsten KI-Konzepte gemeistert.",
+      "level": 5,
+      "arrayName": "final_speech",
+      "lineIndex": 0
+    },
+    {
+      "id": "level5_final_speech_001",
+      "speaker": "Inspector Node",
+      "text": "KI ist mächtig, aber nicht unfehlbar. Sie lernt aus Daten — und Daten spiegeln unsere Welt wider.",
+      "level": 5,
+      "arrayName": "final_speech",
+      "lineIndex": 1
+    },
+    {
+      "id": "level5_final_speech_002",
+      "speaker": "Inspector Node",
+      "text": "Unsere Welt ist nicht perfekt — und deshalb sind KI-Systeme es auch nicht. Das ist wichtig zu wissen!",
+      "level": 5,
+      "arrayName": "final_speech",
+      "lineIndex": 2
+    },
+    {
+      "id": "level5_final_speech_003",
+      "speaker": "Inspector Node",
+      "text": "Ihr seid die Gestalter von morgen. Setzt KI fair, transparent und zum Wohl aller ein!",
+      "level": 5,
+      "arrayName": "final_speech",
+      "lineIndex": 3
+    },
+    {
+      "id": "level5_final_speech_004",
+      "speaker": "Inspector Node",
+      "text": "Team MKS — ihr seid jetzt echte KI-Detektive. Macht eure Sache gut da draußen!",
+      "level": 5,
+      "arrayName": "final_speech",
+      "lineIndex": 4
+    }
+  ]
+}

@@ -176,3 +176,10 @@
   border-top: 14px solid white;
   z-index: 1;
 }
+
+/* Mobile portrait: show rotate hint on game pages */
+@media (max-width: 600px) and (orientation: portrait) {
+  #rotate-hint {
+    display: flex !important;
+  }
+}

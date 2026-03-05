@@ -1,10 +1,21 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import Confetti from 'react-confetti'
+
 type Props = { xp: number; puzzleXP: number; quizXP: number; onNext: () => void; onReplay: () => void }
 
 export function LevelComplete({ puzzleXP, quizXP, onNext, onReplay }: Props) {
   const total = puzzleXP + quizXP
   const stars = total >= 175 ? 3 : total >= 125 ? 2 : 1
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
+  const [showConfetti, setShowConfetti] = useState(true)
+
+  useEffect(() => {
+    setWindowSize({ width: window.innerWidth, height: window.innerHeight })
+    const timer = setTimeout(() => setShowConfetti(false), 6000)
+    return () => clearTimeout(timer)
+  }, [])
 
   const concepts = [
     { term: 'Klassifikation', desc: 'Objekte anhand von Merkmalen Kategorien zuordnen', icon: '🏷️', color: '#FF3B3F' },
@@ -16,6 +27,15 @@ export function LevelComplete({ puzzleXP, quizXP, onNext, onReplay }: Props) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.75)' }}>
+      {showConfetti && (
+        <Confetti
+          width={windowSize.width}
+          height={windowSize.height}
+          recycle={false}
+          numberOfPieces={300}
+          colors={['#FFE135', '#FF3B3F', '#3B82F6', '#10B981', '#9C27B0']}
+        />
+      )}
       <div className="bg-white border-[4px] border-[#111] rounded-2xl shadow-[8px_8px_0_#111] w-full max-w-lg max-h-[95vh] overflow-y-auto">
 
         {/* Hero header */}

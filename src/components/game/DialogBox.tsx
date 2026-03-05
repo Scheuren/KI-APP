@@ -74,9 +74,11 @@ export function DialogBox({ lines, onComplete, playerCharacter = 'leader', playe
 
   return (
     <div className="absolute inset-x-0 bottom-0 z-30 p-4">
-      <div
-        className="relative bg-white border-[4px] border-[#111] rounded-2xl p-4 shadow-[5px_5px_0_#111] max-w-3xl mx-auto"
+      <button
+        type="button"
+        className="relative bg-white border-[4px] border-[#111] rounded-2xl p-4 shadow-[5px_5px_0_#111] max-w-3xl mx-auto w-full text-left focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FFE135] focus-visible:ring-offset-2"
         onClick={advance}
+        aria-label={lineIndex < lines.length - 1 ? 'Weiter' : 'Dialog abschließen'}
         style={{ cursor: 'pointer' }}
       >
         {/* Comic halftone accent top-left */}
@@ -144,7 +146,7 @@ export function DialogBox({ lines, onComplete, playerCharacter = 'leader', playe
             {lineIndex < lines.length - 1 ? 'Weiter [LEERTASTE] ▶' : 'Fertig ✓'}
           </div>
         </div>
-      </div>
+      </button>
     </div>
   )
 }

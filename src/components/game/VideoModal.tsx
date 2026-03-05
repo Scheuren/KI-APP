@@ -2,12 +2,15 @@
 
 import { useState } from 'react'
 
+const VIDEO_URL = `https://www.youtube.com/watch?v=${'-YW5s_an4z8'}`
+
 const YOUTUBE_VIDEO_ID = '-YW5s_an4z8'
 
 type Props = { onComplete: () => void }
 
 export function VideoModal({ onComplete }: Props) {
   const [watched, setWatched] = useState(false)
+  const [videoError, setVideoError] = useState(false)
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.75)' }}>
@@ -26,17 +29,35 @@ export function VideoModal({ onComplete }: Props) {
         {/* Video */}
         <div className="p-4">
           <div className="relative w-full aspect-video bg-[#111] rounded-xl overflow-hidden border-[3px] border-[#111] shadow-[3px_3px_0_#111]">
-            <iframe
-              src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?rel=0&modestbranding=1`}
-              title="Entscheidungsbaum erklärt"
-              className="absolute inset-0 w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+            {videoError ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 text-center p-4">
+                <span className="text-4xl mb-2">📺</span>
+                <p className="font-comic text-gray-600 text-sm">Video konnte nicht geladen werden.</p>
+                <a
+                  href={VIDEO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 text-blue-500 underline font-comic text-sm"
+                >
+                  Hier direkt öffnen →
+                </a>
+              </div>
+            ) : (
+              <iframe
+                src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?rel=0&modestbranding=1`}
+                title="Entscheidungsbaum erklärt"
+                className="absolute inset-0 w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                onError={() => setVideoError(true)}
+              />
+            )}
           </div>
-          <p className="font-comic text-[#AAA] text-xs mt-2 text-center">
-            💡 Lehrer: Video-ID in <code className="bg-[#F5F5F5] px-1 rounded border border-[#DDD]">VideoModal.tsx</code> anpassen
-          </p>
+          {process.env.NODE_ENV === 'development' && (
+            <p className="font-comic text-[#AAA] text-xs mt-2 text-center">
+              💡 Lehrer: Video-ID in <code className="bg-[#F5F5F5] px-1 rounded border border-[#DDD]">VideoModal.tsx</code> anpassen
+            </p>
+          )}
         </div>
 
         {/* Key terms to watch for */}

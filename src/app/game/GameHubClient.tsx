@@ -104,7 +104,8 @@ export function GameHubClient({ showAuthOnly = false }: GameHubClientProps) {
               href={level.href}
               className="flex items-stretch bg-white border-[3px] border-[#111] rounded-2xl
                          overflow-hidden shadow-[5px_5px_0_#111] hover:shadow-[2px_2px_0_#111]
-                         hover:translate-x-[3px] hover:translate-y-[3px] transition-all mb-3 group"
+                         hover:translate-x-[3px] hover:translate-y-[3px] transition-all mb-3 group
+                         focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FFE135] focus-visible:ring-offset-2"
             >
               {/* Thumbnail */}
               <div className="relative flex-shrink-0" style={{ width: 110 }}>
@@ -140,7 +141,7 @@ export function GameHubClient({ showAuthOnly = false }: GameHubClientProps) {
                     ) : (
                       <span className="bg-[#00C853] text-white font-[family-name:var(--font-bangers)]
                                        text-xs px-2 py-0.5 rounded-full border-[2px] border-[#111]">
-                        OFFEN
+                        ▶ OFFEN
                       </span>
                     )}
                   </div>
@@ -207,7 +208,7 @@ export function GameHubClient({ showAuthOnly = false }: GameHubClientProps) {
                         ) : (
                           <span className="bg-[#00C853] text-white font-[family-name:var(--font-bangers)]
                                            text-xs px-2 py-0.5 rounded-full border-[2px] border-[#111]">
-                            OFFEN
+                            ▶ OFFEN
                           </span>
                         )}
                       </div>

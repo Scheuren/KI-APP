@@ -34,7 +34,7 @@ export function ChatBot() {
       {/* Floating button — Willi als Avatar */}
       <button
         onClick={() => setOpen(o => !o)}
-        className="fixed bottom-5 right-5 z-40 w-16 h-16 rounded-full border-[3px] border-[#111]
+        className="fixed bottom-5 right-5 z-[60] w-16 h-16 rounded-full border-[3px] border-[#111]
                    overflow-hidden shadow-[3px_3px_0_#111] transition-all active:translate-x-[2px]
                    active:translate-y-[2px] active:shadow-[1px_1px_0_#111]"
         style={{ background: '#FFE135' }}
@@ -51,7 +51,7 @@ export function ChatBot() {
       {/* Chat panel */}
       {open && (
         <div
-          className="fixed bottom-24 right-5 z-40 w-80 bg-white border-[4px] border-[#111]
+          className="fixed bottom-24 right-5 z-[60] w-80 bg-white border-[4px] border-[#111]
                      rounded-2xl shadow-[5px_5px_0_#111] flex flex-col overflow-hidden"
           style={{ height: 420 }}
         >

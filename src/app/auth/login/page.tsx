@@ -126,14 +126,17 @@ export default function LoginPage() {
 
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label className="font-[family-name:var(--font-bangers)] text-slate-300 text-sm tracking-wide block mb-1">
+                <label htmlFor="email" className="font-[family-name:var(--font-bangers)] text-slate-300 text-sm tracking-wide block mb-1">
                   E-MAIL
                 </label>
                 <input
+                  id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="deine@email.de"
+                  autoComplete="email"
+                  aria-required="true"
                   required
                   className="w-full px-4 py-3 bg-slate-800 border-[2px] border-slate-600 rounded-xl
                              font-[family-name:var(--font-comic)] text-white text-sm
@@ -143,14 +146,17 @@ export default function LoginPage() {
               </div>
 
               <div>
-                <label className="font-[family-name:var(--font-bangers)] text-slate-300 text-sm tracking-wide block mb-1">
+                <label htmlFor="password" className="font-[family-name:var(--font-bangers)] text-slate-300 text-sm tracking-wide block mb-1">
                   PASSWORT
                 </label>
                 <input
+                  id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
+                  autoComplete="current-password"
+                  aria-required="true"
                   required
                   className="w-full px-4 py-3 bg-slate-800 border-[2px] border-slate-600 rounded-xl
                              font-[family-name:var(--font-comic)] text-white text-sm

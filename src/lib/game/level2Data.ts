@@ -45,7 +45,7 @@ export const WORLD_HEIGHT = 500
 export const introDialogues2: DialogLine[] = [
   {
     speaker: 'Inspector Node',
-    text: 'Willkommen zurück, Detektiv! In Level 2 wirst du zeigen, was du gelernt hast.',
+    text: 'Willkommen zurück, {NAME}! In Level 2 wirst du zeigen, was du gelernt hast.',
     portrait: 'node',
   },
   {

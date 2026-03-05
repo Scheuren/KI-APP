@@ -35,10 +35,15 @@ export function HUD({ levelName, objective, xp, maxXP, completedZones }: Props) 
             <span className="font-comic text-[#111] text-xs font-bold">{xp} / {maxXP}</span>
           </div>
           {/* Comic-style progress bar */}
-          <div className="w-full h-3 bg-[#EEE] border-[2px] border-[#111] rounded-full overflow-hidden">
+          <div className="w-full h-3 bg-[#EEE] border-[2px] border-[#111] rounded-full overflow-hidden" role="presentation">
             <div
               className="h-full rounded-full transition-all duration-500"
               style={{ width: `${progress}%`, background: 'linear-gradient(90deg, #FFE135, #FF9800)' }}
+              role="progressbar"
+              aria-valuenow={xp}
+              aria-valuemin={0}
+              aria-valuemax={maxXP}
+              aria-label={`${xp} von ${maxXP} XP gesammelt`}
             />
           </div>
         </div>

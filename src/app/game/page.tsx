@@ -51,7 +51,8 @@ export default function GameHubPage() {
             className="bg-[#FF3B3F] hover:bg-[#e02f33] text-white font-[family-name:var(--font-bangers)]
                        text-xl tracking-widest px-10 py-3 rounded-2xl border-[3px] border-[#111]
                        shadow-[5px_5px_0_#111] hover:shadow-[2px_2px_0_#111]
-                       hover:translate-x-[3px] hover:translate-y-[3px] transition-all"
+                       hover:translate-x-[3px] hover:translate-y-[3px] transition-all
+                       focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#FFE135] focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
           >
             MISSION STARTEN →
           </Link>
@@ -63,20 +64,22 @@ export default function GameHubPage() {
         <div className="max-w-3xl mx-auto">
           <h2 className="font-[family-name:var(--font-bangers)] text-[#FFE135] text-2xl tracking-widest
                          text-center mb-1">DEIN TEAM</h2>
-          <p className="text-slate-500 text-xs text-center mb-5 font-[family-name:var(--font-comic)]">
+          <p className="text-slate-300 text-xs text-center mb-5 font-[family-name:var(--font-comic)]">
             Wähle deinen Detektiv — gemeinsam löst ihr den Fall
           </p>
 
           {/* Team-Bild ohne Text */}
-          <div className="relative w-full rounded-2xl overflow-hidden border-[3px] border-[#333]
+          <div className="group relative w-full rounded-2xl overflow-hidden border-[3px] border-[#333]
                           shadow-[0_4px_24px_rgba(0,0,0,0.5)]" style={{ aspectRatio: '1408/610' }}>
             <Image
               src="/game/characters/team-preview.png"
               alt="Team MKS"
               fill
               style={{ objectFit: 'cover' }}
+              className="transition-transform duration-300 group-hover:scale-[1.02]"
               unoptimized
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
             {/* Namens-Labels über die 4 Panels */}
             <div className="absolute bottom-0 inset-x-0 grid grid-cols-4">
               {[

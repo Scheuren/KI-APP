@@ -433,7 +433,7 @@ export default function Level3Page() {
   const isPuzzleForBuilder = phase === 'puzzle' && completedZones.includes('datalab') && completedZones.includes('inspector')
 
   return (
-    <div className="fixed inset-0 bg-slate-950 flex items-center justify-center overflow-hidden">
+    <div className="fixed inset-0 bg-slate-950 flex items-start justify-center overflow-hidden">
       {/* Auth button overlay */}
       <div className="absolute top-4 right-4 z-50">
         <AuthButton compact />

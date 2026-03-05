@@ -412,7 +412,7 @@ export default function Level4Page() {
   const handleNext = () => { window.location.href = '/game/level5' }
 
   return (
-    <div className="fixed inset-0 bg-slate-950 flex items-center justify-center overflow-hidden">
+    <div className="fixed inset-0 bg-slate-950 flex items-start justify-center overflow-hidden">
       {/* Auth button overlay */}
       <div className="absolute top-4 right-4 z-50">
         <AuthButton compact />
