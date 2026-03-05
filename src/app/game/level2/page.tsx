@@ -270,7 +270,7 @@ function Level2World({
       {/* Background image */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/game/backgrounds/interrogation-room.svg"
+        src="/game/backgrounds/interrogation-room.png"
         alt=""
         className="absolute inset-0 pointer-events-none"
         style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT, objectFit: 'fill' }}

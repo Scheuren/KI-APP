@@ -326,7 +326,7 @@ function Level5World({ completedZones, playerCharacter, onInteract }: {
       {/* Background image */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/game/backgrounds/ethics-chamber.svg"
+        src="/game/backgrounds/ethics-chamber.png"
         alt=""
         className="absolute inset-0 pointer-events-none"
         style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT, objectFit: 'fill' }}
