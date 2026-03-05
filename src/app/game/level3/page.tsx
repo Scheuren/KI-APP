@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { DialogBox } from '@/components/game/DialogBox'
 import { TeachingDialog } from '@/components/game/TeachingDialog'
 import { TreeBuilderPuzzle } from '@/components/game/TreeBuilderPuzzle'
+import { SortingGame } from '@/components/game/SortingGame'
 import { ChatBot } from '@/components/game/ChatBot'
 import {
   introDialogues3,
@@ -17,7 +18,7 @@ import Link from 'next/link'
 import { AuthButton } from '@/components/auth/AuthButton'
 import { useGameProgress } from '@/hooks/useGameProgress'
 
-type GamePhase = 'intro' | 'explore' | 'teaching' | 'puzzle' | 'quiz' | 'complete'
+type GamePhase = 'intro' | 'explore' | 'teaching' | 'sorting' | 'puzzle' | 'quiz' | 'complete'
 type PlayerCharacter = 'leader' | 'social'
 
 // ─── Quiz ─────────────────────────────────────────────────────────────────────
@@ -359,12 +360,19 @@ export default function Level3Page() {
   }, [completedZones])
 
   const handleTeachingComplete = () => {
+    // After Inspector Node teaches → SortingGame (Daten sortieren vor Baum-Bau)
+    setPhase('sorting')
+    saveProgress({ level: 3, phase: 'sorting', xp, completed_zones: completedZones, player_character: playerCharacter, player_name: playerName })
+  }
+
+  const handleSortingComplete = (sortXP: number) => {
     const newZones = [...completedZones, 'inspector']
-    const newXp = xp + 15
+    const newXp = xp + 15 + sortXP
     setCompletedZones(newZones)
     setXp(newXp)
     setPhase('explore')
     saveProgress({ level: 3, phase: 'explore', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
+    saveActivityScore({ level: 3, activity_type: 'terms_match', score: sortXP, max_score: 60 })
   }
 
   const handlePuzzleComplete = (score: number) => {
@@ -456,6 +464,8 @@ export default function Level3Page() {
       <div className="fixed top-3 left-3 z-30">
         <Link href="/game" className="bg-white border-[2px] border-[#111] rounded-lg px-3 py-1.5 font-bangers text-[#111] text-sm shadow-[2px_2px_0_#111] hover:bg-[#FFE135] transition-colors">← Hub</Link>
       </div>
+
+      {phase === 'sorting' && <SortingGame onComplete={handleSortingComplete} />}
 
       {(isPuzzleForDatalab || isPuzzleForBuilder) && (
         <TreeBuilderPuzzle onComplete={handlePuzzleComplete} />

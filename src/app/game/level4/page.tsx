@@ -5,6 +5,7 @@ import { DialogBox } from '@/components/game/DialogBox'
 import { TeachingDialog } from '@/components/game/TeachingDialog'
 import { AccuracyChecker } from '@/components/game/AccuracyChecker'
 import { OverfitPuzzle } from '@/components/game/OverfitPuzzle'
+import { CodeTracer } from '@/components/game/CodeTracer'
 import { ChatBot } from '@/components/game/ChatBot'
 import {
   introDialogues4,
@@ -18,7 +19,7 @@ import Link from 'next/link'
 import { AuthButton } from '@/components/auth/AuthButton'
 import { useGameProgress } from '@/hooks/useGameProgress'
 
-type GamePhase = 'intro' | 'explore' | 'teaching' | 'accuracy' | 'overfit' | 'quiz' | 'complete'
+type GamePhase = 'intro' | 'explore' | 'teaching' | 'accuracy' | 'overfit' | 'codetracer' | 'quiz' | 'complete'
 type PlayerCharacter = 'leader' | 'social'
 
 // ─── Quiz ─────────────────────────────────────────────────────────────────────
@@ -364,8 +365,9 @@ export default function Level4Page() {
     setPuzzleXP(score)
     setXp(newXp)
     setCompletedZones(newZones)
-    setPhase('quiz')
-    saveProgress({ level: 4, phase: 'quiz', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
+    // After OverfitPuzzle → CodeTracer (algorithmisches Nachverfolgen)
+    setPhase('codetracer')
+    saveProgress({ level: 4, phase: 'codetracer', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
     saveActivityScore({
       level: 4,
       activity_type: 'puzzle',
@@ -373,6 +375,14 @@ export default function Level4Page() {
       max_score: 100,
       time_spent_seconds: Math.floor((Date.now() - startTime.current) / 1000),
     })
+  }
+
+  const handleCodeTracerComplete = (tracerXP: number) => {
+    const newXp = xp + tracerXP
+    setXp(newXp)
+    setPhase('quiz')
+    saveProgress({ level: 4, phase: 'quiz', xp: newXp, completed_zones: completedZones, player_character: playerCharacter, player_name: playerName })
+    saveActivityScore({ level: 4, activity_type: 'terms_match', score: tracerXP, max_score: 60 })
   }
 
   const handleQuizComplete = (score: number) => {
@@ -439,6 +449,7 @@ export default function Level4Page() {
 
       {phase === 'accuracy' && <AccuracyChecker onComplete={handleAccuracyComplete} />}
       {phase === 'overfit' && <OverfitPuzzle onComplete={handleOverfitComplete} />}
+      {phase === 'codetracer' && <CodeTracer onComplete={handleCodeTracerComplete} />}
       {phase === 'quiz' && <QuizModal4 onComplete={handleQuizComplete} />}
       {phase === 'complete' && <Level4Complete puzzleXP={puzzleXP} quizXP={quizXP} onNext={handleNext} onReplay={handleReplay} />}
 

@@ -226,6 +226,64 @@ export const quizQuestions5: QuizQuestion5[] = [
   },
 ]
 
+// ─── Zweites Bias-Beispiel: Gesichtserkennung ─────────────────────────────────
+
+export type FaceRecogEntry = {
+  id: string
+  name: string
+  gruppe: 'A' | 'B'
+  gruppenLabel: string
+  erkannt: boolean   // ob die KI das Gesicht korrekt erkennt
+  emoji: string
+}
+
+export const faceRecogData: FaceRecogEntry[] = [
+  { id: 'f1',  name: 'Mia',    gruppe: 'A', gruppenLabel: 'Gruppe A (hell)', erkannt: true,  emoji: '👩' },
+  { id: 'f2',  name: 'Lena',   gruppe: 'A', gruppenLabel: 'Gruppe A (hell)', erkannt: true,  emoji: '👩‍🦱' },
+  { id: 'f3',  name: 'Emma',   gruppe: 'A', gruppenLabel: 'Gruppe A (hell)', erkannt: true,  emoji: '👩‍🦳' },
+  { id: 'f4',  name: 'Sophie', gruppe: 'A', gruppenLabel: 'Gruppe A (hell)', erkannt: true,  emoji: '🧑' },
+  { id: 'f5',  name: 'Anna',   gruppe: 'A', gruppenLabel: 'Gruppe A (hell)', erkannt: false, emoji: '👩‍🦰' },
+  { id: 'f6',  name: 'Kofi',   gruppe: 'B', gruppenLabel: 'Gruppe B (dunkel)', erkannt: false, emoji: '🧑🏿' },
+  { id: 'f7',  name: 'Amara',  gruppe: 'B', gruppenLabel: 'Gruppe B (dunkel)', erkannt: false, emoji: '👩🏿' },
+  { id: 'f8',  name: 'Yaw',    gruppe: 'B', gruppenLabel: 'Gruppe B (dunkel)', erkannt: false, emoji: '🧑🏿‍🦱' },
+  { id: 'f9',  name: 'Fatima', gruppe: 'B', gruppenLabel: 'Gruppe B (dunkel)', erkannt: true,  emoji: '👩🏿‍🦱' },
+  { id: 'f10', name: 'Kwame',  gruppe: 'B', gruppenLabel: 'Gruppe B (dunkel)', erkannt: false, emoji: '🧔🏿' },
+]
+
+export const faceRecogTrainingComposition = {
+  gruppeA: 900,
+  gruppeB: 100,
+  gesamt: 1000,
+}
+
+export const faceRecogBiasDialogue: DialogLine[] = [
+  {
+    speaker: 'Inspector Node',
+    text: 'Gut erkannt, {NAME}! Aber Datenbias tritt nicht nur bei der Polizei auf. Schau dir dieses Beispiel an!',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Ein Unternehmen hat eine Gesichtserkennung entwickelt — mit 1000 Trainingsfotos: 900 von Gruppe A, nur 100 von Gruppe B.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Jetzt testen wir: Wie gut erkennt die KI Gesichter aus Gruppe A? Und aus Gruppe B?',
+    portrait: 'node',
+  },
+  {
+    speaker: '{NAME}',
+    text: 'Das Ergebnis ist bestimmt unterschiedlich, oder?',
+    portrait: 'player',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Genau! Analysiere die Erkennungsrate — und überlege: Welche realen Konsequenzen hätte das?',
+    portrait: 'node',
+  },
+]
+
 // ─── Inspector Abschluss-Rede ─────────────────────────────────────────────────
 
 export const finalSpeechDialogues: DialogLine[] = [

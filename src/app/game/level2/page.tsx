@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { DialogBox } from '@/components/game/DialogBox'
 import { TeachingDialog } from '@/components/game/TeachingDialog'
 import { ClassifyPuzzle } from '@/components/game/ClassifyPuzzle'
+import { MatchingPairs } from '@/components/game/MatchingPairs'
 import { ChatBot } from '@/components/game/ChatBot'
 import { LevelComplete } from '@/components/game/LevelComplete'
 import {
@@ -24,6 +25,7 @@ type GamePhase =
   | 'explore'
   | 'teaching'
   | 'classify'
+  | 'matching'        // MatchingPairs Minigame nach Klassifikation
   | 'quiz'
   | 'complete'
 
@@ -550,8 +552,9 @@ export default function Level2Page() {
     setPuzzleXP(score)
     setXp(newXp)
     setCompletedZones(newZones)
-    setPhase('quiz')
-    saveProgress({ level: 2, phase: 'quiz', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
+    // After classify → MatchingPairs before quiz
+    setPhase('matching')
+    saveProgress({ level: 2, phase: 'matching', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
     saveActivityScore({
       level: 2,
       activity_type: 'puzzle',
@@ -559,6 +562,14 @@ export default function Level2Page() {
       max_score: 100,
       time_spent_seconds: Math.floor((Date.now() - startTime.current) / 1000),
     })
+  }
+
+  const handleMatchingComplete = (matchXP: number) => {
+    const newXp = xp + matchXP
+    setXp(newXp)
+    setPhase('quiz')
+    saveProgress({ level: 2, phase: 'quiz', xp: newXp, completed_zones: completedZones, player_character: playerCharacter, player_name: playerName })
+    saveActivityScore({ level: 2, activity_type: 'terms_match', score: matchXP, max_score: 90 })
   }
 
   const handleQuizComplete = (score: number) => {
@@ -669,6 +680,8 @@ export default function Level2Page() {
       {phase === 'classify' && difficulty && (
         <ClassifyPuzzle difficulty={difficulty} onComplete={handleClassifyComplete} />
       )}
+
+      {phase === 'matching' && <MatchingPairs onComplete={handleMatchingComplete} />}
 
       {phase === 'quiz' && (
         <QuizModal2 onComplete={handleQuizComplete} />

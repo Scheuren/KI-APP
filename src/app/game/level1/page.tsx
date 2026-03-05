@@ -10,6 +10,7 @@ import { LevelComplete } from '@/components/game/LevelComplete'
 import { ChatBot } from '@/components/game/ChatBot'
 import { HUD } from '@/components/game/HUD'
 import { TermsMatchingGame } from '@/components/game/TermsMatchingGame'
+import { FillInTheBlank } from '@/components/game/FillInTheBlank'
 import { TeachingDialog } from '@/components/game/TeachingDialog'
 import { AuthButton } from '@/components/auth/AuthButton'
 import { useGameProgress } from '@/hooks/useGameProgress'
@@ -32,6 +33,7 @@ type GamePhase =
   | 'termsMatch'      // Begriffe-Matching Minigame
   | 'puzzle'          // Classify suspects
   | 'quiz'            // Knowledge check
+  | 'fillBlank'       // FillInTheBlank Minigame (Fachbegriffe vertiefen)
   | 'complete'        // Level complete
 
 type PlayerCharacter = 'leader' | 'social'
@@ -112,6 +114,7 @@ export default function Level1Page() {
     termsMatch: 'Ordne die Begriffe zu!',
     puzzle: 'Klassifiziere die Verdächtigen!',
     quiz: 'Beantworte die Fragen',
+    fillBlank: 'Fülle die Lücken aus!',
     complete: 'Level abgeschlossen!',
   }[phase]
 
@@ -235,12 +238,12 @@ export default function Level1Page() {
 
   const handleQuizComplete = (score: number) => {
     setQuizXP(score)
-    const finalXp = xp + score
-    setXp(finalXp)
-    setPhase('complete')
-    persistProgress('complete', finalXp, completedZones)
+    const newXp = xp + score
+    setXp(newXp)
+    // After quiz → FillInTheBlank Vertiefung
+    setPhase('fillBlank')
+    persistProgress('fillBlank', newXp, completedZones)
 
-    // Save quiz score with learning analytics
     saveActivityScore({
       level: 1,
       activity_type: 'quiz',
@@ -255,6 +258,14 @@ export default function Level1Page() {
         { concept: 'blatt', understood: score >= 70 },
       ],
     })
+  }
+
+  const handleFillBlankComplete = (fillXP: number) => {
+    const finalXp = xp + fillXP
+    setXp(finalXp)
+    setPhase('complete')
+    persistProgress('complete', finalXp, completedZones)
+    saveActivityScore({ level: 1, activity_type: 'terms_match', score: fillXP, max_score: 90 })
   }
 
   const handleReplay = () => {
@@ -378,6 +389,8 @@ export default function Level1Page() {
       )}
 
       {phase === 'quiz' && <QuizModal onComplete={handleQuizComplete} />}
+
+      {phase === 'fillBlank' && <FillInTheBlank onComplete={handleFillBlankComplete} />}
 
       {phase === 'complete' && (
         <LevelComplete

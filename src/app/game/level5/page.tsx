@@ -9,6 +9,9 @@ import { ChatBot } from '@/components/game/ChatBot'
 import {
   introDialogues5,
   teachingDialogues5,
+  faceRecogData,
+  faceRecogTrainingComposition,
+  faceRecogBiasDialogue,
   finalSpeechDialogues,
   quizQuestions5,
   WORLD_WIDTH,
@@ -19,8 +22,126 @@ import Link from 'next/link'
 import { AuthButton } from '@/components/auth/AuthButton'
 import { useGameProgress } from '@/hooks/useGameProgress'
 
-type GamePhase = 'intro' | 'explore' | 'teaching' | 'bias' | 'ethics' | 'speech' | 'quiz' | 'complete'
+type GamePhase = 'intro' | 'explore' | 'teaching' | 'bias' | 'bias2dialog' | 'bias2' | 'ethics' | 'speech' | 'quiz' | 'complete'
 type PlayerCharacter = 'leader' | 'social'
+
+// ─── FaceRecog Mini-Game ──────────────────────────────────────────────────────
+
+function FaceRecogGame({ onComplete, playerName }: { onComplete: (xp: number) => void; playerName: string }) {
+  const gruppeA = faceRecogData.filter(f => f.gruppe === 'A')
+  const gruppeB = faceRecogData.filter(f => f.gruppe === 'B')
+  const accA = Math.round((gruppeA.filter(f => f.erkannt).length / gruppeA.length) * 100)
+  const accB = Math.round((gruppeB.filter(f => f.erkannt).length / gruppeB.length) * 100)
+  const [answered, setAnswered] = useState<string | null>(null)
+  const [showResult, setShowResult] = useState(false)
+
+  const correctAnswer = 'bias'
+  const xp = answered === correctAnswer ? 40 : 20
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+      <div className="bg-white border-[4px] border-[#111] rounded-2xl shadow-[8px_8px_0_#111] max-w-lg w-full p-6 overflow-y-auto max-h-[90vh]">
+        <div className="text-center mb-4">
+          <span className="font-bangers text-[#9C27B0] text-2xl tracking-wide">GESICHTSERKENNUNG — BIAS-ANALYSE</span>
+          <p className="font-comic text-[#666] text-xs mt-1">Transfer: Erkenne Bias in einem neuen Kontext</p>
+        </div>
+
+        {/* Training data composition */}
+        <div className="border-[2px] border-[#9C27B0] rounded-xl p-3 mb-4 bg-purple-50">
+          <p className="font-bangers text-[#9C27B0] text-sm mb-2">TRAININGSDATEN ({faceRecogTrainingComposition.gesamt} Fotos)</p>
+          <div className="flex gap-2 mb-1">
+            <div className="flex-1 h-5 rounded overflow-hidden border border-[#111] flex">
+              <div style={{ width: `${faceRecogTrainingComposition.gruppeA / faceRecogTrainingComposition.gesamt * 100}%` }} className="bg-[#0066FF] flex items-center justify-center">
+                <span className="font-comic text-white text-[9px]">A: {faceRecogTrainingComposition.gruppeA}</span>
+              </div>
+              <div style={{ width: `${faceRecogTrainingComposition.gruppeB / faceRecogTrainingComposition.gesamt * 100}%` }} className="bg-[#FF3B3F] flex items-center justify-center">
+                <span className="font-comic text-white text-[9px]">B: {faceRecogTrainingComposition.gruppeB}</span>
+              </div>
+            </div>
+          </div>
+          <p className="font-comic text-[#666] text-[10px]">Gruppe A (hell): 90% der Daten · Gruppe B (dunkel): nur 10%</p>
+        </div>
+
+        {/* Test results */}
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="border-[2px] border-[#0066FF] rounded-xl p-3 text-center bg-blue-50">
+            <p className="font-bangers text-[#0066FF] text-sm">Gruppe A</p>
+            <div className="flex flex-wrap gap-1 justify-center my-2">
+              {gruppeA.map(f => (
+                <span key={f.id} title={f.name} className="text-lg">{f.emoji}</span>
+              ))}
+            </div>
+            <p className="font-comic text-xs text-[#666]">Erkennungsrate:</p>
+            <p className="font-bangers text-[#0066FF] text-3xl">{accA}%</p>
+            <div className="h-3 bg-white border border-[#0066FF] rounded-full mt-1 overflow-hidden">
+              <div className="h-full bg-[#0066FF] rounded-full" style={{ width: `${accA}%` }} />
+            </div>
+            <p className="font-comic text-[10px] mt-1 text-[#00C853]">{gruppeA.filter(f => f.erkannt).length}/{gruppeA.length} erkannt ✓</p>
+          </div>
+          <div className="border-[2px] border-[#FF3B3F] rounded-xl p-3 text-center bg-red-50">
+            <p className="font-bangers text-[#FF3B3F] text-sm">Gruppe B</p>
+            <div className="flex flex-wrap gap-1 justify-center my-2">
+              {gruppeB.map(f => (
+                <span key={f.id} title={f.name} className="text-lg">{f.emoji}</span>
+              ))}
+            </div>
+            <p className="font-comic text-xs text-[#666]">Erkennungsrate:</p>
+            <p className="font-bangers text-[#FF3B3F] text-3xl">{accB}%</p>
+            <div className="h-3 bg-white border border-[#FF3B3F] rounded-full mt-1 overflow-hidden">
+              <div className="h-full bg-[#FF3B3F] rounded-full" style={{ width: `${accB}%` }} />
+            </div>
+            <p className="font-comic text-[10px] mt-1 text-[#FF3B3F]">{gruppeB.filter(f => f.erkannt).length}/{gruppeB.length} erkannt ✗</p>
+          </div>
+        </div>
+
+        {/* Question */}
+        {!showResult && (
+          <>
+            <p className="font-bangers text-[#111] text-base text-center mb-3">
+              Warum erkennt die KI Gruppe B so viel schlechter?
+            </p>
+            <div className="space-y-2">
+              {[
+                { key: 'bias', label: 'Datenbias: Die KI hat fast keine Trainingsfotos von Gruppe B gesehen — deshalb kann sie Gruppe B-Gesichter nicht gut erkennen.' },
+                { key: 'algo', label: 'Der Algorithmus ist für dunkle Gesichter nicht geeignet und müsste komplett neu programmiert werden.' },
+                { key: 'gruppe', label: 'Gruppe B hat weniger auffällige Gesichtszüge — das ist biologisch bedingt.' },
+              ].map(opt => (
+                <button
+                  key={opt.key}
+                  onClick={() => { setAnswered(opt.key); setShowResult(true) }}
+                  className="w-full text-left border-[2px] border-[#111] rounded-xl px-4 py-2.5 font-comic text-sm bg-white hover:bg-[#FFE135] transition-colors shadow-[2px_2px_0_#111]"
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* Result */}
+        {showResult && (
+          <div className={`border-[3px] rounded-xl p-4 mb-4 ${answered === correctAnswer ? 'border-[#00C853] bg-green-50' : 'border-[#FF3B3F] bg-red-50'}`}>
+            <p className="font-bangers text-lg mb-1">
+              {answered === correctAnswer ? '✓ Richtig!' : '✗ Nicht ganz…'}
+            </p>
+            <p className="font-comic text-sm text-[#333]">
+              <strong>Datenbias ist die Ursache:</strong> 90% der Trainingsdaten zeigten Gesichter der Gruppe A. Die KI lernte hauptsächlich, Gruppe-A-Gesichter zu erkennen. Für Gruppe B fehlt einfach die Datengrundlage. Das führt zu <strong>Ungleichbehandlung</strong> — und das ist ein ernstes ethisches Problem, z.B. bei Zugangssystemen oder Polizei-Software.
+            </p>
+            <p className="font-comic text-sm mt-2 text-[#9C27B0]">
+              Dieses Muster nennt man <strong>Representation Bias</strong> — eine Gruppe ist in den Daten unterrepräsentiert.
+            </p>
+            <button
+              onClick={() => onComplete(xp)}
+              className="mt-3 w-full py-2.5 bg-[#9C27B0] text-white border-[3px] border-[#111] rounded-xl font-bangers text-base tracking-wide shadow-[3px_3px_0_#111]"
+            >
+              Weiter (+{xp} XP) →
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
 
 // ─── Quiz ─────────────────────────────────────────────────────────────────────
 
@@ -380,9 +501,18 @@ export default function Level5Page() {
     const newXp = xp + 10
     setCompletedZones(newZones)
     setXp(newXp)
-    setPhase('explore')
-    saveProgress({ level: 5, phase: 'explore', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
+    // After bias analysis → second bias example (Gesichtserkennung)
+    setPhase('bias2dialog')
+    saveProgress({ level: 5, phase: 'bias2dialog', xp: newXp, completed_zones: newZones, player_character: playerCharacter, player_name: playerName })
     saveActivityScore({ level: 5, activity_type: 'teaching', score: 10, max_score: 10 })
+  }
+
+  const handleBias2Complete = (bias2XP: number) => {
+    const newXp = xp + bias2XP
+    setXp(newXp)
+    setPhase('explore')
+    saveProgress({ level: 5, phase: 'explore', xp: newXp, completed_zones: completedZones, player_character: playerCharacter, player_name: playerName })
+    saveActivityScore({ level: 5, activity_type: 'terms_match', score: bias2XP, max_score: 40 })
   }
 
   const handleEthicsComplete = (score: number) => {
@@ -472,6 +602,20 @@ export default function Level5Page() {
       </div>
 
       {phase === 'bias' && <BiasDetector onComplete={handleBiasComplete} />}
+
+      {phase === 'bias2dialog' && (
+        <div className="absolute inset-0">
+          <DialogBox
+            lines={faceRecogBiasDialogue}
+            onComplete={() => setPhase('bias2')}
+            playerCharacter={playerCharacter}
+            playerName={playerName}
+          />
+        </div>
+      )}
+
+      {phase === 'bias2' && <FaceRecogGame onComplete={handleBias2Complete} playerName={playerName} />}
+
       {phase === 'ethics' && <EthicsDebate onComplete={handleEthicsComplete} />}
       {phase === 'quiz' && <QuizModal5 onComplete={handleQuizComplete} />}
       {phase === 'complete' && <Level5Complete puzzleXP={puzzleXP} quizXP={quizXP} onReplay={handleReplay} />}

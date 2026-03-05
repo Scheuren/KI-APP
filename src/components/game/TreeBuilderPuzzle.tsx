@@ -334,6 +334,8 @@ function TreeBuilderGame({ onComplete }: TreeBuilderGameProps) {
   const [tested, setTested] = useState(false)
   const [trainAcc, setTrainAcc] = useState<number | null>(null)
   const [testAcc, setTestAcc] = useState<number | null>(null)
+  const [attempts, setAttempts] = useState(0)
+  const [showRetryHint, setShowRetryHint] = useState(false)
 
   const tree = buildTree(state)
 
@@ -344,6 +346,18 @@ function TreeBuilderGame({ onComplete }: TreeBuilderGameProps) {
     setTrainAcc(ta)
     setTestAcc(te)
     setTested(true)
+    const newAttempts = attempts + 1
+    setAttempts(newAttempts)
+    // Show retry hint if test accuracy is too low and not yet on 3rd attempt
+    setShowRetryHint(te < 60 && newAttempts < 3)
+  }
+
+  const handleRetry = () => {
+    setState({ root: null, level2Yes: null, level2No: null })
+    setTested(false)
+    setTrainAcc(null)
+    setTestAcc(null)
+    setShowRetryHint(false)
   }
 
   const xp = (() => {
@@ -509,6 +523,17 @@ function TreeBuilderGame({ onComplete }: TreeBuilderGameProps) {
             </div>
           )}
 
+          {/* Retry hint */}
+          {showRetryHint && (
+            <div className="border-[3px] border-[#FF3B3F] rounded-xl p-3 bg-red-50 text-center">
+              <p className="font-bangers text-[#FF3B3F] text-base">Test-Genauigkeit zu niedrig! ({testAcc}%)</p>
+              <p className="font-comic text-[#111] text-xs mt-1">
+                Dein Baum funktioniert bei neuen Daten nicht gut genug.
+                Tipp: Wähle ein Merkmal als Wurzel, das Verdächtige und Unverdächtige besser trennt!
+              </p>
+            </div>
+          )}
+
           {/* Buttons */}
           <div className="flex gap-3">
             <button
@@ -519,7 +544,15 @@ function TreeBuilderGame({ onComplete }: TreeBuilderGameProps) {
             >
               Baum testen!
             </button>
-            {tested && (
+            {tested && showRetryHint && (
+              <button
+                onClick={handleRetry}
+                className="flex-1 py-3 bg-[#FF3B3F] text-white border-[3px] border-[#111] rounded-xl font-bangers text-base tracking-wide shadow-[3px_3px_0_#111] active:shadow-none transition-all"
+              >
+                Neu versuchen →
+              </button>
+            )}
+            {tested && !showRetryHint && (
               <button
                 onClick={() => onComplete(xp)}
                 className="flex-1 py-3 bg-[#0066FF] text-white border-[3px] border-[#111] rounded-xl font-bangers text-base tracking-wide shadow-[3px_3px_0_#111] active:shadow-none transition-all"
