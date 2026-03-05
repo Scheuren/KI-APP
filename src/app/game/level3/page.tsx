@@ -180,11 +180,16 @@ function Level3World({ completedZones, playerCharacter, onInteract }: {
   onInteract: (zone: 'datalab' | 'inspector' | 'builder') => void
 }) {
   return (
-    <div className="relative select-none" style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT, background: 'linear-gradient(135deg, #0d1b2a 0%, #1b2838 100%)' }}>
-      <svg className="absolute inset-0 opacity-10" style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT }}>
-        <defs><pattern id="grid3" width="50" height="50" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="#00C853" /></pattern></defs>
-        <rect width="100%" height="100%" fill="url(#grid3)" />
-      </svg>
+    <div className="relative select-none" style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT }}>
+      {/* Background image */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/game/backgrounds/ai-lab.svg"
+        alt=""
+        className="absolute inset-0 pointer-events-none"
+        style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT, objectFit: 'fill' }}
+        draggable={false}
+      />
 
       <div className="absolute top-4 left-1/2 -translate-x-1/2">
         <div className="bg-[#00C853] border-[3px] border-[#111] rounded-xl px-6 py-2 shadow-[4px_4px_0_#111]">

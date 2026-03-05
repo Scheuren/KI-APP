@@ -263,17 +263,17 @@ function Level2World({
   return (
     <div
       className="relative select-none comic-panel"
-      style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT, background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)' }}
+      style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT }}
     >
-      {/* Background grid */}
-      <svg className="absolute inset-0 opacity-10" style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT }}>
-        <defs>
-          <pattern id="grid2" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#FFE135" strokeWidth="0.5" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid2)" />
-      </svg>
+      {/* Background image */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/game/backgrounds/interrogation-room.svg"
+        alt=""
+        className="absolute inset-0 pointer-events-none"
+        style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT, objectFit: 'fill' }}
+        draggable={false}
+      />
 
       {/* Title banner */}
       <div className="absolute top-4 left-1/2 -translate-x-1/2">

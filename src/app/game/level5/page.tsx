@@ -201,19 +201,16 @@ function Level5World({ completedZones, playerCharacter, onInteract }: {
   onInteract: (zone: 'inspector' | 'bias' | 'ethics') => void
 }) {
   return (
-    <div className="relative select-none" style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT, background: 'linear-gradient(135deg, #1a0d00 0%, #2d1a00 100%)' }}>
-      {/* Stars background */}
-      <svg className="absolute inset-0 opacity-20" style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT }}>
-        {Array.from({ length: 40 }).map((_, i) => (
-          <circle
-            key={i}
-            cx={Math.sin(i * 137.5) * 450 + 450}
-            cy={Math.cos(i * 137.5) * 250 + 250}
-            r={0.8 + (i % 3) * 0.5}
-            fill="white"
-          />
-        ))}
-      </svg>
+    <div className="relative select-none" style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT }}>
+      {/* Background image */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/game/backgrounds/ethics-chamber.svg"
+        alt=""
+        className="absolute inset-0 pointer-events-none"
+        style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT, objectFit: 'fill' }}
+        draggable={false}
+      />
 
       <div className="absolute top-4 left-1/2 -translate-x-1/2">
         <div className="border-[3px] border-[#111] rounded-xl px-6 py-2 shadow-[4px_4px_0_#111]" style={{ background: 'linear-gradient(90deg, #9C27B0, #FF3B3F)' }}>

@@ -175,11 +175,16 @@ function Level4World({ completedZones, playerCharacter, onInteract }: {
   onInteract: (zone: 'inspector' | 'accuracy' | 'overfit') => void
 }) {
   return (
-    <div className="relative select-none" style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT, background: 'linear-gradient(135deg, #1a0a1e 0%, #2d1b33 100%)' }}>
-      <svg className="absolute inset-0 opacity-5" style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT }}>
-        <defs><pattern id="grid4" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="#9C27B0" strokeWidth="0.5" /></pattern></defs>
-        <rect width="100%" height="100%" fill="url(#grid4)" />
-      </svg>
+    <div className="relative select-none" style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT }}>
+      {/* Background image */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/game/backgrounds/analysis-lab.svg"
+        alt=""
+        className="absolute inset-0 pointer-events-none"
+        style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT, objectFit: 'fill' }}
+        draggable={false}
+      />
       <div className="absolute top-4 left-1/2 -translate-x-1/2">
         <div className="bg-[#9C27B0] border-[3px] border-[#111] rounded-xl px-6 py-2 shadow-[4px_4px_0_#111]">
           <p className="font-bangers text-white text-xl tracking-widest">ANALYSE-LABOR — LEVEL 4</p>

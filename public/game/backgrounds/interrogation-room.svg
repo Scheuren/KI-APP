@@ -1,0 +1,187 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500">
+  <defs>
+    <!-- Wall texture -->
+    <pattern id="wallPattern" width="60" height="60" patternUnits="userSpaceOnUse">
+      <rect width="60" height="60" fill="#1a1a2e"/>
+      <rect x="0" y="0" width="60" height="2" fill="#111" opacity="0.4"/>
+      <rect x="0" y="30" width="60" height="2" fill="#111" opacity="0.4"/>
+    </pattern>
+    <!-- Floor tiles -->
+    <pattern id="floorTile" width="50" height="50" patternUnits="userSpaceOnUse">
+      <rect width="50" height="50" fill="#0f0f1a"/>
+      <rect x="0" y="0" width="25" height="25" fill="#111827" opacity="0.8"/>
+      <rect x="25" y="25" width="25" height="25" fill="#111827" opacity="0.8"/>
+      <rect x="0" y="0" width="50" height="50" fill="none" stroke="#0a0a15" stroke-width="1"/>
+    </pattern>
+    <!-- Lamp light -->
+    <radialGradient id="lampLight" cx="50%" cy="0%" r="70%">
+      <stop offset="0%" stop-color="#FFE135" stop-opacity="0.25"/>
+      <stop offset="60%" stop-color="#FFE135" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#FFE135" stop-opacity="0"/>
+    </radialGradient>
+    <!-- One-way mirror reflection -->
+    <linearGradient id="mirrorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a5f" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#2a4a6f" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#0d2035" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="mirrorSheen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="white" stop-opacity="0"/>
+      <stop offset="35%" stop-color="white" stop-opacity="0.08"/>
+      <stop offset="50%" stop-color="white" stop-opacity="0.15"/>
+      <stop offset="65%" stop-color="white" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Shadow gradient -->
+    <linearGradient id="ceilingShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="floorShadow" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Table wood -->
+    <linearGradient id="tableWood" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3d2b1f"/>
+      <stop offset="50%" stop-color="#4a3525"/>
+      <stop offset="100%" stop-color="#2a1e14"/>
+    </linearGradient>
+    <!-- Chair -->
+    <linearGradient id="chairGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2a2a2a"/>
+      <stop offset="100%" stop-color="#111"/>
+    </linearGradient>
+  </defs>
+
+  <!-- === WALL === -->
+  <rect width="900" height="340" fill="url(#wallPattern)"/>
+  <!-- Baseboard -->
+  <rect y="320" width="900" height="20" fill="#111" opacity="0.6"/>
+  <rect y="318" width="900" height="2" fill="#FFE135" opacity="0.15"/>
+
+  <!-- === FLOOR === -->
+  <rect y="340" width="900" height="160" fill="url(#floorTile)"/>
+
+  <!-- === CEILING SHADOW === -->
+  <rect width="900" height="120" fill="url(#ceilingShadow)"/>
+  <!-- Floor shadow -->
+  <rect y="340" width="900" height="160" fill="url(#floorShadow)" opacity="0.5"/>
+
+  <!-- === ONE-WAY MIRROR (left wall) === -->
+  <rect x="30" y="80" width="200" height="140" rx="4" fill="url(#mirrorGrad)" stroke="#0a1f3a" stroke-width="4"/>
+  <!-- Mirror frame -->
+  <rect x="26" y="76" width="208" height="148" rx="6" fill="none" stroke="#1a3a5a" stroke-width="6"/>
+  <rect x="28" y="78" width="204" height="144" rx="5" fill="none" stroke="#2a5a8a" stroke-width="2"/>
+  <!-- Mirror sheen -->
+  <rect x="30" y="80" width="200" height="140" rx="4" fill="url(#mirrorSheen)"/>
+  <!-- Mirror reflection hint - shadowy figure -->
+  <ellipse cx="130" cy="185" rx="18" ry="22" fill="#0a1525" opacity="0.5"/>
+  <rect x="115" y="185" width="30" height="5" rx="2" fill="#0a1525" opacity="0.3"/>
+  <!-- Mirror label -->
+  <text x="130" y="240" text-anchor="middle" font-family="monospace" font-size="9" fill="#2a5a8a" opacity="0.7">EINWEGSPIEGEL</text>
+
+  <!-- === LAMP SYSTEM === -->
+  <!-- Ceiling mount -->
+  <rect x="420" y="0" width="60" height="15" fill="#1a1a2e"/>
+  <!-- Lamp cord -->
+  <line x1="450" y1="15" x2="450" y2="55" stroke="#111" stroke-width="4"/>
+  <!-- Lamp shade -->
+  <polygon points="400,55 500,55 480,90 420,90" fill="#222" stroke="#111" stroke-width="2"/>
+  <polygon points="402,57 498,57 479,88 421,88" fill="#1a1a1a"/>
+  <!-- Lamp bulb -->
+  <circle cx="450" cy="90" r="8" fill="#FFE135" opacity="0.9"/>
+  <circle cx="450" cy="90" r="12" fill="#FFE135" opacity="0.3"/>
+  <!-- Lamp light cone -->
+  <polygon points="420,90 480,90 560,340 340,340" fill="url(#lampLight)" opacity="0.8"/>
+  <!-- Light pool on floor -->
+  <ellipse cx="450" cy="370" rx="130" ry="25" fill="#FFE135" opacity="0.06"/>
+
+  <!-- === SUSPECT TABLE === -->
+  <!-- Table shadow -->
+  <ellipse cx="450" cy="342" rx="200" ry="12" fill="#000" opacity="0.5"/>
+  <!-- Table top -->
+  <rect x="260" y="290" width="380" height="20" rx="3" fill="url(#tableWood)" stroke="#1a0f08" stroke-width="2"/>
+  <!-- Table legs -->
+  <rect x="280" y="310" width="16" height="50" fill="#2a1e14"/>
+  <rect x="604" y="310" width="16" height="50" fill="#2a1e14"/>
+  <!-- Table front edge highlight -->
+  <rect x="260" y="290" width="380" height="4" rx="2" fill="#5a3a25" opacity="0.5"/>
+
+  <!-- === SUSPECT CHAIR (empty) === -->
+  <rect x="395" y="250" width="110" height="10" rx="3" fill="url(#chairGrad)" stroke="#111" stroke-width="1"/>
+  <!-- Chair back -->
+  <rect x="415" y="195" width="70" height="55" rx="4" fill="#1a1a1a" stroke="#111" stroke-width="1"/>
+  <rect x="420" y="200" width="60" height="45" rx="3" fill="#222"/>
+  <!-- Horizontal slats -->
+  <rect x="418" y="210" width="64" height="4" rx="2" fill="#2a2a2a"/>
+  <rect x="418" y="222" width="64" height="4" rx="2" fill="#2a2a2a"/>
+  <rect x="418" y="234" width="64" height="4" rx="2" fill="#2a2a2a"/>
+  <!-- Chair legs -->
+  <rect x="400" y="260" width="10" height="45" fill="#1a1a1a"/>
+  <rect x="490" y="260" width="10" height="45" fill="#1a1a1a"/>
+  <rect x="405" y="258" width="90" height="5" fill="#111"/>
+
+  <!-- === PAPERS ON TABLE === -->
+  <rect x="330" y="270" width="60" height="20" rx="1" fill="#f0e8d0" transform="rotate(-3, 360, 280)"/>
+  <line x1="337" y1="275" x2="380" y2="275" stroke="#aaa" stroke-width="1" opacity="0.5"/>
+  <line x1="337" y1="280" x2="375" y2="280" stroke="#aaa" stroke-width="1" opacity="0.5"/>
+  <line x1="337" y1="285" x2="370" y2="285" stroke="#aaa" stroke-width="1" opacity="0.5"/>
+  <!-- File folder -->
+  <rect x="480" y="265" width="70" height="25" rx="2" fill="#e8c87a" transform="rotate(4, 515, 277)"/>
+  <rect x="485" y="260" width="55" height="5" rx="1" fill="#d4a832"/>
+  <text x="515" y="281" text-anchor="middle" font-family="monospace" font-size="7" fill="#8a6a20" transform="rotate(4, 515, 277)">AKTE #247</text>
+
+  <!-- === WALL DETAILS === -->
+  <!-- Clock -->
+  <circle cx="750" cy="120" r="35" fill="#1a1a2e" stroke="#333" stroke-width="4"/>
+  <circle cx="750" cy="120" r="30" fill="#0f0f1a"/>
+  <circle cx="750" cy="120" r="28" fill="none" stroke="#444" stroke-width="1"/>
+  <!-- Clock hands -->
+  <line x1="750" y1="120" x2="750" y2="98" stroke="#FFE135" stroke-width="3" stroke-linecap="round"/>
+  <line x1="750" y1="120" x2="768" y2="128" stroke="#FFE135" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="750" cy="120" r="3" fill="#FFE135"/>
+  <!-- Clock ticks -->
+  <line x1="750" y1="94" x2="750" y2="99" stroke="#444" stroke-width="2"/>
+  <line x1="750" y1="141" x2="750" y2="146" stroke="#444" stroke-width="2"/>
+  <line x1="722" y1="120" x2="727" y2="120" stroke="#444" stroke-width="2"/>
+  <line x1="773" y1="120" x2="778" y2="120" stroke="#444" stroke-width="2"/>
+
+  <!-- Door (right wall) -->
+  <rect x="780" y="120" width="100" height="220" rx="3" fill="#16213e" stroke="#0a1525" stroke-width="4"/>
+  <rect x="784" y="124" width="92" height="212" rx="2" fill="#1a2845"/>
+  <!-- Door panels -->
+  <rect x="790" y="135" width="80" height="80" rx="2" fill="#16213e" stroke="#0f1e35" stroke-width="2"/>
+  <rect x="790" y="225" width="80" height="100" rx="2" fill="#16213e" stroke="#0f1e35" stroke-width="2"/>
+  <!-- Door handle -->
+  <circle cx="793" cy="272" r="6" fill="#FFE135" opacity="0.7"/>
+  <rect x="787" y="265" width="6" height="14" rx="2" fill="#FFE135" opacity="0.5"/>
+
+  <!-- "VERHÖRZIMMER 3" sign -->
+  <rect x="790" y="108" width="90" height="16" rx="2" fill="#FFE135"/>
+  <text x="835" y="120" text-anchor="middle" font-family="monospace" font-size="8" font-weight="bold" fill="#111">VERHÖRZIMMER 3</text>
+
+  <!-- Recording equipment (top right) -->
+  <rect x="700" y="60" width="50" height="35" rx="3" fill="#111" stroke="#333" stroke-width="2"/>
+  <circle cx="725" cy="77" r="10" fill="#1a1a1a" stroke="#444" stroke-width="1"/>
+  <circle cx="725" cy="77" r="6" fill="#0a0a0a"/>
+  <circle cx="725" cy="77" r="3" fill="#FF3B3F" opacity="0.8"/>
+  <!-- REC indicator -->
+  <circle cx="743" cy="65" r="4" fill="#FF3B3F"/>
+  <text x="748" y="68" font-family="monospace" font-size="7" fill="#FF3B3F">REC</text>
+
+  <!-- Corner shadows -->
+  <polygon points="0,0 120,0 0,200" fill="#000" opacity="0.4"/>
+  <polygon points="900,0 780,0 900,200" fill="#000" opacity="0.3"/>
+  <polygon points="0,500 120,500 0,350" fill="#000" opacity="0.4"/>
+  <polygon points="900,500 780,500 900,350" fill="#000" opacity="0.4"/>
+
+  <!-- Atmospheric dust particles in light -->
+  <circle cx="430" cy="150" r="1.5" fill="#FFE135" opacity="0.3"/>
+  <circle cx="470" cy="180" r="1" fill="#FFE135" opacity="0.25"/>
+  <circle cx="445" cy="220" r="1.5" fill="#FFE135" opacity="0.2"/>
+  <circle cx="460" cy="130" r="1" fill="#FFE135" opacity="0.35"/>
+
+  <!-- Comic outline effect on key elements -->
+  <rect x="260" y="290" width="380" height="20" rx="3" fill="none" stroke="#000" stroke-width="1.5"/>
+</svg>
