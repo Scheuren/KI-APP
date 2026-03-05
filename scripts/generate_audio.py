@@ -13,8 +13,14 @@ Ausführen:
 import json
 import os
 import shutil
+import sys
 import time
 from pathlib import Path
+
+# Windows: UTF-8 für Emoji-Ausgabe erzwingen
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Konfiguration
