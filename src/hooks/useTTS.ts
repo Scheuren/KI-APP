@@ -3,22 +3,37 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Charakter-Stimmprofil
+// djb2-Hash — muss identisch mit scripts/generate_audio.py sein
+// ─────────────────────────────────────────────────────────────────────────────
+
+function djb2(text: string): string {
+  let h = 5381
+  for (let i = 0; i < text.length; i++) {
+    h = Math.imul(h, 33) + text.charCodeAt(i)
+    h = h & h  // 32-bit
+  }
+  return (h >>> 0).toString(16).padStart(8, '0')
+}
+
+function manifestKey(text: string, speaker: string): string {
+  const ttsText = text.replace(/\{NAME\}/g, 'der Detektiv')
+  return `${djb2(ttsText)}_${djb2(speaker)}`
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Browser-TTS Fallback (Web Speech API)
 // ─────────────────────────────────────────────────────────────────────────────
 
 type VoiceProfile = {
-  pitch: number   // 0.5 – 2.0 (1 = normal)
-  rate:  number   // 0.5 – 2.0 (1 = normal)
-  volume: number  // 0 – 1
+  pitch: number
+  rate:  number
+  volume: number
 }
 
 const VOICE_PROFILES: Record<string, VoiceProfile> = {
-  'Inspector Node': { pitch: 0.82, rate: 0.88, volume: 1 },  // tief, langsam, würdevoll
-  'Agent X':        { pitch: 1.15, rate: 1.05, volume: 1 },  // jung, lebhaft
-  'Gustav G.':      { pitch: 0.95, rate: 0.75, volume: 0.9 }, // nervös, leise
-  'Maria M.':       { pitch: 1.1,  rate: 0.95, volume: 1 },  // klar, präzise
-  'Boris B.':       { pitch: 0.7,  rate: 0.8,  volume: 1 },  // tief, griesgrämig
-  default:          { pitch: 1.0,  rate: 1.0,  volume: 1 },
+  'Inspector Node': { pitch: 0.82, rate: 0.88, volume: 1 },
+  'Viktor':         { pitch: 1.05, rate: 0.80, volume: 0.9 },
+  default:          { pitch: 1.0,  rate: 1.0,  volume: 1   },
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -26,81 +41,105 @@ const VOICE_PROFILES: Record<string, VoiceProfile> = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export function useTTS() {
-  const [muted, setMuted]     = useState(false)
-  const [ready, setReady]     = useState(false)
-  const voicesRef             = useRef<SpeechSynthesisVoice[]>([])
-  const utteranceRef          = useRef<SpeechSynthesisUtterance | null>(null)
+  const [muted, setMuted] = useState(false)
+  const [ready, setReady] = useState(false)
 
-  // Stimmen laden (Browser braucht manchmal einen Moment)
+  const manifestRef        = useRef<Record<string, string> | null>(null)
+  const manifestLoadedRef  = useRef(false)
+  const audioRef           = useRef<HTMLAudioElement | null>(null)
+  const voicesRef          = useRef<SpeechSynthesisVoice[]>([])
+
+  // ── Manifest laden (einmalig) ──────────────────────────────────────────────
+  useEffect(() => {
+    if (manifestLoadedRef.current) return
+    manifestLoadedRef.current = true
+
+    fetch('/game/audio/manifest.json')
+      .then(r => r.ok ? r.json() : null)
+      .then((data: Record<string, string> | null) => {
+        if (data) {
+          manifestRef.current = data
+          console.log(`[TTS] Qwen3-TTS Manifest: ${Object.keys(data).length} Audiodateien`)
+        }
+      })
+      .catch(() => {
+        console.log('[TTS] Kein Manifest — Browser-TTS Fallback aktiv')
+      })
+  }, [])
+
+  // ── Browser-Stimmen laden ──────────────────────────────────────────────────
   useEffect(() => {
     if (typeof window === 'undefined' || !window.speechSynthesis) return
-
-    const loadVoices = () => {
-      const all = window.speechSynthesis.getVoices()
-      voicesRef.current = all
-      if (all.length > 0) setReady(true)
+    const load = () => {
+      voicesRef.current = window.speechSynthesis.getVoices()
+      if (voicesRef.current.length > 0) setReady(true)
     }
-
-    loadVoices()
-    window.speechSynthesis.addEventListener('voiceschanged', loadVoices)
-    return () => window.speechSynthesis.removeEventListener('voiceschanged', loadVoices)
+    load()
+    window.speechSynthesis.addEventListener('voiceschanged', load)
+    return () => window.speechSynthesis.removeEventListener('voiceschanged', load)
   }, [])
 
-  /** Sucht die beste deutsche Stimme */
   const getGermanVoice = useCallback((): SpeechSynthesisVoice | null => {
-    const voices = voicesRef.current
-
-    // Bevorzuge: de-DE, dann de-AT, dann de-CH, dann de-*
-    const preferred = [
-      voices.find(v => v.lang === 'de-DE' && v.localService),
-      voices.find(v => v.lang === 'de-DE'),
-      voices.find(v => v.lang.startsWith('de-AT')),
-      voices.find(v => v.lang.startsWith('de')),
-    ]
-
-    return preferred.find(Boolean) ?? null
+    const v = voicesRef.current
+    return (
+      v.find(x => x.lang === 'de-DE' && x.localService) ??
+      v.find(x => x.lang === 'de-DE') ??
+      v.find(x => x.lang.startsWith('de')) ??
+      null
+    )
   }, [])
 
-  /** Text vorlesen */
-  const speak = useCallback((text: string, speaker: string) => {
-    if (muted || typeof window === 'undefined' || !window.speechSynthesis) return
-
-    // Vorherige Wiedergabe stoppen
-    window.speechSynthesis.cancel()
-
-    const profile = VOICE_PROFILES[speaker] ?? VOICE_PROFILES.default
-    const u = new SpeechSynthesisUtterance(text)
-
-    u.lang   = 'de-DE'
-    u.pitch  = profile.pitch
-    u.rate   = profile.rate
-    u.volume = profile.volume
-
-    const voice = getGermanVoice()
-    if (voice) u.voice = voice
-
-    utteranceRef.current = u
-    window.speechSynthesis.speak(u)
-  }, [muted, getGermanVoice])
-
-  /** Wiedergabe stoppen */
+  // ── Stoppen ───────────────────────────────────────────────────────────────
   const stop = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+    }
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       window.speechSynthesis.cancel()
     }
   }, [])
 
+  // ── Browser-TTS ───────────────────────────────────────────────────────────
+  const speakBrowserTTS = useCallback((text: string, speaker: string) => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return
+    const profile = VOICE_PROFILES[speaker] ?? VOICE_PROFILES.default
+    const u = new SpeechSynthesisUtterance(text.replace(/\{NAME\}/g, 'du'))
+    u.lang   = 'de-DE'
+    u.pitch  = profile.pitch
+    u.rate   = profile.rate
+    u.volume = profile.volume
+    const voice = getGermanVoice()
+    if (voice) u.voice = voice
+    window.speechSynthesis.speak(u)
+  }, [getGermanVoice])
+
+  // ── Sprechen (Pre-generated bevorzugt, Browser-TTS als Fallback) ──────────
+  const speak = useCallback((text: string, speaker: string) => {
+    if (muted) return
+    stop()
+
+    const manifest = manifestRef.current
+    if (manifest) {
+      const key = manifestKey(text, speaker)
+      const path = manifest[key]
+      if (path) {
+        const audio = new Audio(path)
+        audioRef.current = audio
+        audio.play().catch(() => speakBrowserTTS(text, speaker))
+        return
+      }
+    }
+
+    speakBrowserTTS(text, speaker)
+  }, [muted, stop, speakBrowserTTS])
+
   const toggleMute = useCallback(() => {
     setMuted(m => {
-      if (!m) {
-        // Stumm schalten: laufende Wiedergabe stoppen
-        if (typeof window !== 'undefined' && window.speechSynthesis) {
-          window.speechSynthesis.cancel()
-        }
-      }
+      if (!m) stop()
       return !m
     })
-  }, [])
+  }, [stop])
 
   return { speak, stop, toggleMute, muted, ready }
 }
