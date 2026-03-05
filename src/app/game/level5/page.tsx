@@ -13,6 +13,8 @@ import {
   faceRecogTrainingComposition,
   faceRecogBiasDialogue,
   finalSpeechDialogues,
+  viktorWitnessDialogue,
+  archiveRevealDialogue,
   quizQuestions5,
   WORLD_WIDTH,
   WORLD_HEIGHT,
@@ -22,7 +24,7 @@ import Link from 'next/link'
 import { AuthButton } from '@/components/auth/AuthButton'
 import { useGameProgress } from '@/hooks/useGameProgress'
 
-type GamePhase = 'intro' | 'explore' | 'teaching' | 'bias' | 'bias2dialog' | 'bias2' | 'ethics' | 'speech' | 'quiz' | 'complete'
+type GamePhase = 'intro' | 'explore' | 'teaching' | 'bias' | 'bias2dialog' | 'bias2' | 'ethics' | 'viktor_witness' | 'speech' | 'archive_reveal' | 'quiz' | 'complete'
 type PlayerCharacter = 'leader' | 'social'
 
 // ─── FaceRecog Mini-Game ──────────────────────────────────────────────────────
@@ -152,8 +154,9 @@ function QuizModal5({ onComplete }: { onComplete: (xp: number) => void }) {
   const [score, setScore] = useState(0)
   const [answers, setAnswers] = useState<boolean[]>([])
 
-  const question: QuizQuestion5 = quizQuestions5[current]
-  const isLast = current === quizQuestions5.length - 1
+  const [shuffled] = useState(() => [...quizQuestions5].sort(() => Math.random() - 0.5))
+  const question: QuizQuestion5 = shuffled[current]
+  const isLast = current === shuffled.length - 1
 
   const confirm = () => {
     if (selected === null) return
@@ -175,7 +178,7 @@ function QuizModal5({ onComplete }: { onComplete: (xp: number) => void }) {
           <div className="absolute inset-0 comic-dots opacity-20" />
           <div className="relative flex justify-between items-center">
             <h2 className="font-bangers text-white text-2xl tracking-wider">WISSENS-CHECK</h2>
-            <div className="bg-[#111] text-white font-bangers px-3 py-1 rounded-full text-sm">{current + 1} / {quizQuestions5.length}</div>
+            <div className="bg-[#111] text-white font-bangers px-3 py-1 rounded-full text-sm">{current + 1} / {shuffled.length}</div>
           </div>
           <div className="mt-2 w-full h-3 bg-white/30 border-[2px] border-[#111] rounded-full overflow-hidden">
             <div className="h-full rounded-full transition-all" style={{ width: `${(current / quizQuestions5.length) * 100}%`, background: 'white' }} />
@@ -316,10 +319,11 @@ function Level5Complete({ puzzleXP, quizXP, onReplay }: {
 
 // ─── Level 5 World ─────────────────────────────────────────────────────────────
 
-function Level5World({ completedZones, playerCharacter, onInteract }: {
+function Level5World({ completedZones, playerCharacter, viktorZeugeGesehen, onInteract }: {
   completedZones: string[]
   playerCharacter: PlayerCharacter
-  onInteract: (zone: 'inspector' | 'bias' | 'ethics') => void
+  viktorZeugeGesehen: boolean
+  onInteract: (zone: 'inspector' | 'bias' | 'ethics' | 'viktor') => void
 }) {
   return (
     <div className="relative select-none" style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT }}>
@@ -378,6 +382,20 @@ function Level5World({ completedZones, playerCharacter, onInteract }: {
           {completedZones.includes('ethics') && <div className="absolute -top-2 -right-2 bg-[#00C853] border-[2px] border-[#111] rounded-full w-6 h-6 flex items-center justify-center text-white text-xs font-bold">✓</div>}
         </div>
       </div>
+
+      {/* Viktor zone — unlocked after bias */}
+      {completedZones.includes('bias') && (
+        <div className="absolute cursor-pointer" style={{ left: 320, top: 350 }} onClick={() => !viktorZeugeGesehen && onInteract('viktor')}>
+          <div className={`flex flex-col items-center transition-all ${viktorZeugeGesehen ? 'opacity-50' : 'hover:scale-105'}`}>
+            <div className={`border-[3px] border-[#111] rounded-xl px-4 py-3 shadow-[4px_4px_0_#111] text-center ${viktorZeugeGesehen ? 'bg-slate-700' : 'bg-[#FF9800]'}`}>
+              <p className="font-bangers text-white text-sm tracking-wide">🕵️ VIKTOR V.</p>
+              <p className="font-comic text-white/80 text-[10px] mt-0.5">Zeuge aus Bezirk X</p>
+            </div>
+            {!viktorZeugeGesehen && <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#FFE135] border-[2px] border-[#111] rounded-lg px-2 py-0.5 text-[10px] font-bangers whitespace-nowrap shadow-[2px_2px_0_#111] animate-bounce">[E] Befragen</div>}
+            {viktorZeugeGesehen && <div className="absolute -top-2 -right-2 bg-[#00C853] border-[2px] border-[#111] rounded-full w-6 h-6 flex items-center justify-center text-white text-xs font-bold">✓</div>}
+          </div>
+        </div>
+      )}
 
       <div className="absolute bottom-12 left-6">
         <div className="flex items-center gap-2 bg-white border-[2px] border-[#111] rounded-xl px-3 py-2 shadow-[2px_2px_0_#111]">
@@ -461,6 +479,7 @@ export default function Level5Page() {
   const [puzzleXP, setPuzzleXP] = useState(0)
   const [quizXP, setQuizXP] = useState(0)
   const [xp, setXp] = useState(0)
+  const [viktorZeugeGesehen, setViktorZeugeGesehen] = useState(false)
 
   // Load saved progress on mount
   useEffect(() => {
@@ -477,15 +496,17 @@ export default function Level5Page() {
     load()
   }, [loadProgress])
 
-  const handleInteract = useCallback((zone: 'inspector' | 'bias' | 'ethics') => {
+  const handleInteract = useCallback((zone: 'inspector' | 'bias' | 'ethics' | 'viktor') => {
     if (zone === 'inspector' && !completedZones.includes('inspector')) {
       setPhase('teaching')
     } else if (zone === 'bias' && completedZones.includes('inspector') && !completedZones.includes('bias')) {
       setPhase('bias')
     } else if (zone === 'ethics' && completedZones.includes('bias') && !completedZones.includes('ethics')) {
       setPhase('ethics')
+    } else if (zone === 'viktor' && completedZones.includes('bias') && !viktorZeugeGesehen) {
+      setPhase('viktor_witness')
     }
-  }, [completedZones])
+  }, [completedZones, viktorZeugeGesehen])
 
   const handleTeachingComplete = () => {
     const newZones = [...completedZones, 'inspector']
@@ -533,7 +554,11 @@ export default function Level5Page() {
   }
 
   const handleSpeechComplete = () => {
-    setPhase('quiz')
+    if (viktorZeugeGesehen) {
+      setPhase('archive_reveal')
+    } else {
+      setPhase('quiz')
+    }
   }
 
   const handleQuizComplete = (score: number) => {
@@ -571,7 +596,7 @@ export default function Level5Page() {
           <div className="relative" style={{ width: WORLD_WIDTH, height: WORLD_HEIGHT }}>
             {phase !== 'complete' && (
               <div className="relative">
-                <Level5World completedZones={completedZones} playerCharacter={playerCharacter} onInteract={handleInteract} />
+                <Level5World completedZones={completedZones} playerCharacter={playerCharacter} viktorZeugeGesehen={viktorZeugeGesehen} onInteract={handleInteract} />
                 <div className="absolute inset-0 pointer-events-none"><HUD5 xp={xp} completedZones={completedZones} /></div>
               </div>
             )}
@@ -617,6 +642,26 @@ export default function Level5Page() {
       {phase === 'bias2' && <FaceRecogGame onComplete={handleBias2Complete} playerName={playerName} />}
 
       {phase === 'ethics' && <EthicsDebate onComplete={handleEthicsComplete} />}
+      {phase === 'viktor_witness' && (
+        <div className="absolute inset-0">
+          <DialogBox
+            lines={viktorWitnessDialogue}
+            onComplete={() => { setViktorZeugeGesehen(true); setXp(x => x + 75); setPhase('explore') }}
+            playerCharacter={playerCharacter}
+            playerName={playerName}
+          />
+        </div>
+      )}
+      {phase === 'archive_reveal' && (
+        <div className="absolute inset-0">
+          <DialogBox
+            lines={archiveRevealDialogue}
+            onComplete={() => setPhase('quiz')}
+            playerCharacter={playerCharacter}
+            playerName={playerName}
+          />
+        </div>
+      )}
       {phase === 'quiz' && <QuizModal5 onComplete={handleQuizComplete} />}
       {phase === 'complete' && <Level5Complete puzzleXP={puzzleXP} quizXP={quizXP} onReplay={handleReplay} />}
 

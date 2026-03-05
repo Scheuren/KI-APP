@@ -89,6 +89,16 @@ export const teachingDialogues5: DialogLine[] = [
   },
   {
     speaker: 'Inspector Node',
+    text: 'Erinnerst du dich an Level 1? Wir haben Verdächtige nach Hut, Mantel und Bart sortiert. Genau das macht unsere Polizei-KI auch — und genau das ist das Problem.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Äußerlichkeiten als Klassifikationsmerkmal führen zu Bias. Was bei einem Entscheidungsbaum wie eine neutrale Regel wirkt, kann in der echten Welt zur Diskriminierung werden.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
     text: 'Deine Aufgabe: Analysiere die Daten, erkenne den Bias, und denke über die ethischen Konsequenzen nach!',
     portrait: 'node',
   },
@@ -280,6 +290,136 @@ export const faceRecogBiasDialogue: DialogLine[] = [
   {
     speaker: 'Inspector Node',
     text: 'Genau! Analysiere die Erkennungsrate — und überlege: Welche realen Konsequenzen hätte das?',
+    portrait: 'node',
+  },
+]
+
+// ─── Erweiterung A: Viktor kehrt zurück als Zeuge ─────────────────────────────
+
+export const viktorWitnessDialogue: DialogLine[] = [
+  {
+    speaker: 'Viktor',
+    text: 'Ich dachte, ihr seid fertig mit mir. Aber ich muss euch etwas sagen.',
+    portrait: 'node',
+  },
+  {
+    speaker: '{NAME}',
+    text: 'Viktor? Was machst du hier in Level 5?',
+    portrait: 'player',
+  },
+  {
+    speaker: 'Viktor',
+    text: 'Ich wohne in Bezirk X. Mein ganzes Leben lang. Und ich habe gerade gesehen, was ihr analysiert habt — diese Daten. 90 Prozent aus meinem Bezirk. Das erklärt einiges.',
+    portrait: 'node',
+  },
+  {
+    speaker: '{NAME}',
+    text: 'Was meinst du damit?',
+    portrait: 'player',
+  },
+  {
+    speaker: 'Viktor',
+    text: 'In Level 2 habt ihr mich klassifiziert: Hut, Mantel, Aktenkoffer — verdächtig. Aber woher kam dieser Entscheidungsbaum? Wer hat ihn gebaut? Mit welchen Daten?',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Das ist eine sehr kluge Frage, Viktor. Und eine unbequeme.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: '{NAME}, erinnerst du dich? In Level 1 und 2 haben wir Regeln verwendet, die "aus den Daten" stammten. Aber wenn diese Daten hauptsächlich Bewohner aus Bezirk X als verdächtig einstufen — dann hat der Baum dieses Muster gelernt.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Viktor',
+    text: 'Ich trage einen Hut, weil mein Vater ihn mir vererbt hat. Einen Mantel, weil es bei uns im Bezirk zieht. Und einen Aktenkoffer, weil ich zur Abendschule gehe. Keines dieser Dinge macht mich verdächtig.',
+    portrait: 'node',
+  },
+  {
+    speaker: '{NAME}',
+    text: 'Aber der Baum hat trotzdem "verdächtig" ausgegeben...',
+    portrait: 'player',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Genau das ist der Kern von Bias, {NAME}. Der Algorithmus hat nicht gelogen — er hat das Muster in den Daten korrekt gelernt. Aber das Muster selbst war das Problem.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Viktor',
+    text: 'Ich habe immer gewusst, dass das System ungerecht ist. Ich konnte es nur nicht beweisen. Ihr habt mir heute geholfen, das zu verstehen — mit Zahlen.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: '{NAME}, was lernen wir daraus? Ein Algorithmus kann mathematisch korrekt sein und trotzdem Unrecht tun. Das ist vielleicht die wichtigste Lektion des gesamten Kurses.',
+    portrait: 'node',
+  },
+]
+
+// ─── Erweiterung C: W.I.L.L.I. enthüllt das Archiv-Geheimnis ─────────────────
+
+export const archiveRevealDialogue: DialogLine[] = [
+  {
+    speaker: 'W.I.L.L.I.',
+    text: 'Moment. Ich habe etwas gefunden.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'W.I.L.L.I.? Du solltest in Bereitschaft sein.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'W.I.L.L.I.',
+    text: 'Ich weiß. Aber während {NAME} die Bias-Daten analysiert hat, habe ich im Hintergrund die Archiv-Dateien aus Level 1 neu sortiert. Das Chaos, das wir nie erklärt haben.',
+    portrait: 'node',
+  },
+  {
+    speaker: '{NAME}',
+    text: 'Die zerschnittenen Akten aus Level 1? Die fehlenden Labels?',
+    portrait: 'player',
+  },
+  {
+    speaker: 'W.I.L.L.I.',
+    text: 'Genau. Ich habe ein Muster gefunden: Alle unlesbaren Akten gehörten zu Personen aus Bezirk Y. Jemand hat die Daten systematisch zerstört — bevor sie in den Trainingsdatensatz kamen.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Das bedeutet... das Ungleichgewicht zwischen Bezirk X und Y war kein Zufall. Es war absichtlich.',
+    portrait: 'node',
+  },
+  {
+    speaker: '{NAME}',
+    text: 'Wer würde so etwas tun?',
+    portrait: 'player',
+  },
+  {
+    speaker: 'W.I.L.L.I.',
+    text: 'Das weiß ich nicht. Aber ich kann sagen: Die KI war nicht das eigentliche Problem. Die KI hat nur gelernt, was man ihr zeigen wollte. Das eigentliche Problem war die Entscheidung eines Menschen.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Viktor',
+    text: 'Jetzt verstehe ich es. Es war nicht der Baum. Es war nie der Baum.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Richtig, Viktor. Und {NAME} hat das bewiesen — Schritt für Schritt, über fünf Level. Das Archiv ist jetzt geordnet. Der Fall ist abgeschlossen. Aber die eigentliche Arbeit — die beginnt erst.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'W.I.L.L.I.',
+    text: 'Archiv vollständig indexiert. 47 neu kategorisierte Einträge aus Bezirk Y. Bereit für Übergabe an unabhängige Überprüfung.',
+    portrait: 'node',
+  },
+  {
+    speaker: 'Inspector Node',
+    text: 'Team MKS — ihr seid fertig. Und ihr seid besser als ich es damals war.',
     portrait: 'node',
   },
 ]

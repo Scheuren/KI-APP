@@ -48,8 +48,9 @@ function QuizModal2({ onComplete }: { onComplete: (xp: number) => void }) {
   const [score, setScore] = useState(0)
   const [answers, setAnswers] = useState<boolean[]>([])
 
-  const question: QuizQuestion = quizQuestions2[current]
-  const isLast = current === quizQuestions2.length - 1
+  const [shuffled] = useState(() => [...quizQuestions2].sort(() => Math.random() - 0.5))
+  const question: QuizQuestion = shuffled[current]
+  const isLast = current === shuffled.length - 1
 
   const confirm = () => {
     if (selected === null) return
@@ -78,7 +79,7 @@ function QuizModal2({ onComplete }: { onComplete: (xp: number) => void }) {
           <div className="relative flex justify-between items-center">
             <h2 className="font-bangers text-[#111] text-2xl tracking-wider">WISSENS-CHECK</h2>
             <div className="bg-[#111] text-[#FFE135] font-bangers px-3 py-1 rounded-full text-sm tracking-wide">
-              {current + 1} / {quizQuestions2.length}
+              {current + 1} / {shuffled.length}
             </div>
           </div>
           <div className="mt-2 w-full h-3 bg-white border-[2px] border-[#111] rounded-full overflow-hidden">

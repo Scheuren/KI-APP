@@ -6,6 +6,21 @@ import Image from 'next/image'
 import { AuthButton } from '@/components/auth/AuthButton'
 import { useGameProgress } from '@/hooks/useGameProgress'
 
+
+// ─── Erweiterung B: Inspector Nodes Geständnis ────────────────────────────────
+const nodeConfessionDialogue = [
+  { speaker: 'Inspector Node', text: '{NAME}, bevor wir das letzte Level angehen, muss ich dir etwas erzählen. Etwas, das ich lange nicht erzählt habe.' },
+  { speaker: '{NAME}', text: 'Was ist passiert?' },
+  { speaker: 'Inspector Node', text: 'Vor vielen Jahren habe ich selbst ein Klassifikationssystem gebaut. Für Einstellungsentscheidungen in einem Betrieb. Es war technisch einwandfrei — Genauigkeit 94% auf den Testdaten.' },
+  { speaker: '{NAME}', text: 'Das klingt gut.' },
+  { speaker: 'Inspector Node', text: 'Das dachte ich auch. Aber erinnerst du dich an Overfitting aus Level 4? Das Modell hatte die Trainingsdaten auswendig gelernt. Und die Trainingsdaten kamen alle aus einer einzigen Abteilung.' },
+  { speaker: '{NAME}', text: 'Und in der Realität...?' },
+  { speaker: 'Inspector Node', text: 'In der Realität lehnte das System systematisch Bewerber aus anderen Städten ab. Es war nicht bösartig. Es hat einfach das Muster gelernt, das in den Daten war.' },
+  { speaker: '{NAME}', text: 'Und du hast das nicht vorher gesehen?' },
+  { speaker: 'Inspector Node', text: 'Ich habe die Zahlen gesehen und gedacht: 94% Genauigkeit — das ist ein Erfolg. Ich habe nicht gefragt: Für wen ist es genau? Für wen nicht? Das war mein Fehler. Und Menschen haben dafür bezahlt.' },
+  { speaker: 'Inspector Node', text: 'Geh jetzt rein in Level 5. Und vergiss nicht: Hinter jeder Zahl steht ein Mensch.' },
+]
+
 const LEVELS = [
   {
     num: 1,
@@ -63,17 +78,27 @@ export function GameHubClient({ showAuthOnly = false }: GameHubClientProps) {
   const { loadAllProgress } = useGameProgress()
   const [completedLevels, setCompletedLevels] = useState<Set<number>>(new Set())
   const [loading, setLoading] = useState(true)
+  const [showConfession, setShowConfession] = useState(false)
+  const [confessionLine, setConfessionLine] = useState(0)
+  const playerName = typeof window !== 'undefined' ? (localStorage.getItem('mks_player_name') ?? 'Detektiv') : 'Detektiv'
 
   useEffect(() => {
     loadAllProgress().then((allProgress) => {
       const completed = new Set<number>()
+      let l4xp = 0
       allProgress.forEach((p) => {
         if (p.is_completed && p.level) {
           completed.add(p.level)
         }
+        if (p.level === 4 && p.xp) l4xp = p.xp
       })
       setCompletedLevels(completed)
       setLoading(false)
+      // Erweiterung B: Geständnis wenn L4 ≥150 XP und L5 noch nicht gestartet
+      if (completed.has(4) && l4xp >= 150 && !completed.has(5)) {
+        const seen = typeof window !== 'undefined' && localStorage.getItem('mks_node_confession_seen')
+        if (!seen) setShowConfession(true)
+      }
     })
   }, [loadAllProgress])
 
@@ -257,6 +282,50 @@ export function GameHubClient({ showAuthOnly = false }: GameHubClientProps) {
             )
           })}
         </>
+      )}
+      {/* Erweiterung B: Inspector Nodes Geständnis */}
+      {showConfession && (
+        <div className="fixed inset-0 z-[80] bg-black/70 flex items-center justify-center p-4">
+          <div className="bg-white border-[4px] border-[#111] rounded-2xl shadow-[8px_8px_0_#111] max-w-md w-full overflow-hidden">
+            <div className="bg-[#FFE135] border-b-[4px] border-[#111] p-4 flex items-center gap-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/game/characters/preview/brain.png" alt="Inspector" style={{ width: 40, height: 56, objectFit: 'contain' }} />
+              <div>
+                <p className="font-[family-name:var(--font-bangers)] text-[#111] text-lg tracking-wide">INSPECTOR NODE</p>
+                <p className="font-[family-name:var(--font-comic)] text-[#555] text-xs">Etwas Wichtiges, bevor du weitermachst...</p>
+              </div>
+            </div>
+            <div className="p-5">
+              <p className="font-[family-name:var(--font-bangers)] text-[#888] text-xs mb-1 tracking-wide">
+                {nodeConfessionDialogue[confessionLine].speaker === '{NAME}' ? playerName : nodeConfessionDialogue[confessionLine].speaker}
+              </p>
+              <p className="font-[family-name:var(--font-comic)] text-[#111] text-sm leading-relaxed min-h-[4rem]">
+                {nodeConfessionDialogue[confessionLine].text.replace(/\{NAME\}/g, playerName)}
+              </p>
+              <div className="flex justify-between items-center mt-4">
+                <div className="flex gap-1">
+                  {nodeConfessionDialogue.map((_, i) => (
+                    <div key={i} className="h-2 rounded-full border border-[#111] transition-all"
+                      style={{ width: i === confessionLine ? 16 : 8, background: i <= confessionLine ? '#FFE135' : '#DDD' }} />
+                  ))}
+                </div>
+                <button
+                  onClick={() => {
+                    if (confessionLine < nodeConfessionDialogue.length - 1) {
+                      setConfessionLine(l => l + 1)
+                    } else {
+                      if (typeof window !== 'undefined') localStorage.setItem('mks_node_confession_seen', '1')
+                      setShowConfession(false)
+                    }
+                  }}
+                  className="font-[family-name:var(--font-bangers)] bg-[#FFE135] border-[2px] border-[#111] rounded-xl px-4 py-1.5 text-[#111] text-sm tracking-wide shadow-[2px_2px_0_#111] hover:bg-[#FF3B3F] hover:text-white transition-colors"
+                >
+                  {confessionLine < nodeConfessionDialogue.length - 1 ? 'Weiter ▶' : 'Verstanden ✓'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )

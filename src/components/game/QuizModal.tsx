@@ -6,14 +6,15 @@ import { quizQuestions } from '@/lib/game/level1Data'
 type Props = { onComplete: (xp: number) => void }
 
 export function QuizModal({ onComplete }: Props) {
+  const [shuffled] = useState(() => [...quizQuestions].sort(() => Math.random() - 0.5))
   const [current, setCurrent] = useState(0)
   const [selected, setSelected] = useState<number | null>(null)
   const [confirmed, setConfirmed] = useState(false)
   const [score, setScore] = useState(0)
   const [answers, setAnswers] = useState<boolean[]>([])
 
-  const question = quizQuestions[current]
-  const isLast = current === quizQuestions.length - 1
+  const question = shuffled[current]
+  const isLast = current === shuffled.length - 1
 
   const confirm = () => {
     if (selected === null) return
@@ -38,7 +39,7 @@ export function QuizModal({ onComplete }: Props) {
           <div className="relative flex justify-between items-center">
             <h2 className="font-bangers text-[#111] text-2xl tracking-wider">📝 WISSENS-CHECK</h2>
             <div className="bg-[#111] text-[#FFE135] font-bangers px-3 py-1 rounded-full text-sm tracking-wide">
-              {current + 1} / {quizQuestions.length}
+              {current + 1} / {shuffled.length}
             </div>
           </div>
           {/* Progress */}

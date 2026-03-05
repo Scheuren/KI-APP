@@ -63,6 +63,7 @@ export function DialogBox({ lines, onComplete, playerCharacter = 'leader', playe
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { e.preventDefault(); stop(); onComplete(); return }
       if (e.key === ' ' || e.key === 'Enter' || e.key === 'e') { e.preventDefault(); advance() }
     }
     window.addEventListener('keydown', handler)
@@ -86,16 +87,23 @@ export function DialogBox({ lines, onComplete, playerCharacter = 'leader', playe
           <div className="w-full h-full comic-dots" />
         </div>
 
-        {/* Mute-Button */}
-        <button
-          onClick={(e) => { e.stopPropagation(); toggleMute() }}
-          className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg
-                     border-[2px] border-[#111] bg-white hover:bg-[#FFF5CC] shadow-[1px_1px_0_#111]
-                     transition-all text-sm z-10"
-          title={muted ? 'Ton einschalten' : 'Ton ausschalten'}
-        >
-          {muted ? '🔇' : '🔊'}
-        </button>
+        {/* Mute-Button + Skip-Button */}
+        <div className="absolute top-3 right-3 flex gap-1.5 z-10">
+          <button
+            onClick={(e) => { e.stopPropagation(); stop(); onComplete() }}
+            className="h-8 px-2 flex items-center justify-center rounded-lg border-[2px] border-[#111] bg-white hover:bg-[#FFE135] shadow-[1px_1px_0_#111] transition-all text-[10px] font-bangers tracking-wide text-[#888] hover:text-[#111]"
+            title="Dialog überspringen"
+          >
+            ⏭ Skip
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); toggleMute() }}
+            className="w-8 h-8 flex items-center justify-center rounded-lg border-[2px] border-[#111] bg-white hover:bg-[#FFF5CC] shadow-[1px_1px_0_#111] transition-all text-sm"
+            title={muted ? 'Ton einschalten' : 'Ton ausschalten'}
+          >
+            {muted ? '🔇' : '🔊'}
+          </button>
+        </div>
 
         <div className="flex gap-4 items-end">
           {/* Portrait */}
