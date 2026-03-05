@@ -1,6 +1,4 @@
 {
-  "8a64d968_816a5302": "/game/audio/level1/level1_intro_000.wav",
-  "c7978841_816a5302": "/game/audio/level1/level1_intro_001.wav",
   "3c86dc75_816a5302": "/game/audio/level1/level1_intro_002.wav",
   "95bf871a_816a5302": "/game/audio/level1/level1_intro_003.wav",
   "0eaf373e_2c71f6fe": "/game/audio/level1/level1_intro_004.wav",
@@ -70,5 +68,7 @@
   "9ac671fa_816a5302": "/game/audio/level5/level5_final_speech_001.wav",
   "22f8876e_816a5302": "/game/audio/level5/level5_final_speech_002.wav",
   "eaf388ab_816a5302": "/game/audio/level5/level5_final_speech_003.wav",
-  "ae4fa9d7_816a5302": "/game/audio/level5/level5_final_speech_004.wav"
+  "ae4fa9d7_816a5302": "/game/audio/level5/level5_final_speech_004.wav",
+  "8a64d968_816a5302": "/game/audio/level1/level1_intro_000.wav",
+  "c7978841_816a5302": "/game/audio/level1/level1_intro_001.wav"
 }
