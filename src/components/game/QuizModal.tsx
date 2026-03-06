@@ -5,8 +5,14 @@ import { quizQuestions } from '@/lib/game/level1Data'
 
 type Props = { onComplete: (xp: number) => void }
 
+function shuffleQOptions<T extends { options: string[]; correct: number }>(q: T): T {
+  const pairs = q.options.map((opt, i) => ({ opt, isCorrect: i === q.correct }))
+  pairs.sort(() => Math.random() - 0.5)
+  return { ...q, options: pairs.map(p => p.opt), correct: pairs.findIndex(p => p.isCorrect) }
+}
+
 export function QuizModal({ onComplete }: Props) {
-  const [shuffled] = useState(() => [...quizQuestions].sort(() => Math.random() - 0.5))
+  const [shuffled] = useState(() => [...quizQuestions].sort(() => Math.random() - 0.5).map(shuffleQOptions))
   const [current, setCurrent] = useState(0)
   const [selected, setSelected] = useState<number | null>(null)
   const [confirmed, setConfirmed] = useState(false)

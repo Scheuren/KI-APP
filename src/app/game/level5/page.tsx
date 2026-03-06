@@ -147,6 +147,12 @@ function FaceRecogGame({ onComplete, playerName }: { onComplete: (xp: number) =>
 
 // ─── Quiz ─────────────────────────────────────────────────────────────────────
 
+function shuffleQOptions<T extends { options: string[]; correct: number }>(q: T): T {
+  const pairs = q.options.map((opt, i) => ({ opt, isCorrect: i === q.correct }))
+  pairs.sort(() => Math.random() - 0.5)
+  return { ...q, options: pairs.map(p => p.opt), correct: pairs.findIndex(p => p.isCorrect) }
+}
+
 function QuizModal5({ onComplete }: { onComplete: (xp: number) => void }) {
   const [current, setCurrent] = useState(0)
   const [selected, setSelected] = useState<number | null>(null)
@@ -154,7 +160,7 @@ function QuizModal5({ onComplete }: { onComplete: (xp: number) => void }) {
   const [score, setScore] = useState(0)
   const [answers, setAnswers] = useState<boolean[]>([])
 
-  const [shuffled] = useState(() => [...quizQuestions5].sort(() => Math.random() - 0.5))
+  const [shuffled] = useState(() => [...quizQuestions5].sort(() => Math.random() - 0.5).map(shuffleQOptions))
   const question: QuizQuestion5 = shuffled[current]
   const isLast = current === shuffled.length - 1
 
@@ -554,11 +560,7 @@ export default function Level5Page() {
   }
 
   const handleSpeechComplete = () => {
-    if (viktorZeugeGesehen) {
-      setPhase('archive_reveal')
-    } else {
-      setPhase('quiz')
-    }
+    setPhase('archive_reveal')
   }
 
   const handleQuizComplete = (score: number) => {
@@ -646,7 +648,13 @@ export default function Level5Page() {
         <div className="absolute inset-0">
           <DialogBox
             lines={viktorWitnessDialogue}
-            onComplete={() => { setViktorZeugeGesehen(true); setXp(x => x + 75); setPhase('explore') }}
+            onComplete={() => {
+              const newXp = xp + 75
+              setViktorZeugeGesehen(true)
+              setXp(newXp)
+              setPhase('explore')
+              saveProgress({ level: 5, phase: 'explore', xp: newXp, completed_zones: completedZones, player_character: playerCharacter, player_name: playerName })
+            }}
             playerCharacter={playerCharacter}
             playerName={playerName}
           />

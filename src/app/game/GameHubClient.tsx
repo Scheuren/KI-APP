@@ -29,6 +29,7 @@ const LEVELS = [
     duration: '~45 min',
     xp: 200,
     icon: '/game/icons/icon-caseboard-clean.png',
+    emoji: '🔍',
     href: '/game/level1',
   },
   {
@@ -38,6 +39,7 @@ const LEVELS = [
     duration: '~40 min',
     xp: 200,
     icon: null,
+    emoji: '🌳',
     href: '/game/level2',
   },
   {
@@ -47,6 +49,7 @@ const LEVELS = [
     duration: '~50 min',
     xp: 200,
     icon: null,
+    emoji: '🧠',
     href: '/game/level3',
   },
   {
@@ -56,6 +59,7 @@ const LEVELS = [
     duration: '~45 min',
     xp: 200,
     icon: null,
+    emoji: '🔬',
     href: '/game/level4',
   },
   {
@@ -65,6 +69,7 @@ const LEVELS = [
     duration: '~50 min',
     xp: 200,
     icon: null,
+    emoji: '⚖️',
     href: '/game/level5',
   },
 ]
@@ -80,7 +85,16 @@ export function GameHubClient({ showAuthOnly = false }: GameHubClientProps) {
   const [loading, setLoading] = useState(true)
   const [showConfession, setShowConfession] = useState(false)
   const [confessionLine, setConfessionLine] = useState(0)
-  const playerName = typeof window !== 'undefined' ? (localStorage.getItem('mks_player_name') ?? 'Detektiv') : 'Detektiv'
+  const [playerName, setPlayerName] = useState('Detektiv')
+  const [playerCharacter, setPlayerCharacter] = useState<'leader' | 'social'>('leader')
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setPlayerName(localStorage.getItem('mks_player_name') ?? 'Detektiv')
+      const char = localStorage.getItem('mks_player_character')
+      if (char === 'social') setPlayerCharacter('social')
+    }
+  }, [])
 
   useEffect(() => {
     loadAllProgress().then((allProgress) => {
@@ -106,8 +120,7 @@ export function GameHubClient({ showAuthOnly = false }: GameHubClientProps) {
     return <AuthButton compact />
   }
 
-  // TEST MODE: All levels unlocked
-  const isUnlocked = (_levelNum: number): boolean => true
+  const isUnlocked = (levelNum: number): boolean => levelNum === 1 || completedLevels.has(levelNum - 1)
 
   return (
     <div className="px-4 py-8 max-w-3xl mx-auto">
@@ -213,9 +226,10 @@ export function GameHubClient({ showAuthOnly = false }: GameHubClientProps) {
                              hover:translate-x-[3px] hover:translate-y-[3px] transition-all mb-3 group"
                 >
                   <div className="relative flex-shrink-0" style={{ width: 110 }}>
-                    <div className="w-full h-full flex items-center justify-center" style={{ background: levelColor }}>
-                      <span className="font-[family-name:var(--font-bangers)] text-white text-3xl">
-                        {level.num}
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-1" style={{ background: levelColor }}>
+                      {'emoji' in level && <span className="text-3xl">{level.emoji as string}</span>}
+                      <span className="font-[family-name:var(--font-bangers)] text-white text-lg leading-none">
+                        Level {level.num}
                       </span>
                     </div>
                   </div>
@@ -296,12 +310,27 @@ export function GameHubClient({ showAuthOnly = false }: GameHubClientProps) {
               </div>
             </div>
             <div className="p-5">
-              <p className="font-[family-name:var(--font-bangers)] text-[#888] text-xs mb-1 tracking-wide">
-                {nodeConfessionDialogue[confessionLine].speaker === '{NAME}' ? playerName : nodeConfessionDialogue[confessionLine].speaker}
-              </p>
-              <p className="font-[family-name:var(--font-comic)] text-[#111] text-sm leading-relaxed min-h-[4rem]">
-                {nodeConfessionDialogue[confessionLine].text.replace(/\{NAME\}/g, playerName)}
-              </p>
+              <div className="flex items-start gap-3 mb-3">
+                {nodeConfessionDialogue[confessionLine].speaker === '{NAME}' ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={playerCharacter === 'social' ? '/game/characters/preview/leader_w.png' : '/game/characters/preview/leader.png'}
+                    alt={playerName}
+                    style={{ width: 36, height: 48, objectFit: 'contain', flexShrink: 0 }}
+                  />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src="/game/characters/preview/brain.png" alt="Inspector" style={{ width: 36, height: 48, objectFit: 'contain', flexShrink: 0 }} />
+                )}
+                <div className="flex-1">
+                  <p className="font-[family-name:var(--font-bangers)] text-[#888] text-xs mb-1 tracking-wide">
+                    {nodeConfessionDialogue[confessionLine].speaker === '{NAME}' ? playerName : nodeConfessionDialogue[confessionLine].speaker}
+                  </p>
+                  <p className="font-[family-name:var(--font-comic)] text-[#111] text-sm leading-relaxed min-h-[3rem]">
+                    {nodeConfessionDialogue[confessionLine].text.replace(/\{NAME\}/g, playerName)}
+                  </p>
+                </div>
+              </div>
               <div className="flex justify-between items-center mt-4">
                 <div className="flex gap-1">
                   {nodeConfessionDialogue.map((_, i) => (

@@ -41,6 +41,12 @@ type QuizQuestion = {
   explanation: string
 }
 
+function shuffleQOptions<T extends { options: string[]; correct: number }>(q: T): T {
+  const pairs = q.options.map((opt, i) => ({ opt, isCorrect: i === q.correct }))
+  pairs.sort(() => Math.random() - 0.5)
+  return { ...q, options: pairs.map(p => p.opt), correct: pairs.findIndex(p => p.isCorrect) }
+}
+
 function QuizModal2({ onComplete }: { onComplete: (xp: number) => void }) {
   const [current, setCurrent] = useState(0)
   const [selected, setSelected] = useState<number | null>(null)
@@ -48,7 +54,7 @@ function QuizModal2({ onComplete }: { onComplete: (xp: number) => void }) {
   const [score, setScore] = useState(0)
   const [answers, setAnswers] = useState<boolean[]>([])
 
-  const [shuffled] = useState(() => [...quizQuestions2].sort(() => Math.random() - 0.5))
+  const [shuffled] = useState(() => [...quizQuestions2].sort(() => Math.random() - 0.5).map(shuffleQOptions))
   const question: QuizQuestion = shuffled[current]
   const isLast = current === shuffled.length - 1
 
