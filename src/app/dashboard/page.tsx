@@ -99,8 +99,13 @@ export default function DashboardPage() {
         .eq('id', user.id)
         .single()
 
-      if (profile?.role !== 'teacher') {
+      if (profile && profile.role !== 'teacher') {
         window.location.href = '/game'
+        return
+      }
+      if (!profile) {
+        setError('Profil konnte nicht geladen werden. Bitte erneut anmelden.')
+        setLoading(false)
         return
       }
 
