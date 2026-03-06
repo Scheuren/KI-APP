@@ -40,20 +40,9 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Dashboard requires auth
+  // Dashboard requires auth — role check happens inside the page itself
   if (!user) {
     return NextResponse.redirect(new URL('/auth/login', request.url))
-  }
-
-  // Teacher dashboard — only accessible to teachers
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single()
-
-  if (profile?.role !== 'teacher') {
-    return NextResponse.redirect(new URL('/game', request.url))
   }
 
   return supabaseResponse
