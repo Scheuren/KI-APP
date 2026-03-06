@@ -52,19 +52,17 @@ export function AuthButton({ compact = false }: AuthButtonProps) {
         )}
       </div>
 
-      {/* Teacher dashboard link */}
-      {profile?.role === 'teacher' && (
-        <Link
-          href="/dashboard"
-          className="font-[family-name:var(--font-bangers)] text-xs tracking-widest
-                     bg-[#FFE135] text-[#111] border-[2px] border-[#111]
-                     shadow-[2px_2px_0_#111] hover:shadow-[1px_1px_0_#111]
-                     hover:translate-x-[1px] hover:translate-y-[1px]
-                     transition-all rounded-xl px-3 py-1.5"
-        >
-          DASHBOARD
-        </Link>
-      )}
+      {/* Dashboard link — shown for all logged-in users */}
+      <Link
+        href="/dashboard"
+        className="font-[family-name:var(--font-bangers)] text-xs tracking-widest
+                   bg-[#FFE135] text-[#111] border-[2px] border-[#111]
+                   shadow-[2px_2px_0_#111] hover:shadow-[1px_1px_0_#111]
+                   hover:translate-x-[1px] hover:translate-y-[1px]
+                   transition-all rounded-xl px-3 py-1.5"
+      >
+        {compact ? '📊' : 'DASHBOARD'}
+      </Link>
 
       {/* Sign out */}
       <button
