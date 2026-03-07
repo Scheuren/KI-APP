@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import type { DialogLine } from '@/lib/game/level1Data'
-import { useTTS } from '@/hooks/useTTS'
 
 type Props = {
   lines: DialogLine[]
@@ -21,8 +20,6 @@ export function DialogBox({ lines, onComplete, playerCharacter = 'leader', playe
   const [displayedText, setDisplayedText] = useState('')
   const [isTyping, setIsTyping]       = useState(true)
 
-  const { speak, stop, toggleMute, muted } = useTTS()
-
   const currentLine = lines[lineIndex]
   const displayName = playerName ?? 'Detektiv'
   const resolvedText = currentLine.text.replace(/\{NAME\}/g, displayName)
@@ -32,9 +29,6 @@ export function DialogBox({ lines, onComplete, playerCharacter = 'leader', playe
     setDisplayedText('')
     setIsTyping(true)
 
-    // TTS: kompletten Satz sofort sprechen, Typewriter läuft parallel
-    speak(resolvedText, currentLine.speaker)
-
     let i = 0
     const interval = setInterval(() => {
       i++
@@ -43,12 +37,7 @@ export function DialogBox({ lines, onComplete, playerCharacter = 'leader', playe
     }, 22)
 
     return () => clearInterval(interval)
-  }, [lineIndex, resolvedText, currentLine.speaker, speak])
-
-  // Beim Schließen TTS stoppen
-  useEffect(() => {
-    return () => stop()
-  }, [stop])
+  }, [lineIndex, resolvedText])
 
   const advance = useCallback(() => {
     if (isTyping) {
@@ -58,12 +47,12 @@ export function DialogBox({ lines, onComplete, playerCharacter = 'leader', playe
       return
     }
     if (lineIndex < lines.length - 1) setLineIndex(i => i + 1)
-    else { stop(); onComplete() }
-  }, [isTyping, lineIndex, lines.length, resolvedText, onComplete, stop])
+    else onComplete()
+  }, [isTyping, lineIndex, lines.length, resolvedText, onComplete])
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { e.preventDefault(); stop(); onComplete(); return }
+      if (e.key === 'Escape') { e.preventDefault(); onComplete(); return }
       if (e.key === ' ' || e.key === 'Enter' || e.key === 'e') { e.preventDefault(); advance() }
     }
     window.addEventListener('keydown', handler)
@@ -87,21 +76,14 @@ export function DialogBox({ lines, onComplete, playerCharacter = 'leader', playe
           <div className="w-full h-full comic-dots" />
         </div>
 
-        {/* Mute-Button + Skip-Button */}
-        <div className="absolute top-3 right-3 flex gap-1.5 z-10">
+        {/* Skip-Button */}
+        <div className="absolute top-3 right-3 z-10">
           <button
-            onClick={(e) => { e.stopPropagation(); stop(); onComplete() }}
+            onClick={(e) => { e.stopPropagation(); onComplete() }}
             className="h-8 px-2 flex items-center justify-center rounded-lg border-[2px] border-[#111] bg-white hover:bg-[#FFE135] shadow-[1px_1px_0_#111] transition-all text-[10px] font-bangers tracking-wide text-[#888] hover:text-[#111]"
             title="Dialog überspringen"
           >
             ⏭ Skip
-          </button>
-          <button
-            onClick={(e) => { e.stopPropagation(); toggleMute() }}
-            className="w-8 h-8 flex items-center justify-center rounded-lg border-[2px] border-[#111] bg-white hover:bg-[#FFF5CC] shadow-[1px_1px_0_#111] transition-all text-sm"
-            title={muted ? 'Ton einschalten' : 'Ton ausschalten'}
-          >
-            {muted ? '🔇' : '🔊'}
           </button>
         </div>
 

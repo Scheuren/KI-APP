@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import type { DialogLine } from '@/lib/game/level1Data'
-import { useTTS } from '@/hooks/useTTS'
 
 type Highlight = 'none' | 'all' | 'wurzel' | 'knoten_kante' | 'blatt'
 
@@ -204,7 +203,6 @@ export function TeachingDialog({ lines, onComplete, playerCharacter = 'leader', 
   const [displayedText, setDisplayedText] = useState('')
   const [isTyping, setIsTyping] = useState(true)
 
-  const { speak, stop, toggleMute, muted } = useTTS()
   const currentLine = lines[lineIndex]
   const highlight: Highlight = HIGHLIGHTS[lineIndex] ?? 'none'
   const displayName = playerName ?? 'Detektiv'
@@ -213,7 +211,6 @@ export function TeachingDialog({ lines, onComplete, playerCharacter = 'leader', 
   useEffect(() => {
     setDisplayedText('')
     setIsTyping(true)
-    speak(resolvedText, currentLine.speaker)
 
     let i = 0
     const interval = setInterval(() => {
@@ -222,9 +219,7 @@ export function TeachingDialog({ lines, onComplete, playerCharacter = 'leader', 
       if (i >= resolvedText.length) { clearInterval(interval); setIsTyping(false) }
     }, 22)
     return () => clearInterval(interval)
-  }, [lineIndex, resolvedText, currentLine.speaker, speak])
-
-  useEffect(() => { return () => stop() }, [stop])
+  }, [lineIndex, resolvedText])
 
   const advance = useCallback(() => {
     if (isTyping) {
@@ -233,8 +228,8 @@ export function TeachingDialog({ lines, onComplete, playerCharacter = 'leader', 
       return
     }
     if (lineIndex < lines.length - 1) setLineIndex(i => i + 1)
-    else { stop(); onComplete() }
-  }, [isTyping, lineIndex, lines.length, resolvedText, onComplete, stop])
+    else onComplete()
+  }, [isTyping, lineIndex, lines.length, resolvedText, onComplete])
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -268,16 +263,6 @@ export function TeachingDialog({ lines, onComplete, playerCharacter = 'leader', 
           className="bg-white border-[4px] border-[#111] rounded-2xl p-4 shadow-[5px_5px_0_#111] max-w-3xl mx-auto cursor-pointer relative"
           onClick={advance}
         >
-          {/* Mute button */}
-          <button
-            onClick={(e) => { e.stopPropagation(); toggleMute() }}
-            className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg
-                       border-[2px] border-[#111] bg-white hover:bg-[#FFF5CC] shadow-[1px_1px_0_#111]
-                       transition-all text-sm z-10"
-          >
-            {muted ? '🔇' : '🔊'}
-          </button>
-
           <div className="flex gap-4 items-end">
             {/* Portrait */}
             <div
